@@ -189,7 +189,7 @@ const Banner = () => {
     );
 
     router.push({
-      pathname: "/grid-listings-with-left-sidebar",
+      pathname: "/listings",
       query: { categoryName, stateName, cityName, locationName },
     });
   };
