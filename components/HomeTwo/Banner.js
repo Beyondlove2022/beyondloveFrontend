@@ -211,7 +211,7 @@ const Banner = () => {
                     <Typist.Backspace count={15} delay={200} />
                     <span> Pet Training </span>
                     <Typist.Backspace count={15} delay={200} />
-                    <span> Pet Food 1 </span>
+                    <span> Pet Food 12 </span>
                     <Typist.Backspace count={15} delay={200} />
                     <span> Pet Boarding </span>
                   </Typist>
