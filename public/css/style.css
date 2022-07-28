@@ -16378,9 +16378,13 @@ th {
 .cover-img {
   min-width: 100%;
 }
+/* grid view filter buttom */
 .btn-filter {
   border: none;
   background: orange;
   color: white;
   width: 60%;
+}
+.banner-form {
+  max-width: 1050px !important;
 }

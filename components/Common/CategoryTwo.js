@@ -4,12 +4,15 @@ import { GiHairStrands } from "react-icons/gi";
 import { TbBone } from "react-icons/Tb";
 import { MdPets, MdOutlineFoodBank } from "react-icons/md";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 const Category = ({ titleOne, titleTwo }) => {
   const [petBoardingCount, setPetBoardingCount] = useState("");
   const [petClinicCount, setPetClinicCount] = useState("");
   const [petFoodCount, setPetFoodCount] = useState("");
   const [petGroomingCount, setPetGroomingCount] = useState("");
   const [petTrainingCount, setTrainingCount] = useState("");
+  const router = useRouter();
   useEffect(() => {
     if (typeof window != "undefined") {
       console.log("we are running the client");
@@ -23,6 +26,7 @@ const Category = ({ titleOne, titleTwo }) => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/business/get-serviceproviderscount`
       );
+      console.log(data);
       setPetBoardingCount(data.petBoardingCount);
       setPetClinicCount(data.petClinicCount);
       setPetFoodCount(data.petFoodCount);
@@ -32,6 +36,22 @@ const Category = ({ titleOne, titleTwo }) => {
       console.log(error);
     }
   };
+  const getSpecificCategoryServices = (e, categoryName) => {
+    e.preventDefault();
+    router.push({
+      pathname: "/listings",
+      query: { categoryName },
+    });
+    // try {
+    //   const { data } = await axios.get(
+    //     `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-unique-category/${category}`
+    //   );
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
   return (
     <>
       <section className="category-area pt-100 pb-70">
@@ -56,52 +76,64 @@ const Category = ({ titleOne, titleTwo }) => {
             ""
           )}
           <div className="row" style={{ justifyContent: "space-between" }}>
-            <div className="col-lg-2 col-sm-6 col-md-4">
+            <div
+              className="col-lg-2 col-sm-6 col-md-4"
+              onClick={(e) => getSpecificCategoryServices(e, "PetClinic")}
+            >
               <div className="single-category-box">
                 <div className="icon">
                   <FaClinicMedical />
                 </div>
                 <h3>Pet Clinic</h3>
                 <span>{petClinicCount}</span>
-                <Link href="/grid-listings-with-map">
+                {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
-                </Link>
+                </Link> */}
               </div>
             </div>
-            <div className="col-lg-2 col-sm-6 col-md-4">
+            <div
+              className="col-lg-2 col-sm-6 col-md-4"
+              onClick={(e) => getSpecificCategoryServices(e, "PetGrooming")}
+            >
               <div className="single-category-box">
                 <div className="icon">
                   <GiHairStrands />
                 </div>
                 <h3>Pet Grooming</h3>
                 <span>{petGroomingCount}</span>
-                <Link href="/grid-listings-with-map">
+                {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
-                </Link>
+                </Link> */}
               </div>
             </div>
-            <div className="col-lg-2 col-sm-6 col-md-4">
+            <div
+              className="col-lg-2 col-sm-6 col-md-4"
+              onClick={(e) => getSpecificCategoryServices(e, "PetTraining")}
+            >
               <div className="single-category-box">
                 <div className="icon">
                   <TbBone />
                 </div>
                 <h3>Pet Training</h3>
                 <span>{petTrainingCount}</span>
-                <Link href="/grid-listings-with-map">
+                {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
-                </Link>
+                </Link> */}
               </div>
             </div>
-            <div className="col-lg-2 col-sm-6 col-md-4">
+            <div
+              className="col-lg-2 col-sm-6 col-md-4"
+              onClick={(e) => getSpecificCategoryServices(e, "PetBoarding")}
+            >
               <div className="single-category-box">
                 <div className="icon">
                   <MdPets />
                 </div>
                 <h3>Pet Boarding</h3>
                 <span>{petBoardingCount}</span>
-                <Link href="/grid-listings-with-map">
+                {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
-                </Link>
+                </Link> */}
               </div>
             </div>
             {/* <div className="col-lg-2 col-sm-6 col-md-4">

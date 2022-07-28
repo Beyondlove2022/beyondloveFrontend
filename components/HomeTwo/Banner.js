@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { addAllBusiness } from "../../Redux/allBusinessSlice";
 
 const Banner = () => {
   const [allBusinessDetail, setAllBusinessDetail] = useState([]);
@@ -19,6 +21,7 @@ const Banner = () => {
   const [categoryName, setCategoryName] = useState("");
 
   let router = useRouter();
+  let dispatch = useDispatch();
 
   useEffect(() => {
     if (typeof window != "undefined") {
@@ -40,6 +43,7 @@ const Banner = () => {
 
       setAllBusinessDetail(data.profilesArray);
       getStateandCities(data.profilesArray);
+      dispatch(addAllBusiness(data.profilesArray));
       setRun(!run);
     } catch (error) {
       console.log(error);
@@ -196,8 +200,8 @@ const Banner = () => {
       <section className="banner-area">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-8 col-md-12">
-              <div className="banner-content">
+            <div className="col-lg-9 col-md-12">
+              <div className="banner-content banner-form">
                 <h1 className="banner-two-heading">
                   <span className="typewrite">Find Nearby</span>
                   <Typist>
@@ -219,10 +223,10 @@ const Banner = () => {
                     className="row m-0 align-items-center"
                     style={{ padding: "6px" }}
                   >
-                    <div class="col-lg-2 col-md-6 p-0">
+                    <div class="col-lg-3 col-md-6 p-0">
                       <div className="form-group category-select">
                         <label className="category-icon">
-                          {/* <i className='flaticon-search'></i> */}
+                          <i className="flaticon-search"></i>
                         </label>
                         <select
                           className="banner-form-select-two"
@@ -241,7 +245,7 @@ const Banner = () => {
                     <div class="col-lg-2 col-md-6 p-0">
                       <div className="form-group category-select">
                         <label className="category-icon">
-                          {/* <i className='flaticon-pin'></i> */}
+                          <i className="flaticon-pin"></i>
                         </label>
                         <select
                           className="banner-form-select-two"
@@ -267,7 +271,7 @@ const Banner = () => {
                     <div class="col-lg-2 col-md-6 p-0">
                       <div className="form-group category-select">
                         <label className="category-icon">
-                          {/* <i className='flaticon-pin'></i> */}
+                          <i className="flaticon-pin"></i>
                         </label>
                         <select
                           className="banner-form-select-two"
@@ -294,7 +298,7 @@ const Banner = () => {
                     <div class="col-lg-3 col-md-6 p-0">
                       <div className="form-group category-select">
                         <label className="category-icon">
-                          {/* <i className='flaticon-pin'></i> */}
+                          <i className="flaticon-pin"></i>
                         </label>
                         <select
                           className="banner-form-select-two"
@@ -325,7 +329,7 @@ const Banner = () => {
                       </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6 p-0">
+                    <div class="col-lg-2 col-md-6 p-0">
                       <div className="submit-btn">
                         <button type="submit">Search</button>
                       </div>
@@ -335,7 +339,7 @@ const Banner = () => {
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-12">
+            <div className="col-lg-3 col-md-12">
               <div className="banner-image">
                 <img src="/images/banner-img1.png" alt="image" />
               </div>
