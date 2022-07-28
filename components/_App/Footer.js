@@ -17,7 +17,7 @@ const Footer = ({ bgColor }) => {
                   </li>
                   <li>
                     <a href="/">
-                      <i className="flaticon-left-chevron"></i> Pe Grooming in
+                      <i className="flaticon-left-chevron"></i> Pet Grooming in
                       Chennai
                     </a>
                   </li>
