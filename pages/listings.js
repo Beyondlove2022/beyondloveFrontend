@@ -8,6 +8,7 @@ import NavbarTwo from "../components/_App/NavbarTwo";
 import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const options = {
   loop: true,
@@ -30,13 +31,180 @@ const GridListingsWithLeftSidebar = () => {
   const [isMounted, setisMounted] = useState(false);
   const [categories, setCategories] = useState([]);
   const [business, setBusiness] = useState([]);
+  let router = useRouter();
 
   useEffect(() => {
-    setisMounted(true);
-    setDisplay(true);
-    setisMounted(false);
-    getAllBusinessProfiles();
+    // setisMounted(true);
+    // setDisplay(true);
+    let categoryFilter = router.query.categoryName;
+    let stateFilter = router.query.stateName;
+    let cityFilter = router.query.cityName;
+    let locationFilter = router.query.locationName;
+    console.log(categoryFilter);
+    console.log(stateFilter);
+    console.log(cityFilter);
+    console.log(locationFilter);
+    // setisMounted(false);
+
+    // All Business filter
+    if (
+      (categoryFilter == "" || categoryFilter == undefined) &&
+      (stateFilter == "" || stateFilter == undefined) &&
+      (cityFilter == "" || cityFilter == undefined) &&
+      (locationFilter == "" || locationFilter == undefined)
+    ) {
+      getBusinessWithoutCategory();
+    }
+
+    // Filter All Business by selected category
+    if (
+      categoryFilter != "" &&
+      categoryFilter != undefined &&
+      (stateFilter == "" || stateFilter == undefined) &&
+      (cityFilter == "" || cityFilter == undefined) &&
+      (locationFilter == "" || locationFilter == undefined)
+    ) {
+      console.log("business");
+      getBusinessWithCategory(categoryFilter);
+    }
+
+    // Filter All Business by selected state
+    if (
+      (categoryFilter == "" || categoryFilter == undefined) &&
+      stateFilter != "" &&
+      stateFilter != undefined &&
+      (cityFilter == "" || cityFilter == undefined) &&
+      (locationFilter == "" || locationFilter == undefined)
+    ) {
+      console.log("state");
+      getBusinessWithoutCategory(stateFilter[1], "state");
+    }
+
+    // Filter All business by selected city
+    if (
+      (categoryFilter == "" || categoryFilter == undefined) &&
+      stateFilter != "" &&
+      stateFilter != undefined &&
+      cityFilter != "" &&
+      cityFilter != undefined &&
+      (locationFilter == "" || locationFilter == undefined)
+    ) {
+      console.log("state");
+      getBusinessWithoutCategory(cityFilter[2], "city");
+    }
+
+    // Filter all business by selected location
+    if (
+      (categoryFilter == "" || categoryFilter == undefined) &&
+      stateFilter != "" &&
+      stateFilter != undefined &&
+      cityFilter != "" &&
+      cityFilter != undefined &&
+      locationFilter != "" &&
+      locationFilter != undefined
+    ) {
+      console.log(locationFilter[3]);
+      getBusinessWithoutCategory(locationFilter[3], "location");
+    }
+
+    // Filter all business by category and state
+    if (
+      categoryFilter != "" &&
+      categoryFilter != undefined &&
+      stateFilter != "" &&
+      stateFilter != undefined &&
+      (cityFilter == "" || cityFilter == undefined) &&
+      (locationFilter == "" || locationFilter == undefined)
+    ) {
+      console.log("state");
+      getBusinessWithCategory(categoryFilter, stateFilter[1], "state");
+    }
+
+    // Filter all business by category and city
+    if (
+      categoryFilter != "" &&
+      categoryFilter != undefined &&
+      stateFilter != "" &&
+      stateFilter != undefined &&
+      cityFilter != "" &&
+      cityFilter != undefined &&
+      (locationFilter == "" || locationFilter == undefined)
+    ) {
+      console.log("state");
+      getBusinessWithCategory(categoryFilter, cityFilter[2], "city");
+    }
+
+    // Filter all business by category and city
+    if (
+      categoryFilter != "" &&
+      categoryFilter != undefined &&
+      stateFilter != "" &&
+      stateFilter != undefined &&
+      cityFilter != "" &&
+      cityFilter != undefined &&
+      locationFilter != "" &&
+      locationFilter != undefined
+    ) {
+      console.log("state");
+      getBusinessWithCategory(categoryFilter, locationFilter[3], "location");
+    }
   }, []);
+
+  // Get Business without category function
+  const getBusinessWithoutCategory = async (id, location) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-all-categories`
+      );
+      console.log(data.profilesArray);
+      if (data.success) {
+        setBusiness([]);
+        let arr;
+        if (location === "state") {
+          arr = data.profilesArray.filter((profile) => id == profile.state[1]);
+        } else if (location === "city") {
+          arr = data.profilesArray.filter((profile) => id == profile.city[2]);
+        } else if (location === "location") {
+          arr = data.profilesArray.filter(
+            (profile) => id == profile.location[3]
+          );
+        } else {
+          console.log("running");
+          arr = data.profilesArray;
+        }
+        console.log(arr);
+        setBusiness(arr);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Get Business with category function
+  const getBusinessWithCategory = async (category, id, location) => {
+    console.log(category);
+    const { data } = await axios.get(
+      `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-unique-category/${category}`
+    );
+    console.log(data);
+    if (data.success) {
+      setBusiness([]);
+      let arr;
+      if (location === "state") {
+        arr = data.business.filter((profile) => id == profile.state[1]);
+      } else if (location === "city") {
+        arr = data.business.filter((profile) => id == profile.city[2]);
+      } else if (location === "location") {
+        arr = data.business.filter((profile) => id == profile.location[3]);
+      } else {
+        console.log("running");
+        arr = data.business;
+        // setBusiness(data.profilesArray);
+      }
+      console.log(arr);
+      setBusiness(arr);
+    }
+  };
 
   const categoriesChange = (e) => {
     const available = categories.find((category) => category == e.target.value);
@@ -44,18 +212,6 @@ const GridListingsWithLeftSidebar = () => {
     if (available) {
       const filtered = categories.filter((cate) => cate !== e.target.value);
       setCategories(filtered);
-    }
-  };
-
-  const getAllBusinessProfiles = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-all-categories`
-      );
-      console.log(data);
-      setBusiness(data.profilesArray);
-    } catch (error) {
-      console.log(error);
     }
   };
 
