@@ -11,7 +11,7 @@ const Footer = ({ bgColor }) => {
                 <ul className="link-list">
                   <li>
                     <a href="/">
-                      <i className="flaticon-left-chevron"></i> Pe Clinic in
+                      <i className="flaticon-left-chevron"></i> Pet Clinic in
                       Chennai
                     </a>
                   </li>
