@@ -3938,7 +3938,7 @@ Listings Details Area CSS
 .listings-details-image .listings-details-content .meta {
   display: inline-block;
   text-transform: uppercase;
-  color: var(--mainColor);
+  color: #e7bd20;
   font-weight: 600;
   font-size: 14px;
 }
