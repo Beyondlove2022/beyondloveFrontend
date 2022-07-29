@@ -11621,6 +11621,7 @@ Footer Area CSS
   position: relative;
   display: inline-block;
   color: var(--optionalColor);
+  cursor: pointer;
 }
 
 .single-footer-widget .link-list li a i {
