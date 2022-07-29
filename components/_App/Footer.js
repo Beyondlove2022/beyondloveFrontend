@@ -1,6 +1,7 @@
 import React from "react";
 
 const Footer = ({ bgColor }) => {
+  const handleFilter = (category, City) => {};
   return (
     <>
       <footer className={`footer-area ${bgColor}`}>
@@ -9,36 +10,36 @@ const Footer = ({ bgColor }) => {
             <div className="col-lg-3 col-sm-6 col-md-6">
               <div className="single-footer-widget">
                 <ul className="link-list">
-                  <li>
-                    <a href="/">
+                  <li onClick={() => handleFilter("PetClinic", "Chennai")}>
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Clinic in
                       Chennai
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Grooming in
                       Chennai
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Training in
                       chennai
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Boarding in
                       chennai
                     </a>
                   </li>
-                  <li>
-                    <a href="/">
+                  {/* <li>
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Food in
                       chennai
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -47,35 +48,35 @@ const Footer = ({ bgColor }) => {
               <div className="single-footer-widget">
                 <ul className="link-list">
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Clinic in
                       Delhi
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Grooming in
                       Delhi
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Training in
                       Delhi
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Boarding in
                       Delhi
                     </a>
                   </li>
-                  <li>
-                    <a href="/">
+                  {/* <li>
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Food in
                       Delhi
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -84,35 +85,35 @@ const Footer = ({ bgColor }) => {
               <div className="single-footer-widget">
                 <ul className="link-list">
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Clinic in
                       Hyderabad
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Grooming in
                       Hyderabad
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Training in
                       Hyderabad
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Boarding in
                       Hyderabad
                     </a>
                   </li>
-                  <li>
-                    <a href="/">
+                  {/* <li>
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Food in
                       Hyderabad
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -121,35 +122,35 @@ const Footer = ({ bgColor }) => {
               <div className="single-footer-widget">
                 <ul className="link-list">
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i> Pet Clinic in
-                      Bangalore
+                      Mumbai
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i>Pet Grooming in
-                      Bangalore
+                      Mumbai
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i>Pet Training in
-                      Bangalore
+                      Mumbai
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <a>
                       <i className="flaticon-left-chevron"></i>Pet Boarding in
-                      Bangalore
+                      Mumbai
                     </a>
                   </li>
-                  <li>
-                    <a href="/">
+                  {/* <li>
+                    <a>
                       <i className="flaticon-left-chevron"></i>Pet Food in
                       Bangalore
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <h3>Social Media</h3>
