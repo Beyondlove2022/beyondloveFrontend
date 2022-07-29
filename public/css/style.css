@@ -61,8 +61,8 @@ Default CSS
 
 :root {
   --fontFamily: "Work Sans", sans-serif;
-  --mainColor: #0ec6c6;
-  --mainColor2: #30eded;
+  --mainColor: #4b2d22;
+  --mainColor2: #fabc1d;
   --optionalColor: #666666;
   --whiteColor: #ffffff;
   --blackColor: #221638;
@@ -1728,8 +1728,8 @@ Main Banner Area CSS
 .banner-content form {
   margin-top: 40px;
   background-color: var(--whiteColor);
-  -webkit-box-shadow: 5px 5px #30eded;
-  box-shadow: 5px 5px #30eded;
+  -webkit-box-shadow: 5px 5px var(--mainColor2);
+  box-shadow: 5px 5px var(--mainColor2);
   border-radius: 5px;
   /* padding-left: 20px;
   padding-right: 12px; */
@@ -2769,8 +2769,8 @@ Listings Area CSS
 }
 
 .single-listings-box {
-  -webkit-box-shadow: 5px 5px #b2eaea;
-  box-shadow: 5px 5px #b2eaea;
+  -webkit-box-shadow: 5px 5px var(--mainColor2);
+  box-shadow: 5px 5px var(--mainColor2);
   -webkit-transition: var(--transition);
   transition: var(--transition);
   background-color: var(--whiteColor);
@@ -5621,9 +5621,9 @@ Category Area CSS
 =================================================*/
 .single-category-box {
   margin-bottom: 35px;
-  -webkit-box-shadow: 5px 5px #b2eaea;
-  box-shadow: 5px 5px #b2eaea;
-  border: 1px solid #96e3e3;
+  -webkit-box-shadow: 5px 5px var(--mainColor2);
+  box-shadow: 5px 5px var(--mainColor2);
+  border: 1px solid rgb(250, 233, 107);
   border-radius: 5px;
   position: relative;
   -webkit-transition: var(--transition);
@@ -8751,8 +8751,8 @@ Page Title Area CSS
 
 .page-title-bg form {
   background-color: var(--whiteColor);
-  -webkit-box-shadow: 5px 5px #30eded;
-  box-shadow: 5px 5px #30eded;
+  -webkit-box-shadow: 5px 5px var(--mainColor2);
+  box-shadow: 5px 5px var(--mainColor2);
   border-radius: 5px;
   max-width: 900px;
   z-index: 2;
@@ -16219,7 +16219,7 @@ Preloader Area CSS
 }
 
 .Typist span {
-  color: #0ec6c6;
+  color: var(--mainColor2);
 }
 
 /*# sourceMappingURL=style.css.map */
