@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
@@ -11,6 +11,7 @@ import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Pagination from "./Pagination";
 
 const options = {
   loop: true,
@@ -47,6 +48,18 @@ const GridListingsWithLeftSidebar = () => {
   const [categoryName, setCategoryName] = useState("");
   // const [run, setRun] = useState(false);
   let router = useRouter();
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  let PageSize = 10;
+
+  const currentTableData = useMemo(() => {
+    console.log(business);
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return business.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, business]);
 
   useEffect(() => {
     // setisMounted(true);
@@ -849,7 +862,7 @@ const GridListingsWithLeftSidebar = () => {
               </div> */}
 
               <div className="row">
-                {business.map((bus) => {
+                {currentTableData.map((bus) => {
                   console.log(bus);
                   let profileImg = `${process.env.DOMAIN_NAME}/api/business/get-photos/${bus.profileImage}`;
                   return (
@@ -926,7 +939,13 @@ const GridListingsWithLeftSidebar = () => {
                     </div>
                   );
                 })}
-
+                <Pagination
+                  className="pagination-bar"
+                  currentPage={currentPage}
+                  totalCount={business.length}
+                  pageSize={PageSize}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
                 {/* <div className="col-xl-12 col-lg-12 col-md-12">
                   <div className="pagination-area text-center">
                     <a href="#" className="prev page-numbers">
