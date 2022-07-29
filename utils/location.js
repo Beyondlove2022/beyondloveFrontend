@@ -1,4 +1,4 @@
-export const location = [
+export const locations = [
   {
     id: "1",
     Geo_Name: "Velacheri",

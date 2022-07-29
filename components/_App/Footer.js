@@ -1,7 +1,15 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 const Footer = ({ bgColor }) => {
-  const handleFilter = (category, City) => {};
+  let router = useRouter();
+  const handleFilter = (category, state, city) => {
+    // e.preventDefault();
+    router.push({
+      pathname: "/listings",
+      query: { categoryName: category, stateName: state, cityName: city },
+    });
+  };
   return (
     <>
       <footer className={`footer-area ${bgColor}`}>
@@ -10,28 +18,44 @@ const Footer = ({ bgColor }) => {
             <div className="col-lg-3 col-sm-6 col-md-6">
               <div className="single-footer-widget">
                 <ul className="link-list">
-                  <li onClick={() => handleFilter("PetClinic", "Chennai")}>
+                  <li
+                    onClick={() =>
+                      handleFilter("PetClinic", "Tamil Nadu", "Chennai")
+                    }
+                  >
                     <a>
                       <i className="flaticon-left-chevron"></i> Pet Clinic in
                       Chennai
                     </a>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      handleFilter("PetGrooming", "Tamil Nadu", "Chennai")
+                    }
+                  >
                     <a>
                       <i className="flaticon-left-chevron"></i> Pet Grooming in
                       Chennai
                     </a>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      handleFilter("PetTraining", "Tamil Nadu", "Chennai")
+                    }
+                  >
                     <a>
                       <i className="flaticon-left-chevron"></i> Pet Training in
-                      chennai
+                      Chennai
                     </a>
                   </li>
-                  <li>
+                  <li
+                    onClick={() =>
+                      handleFilter("PetBoarding", "Tamil Nadu", "Chennai")
+                    }
+                  >
                     <a>
                       <i className="flaticon-left-chevron"></i> Pet Boarding in
-                      chennai
+                      Chennai
                     </a>
                   </li>
                   {/* <li>
