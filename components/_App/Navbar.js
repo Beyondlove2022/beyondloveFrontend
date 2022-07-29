@@ -573,13 +573,13 @@ const Navbar = () => {
 
         <div className='others-option-for-responsive'>
           <div className='container'>
-            <div className='dot-menu' onClick={toggleMiniAuth}>
+            {/* <div className='dot-menu' onClick={toggleMiniAuth}>
               <div className='inner'>
                 <div className='circle circle-one'></div>
                 <div className='circle circle-two'></div>
                 <div className='circle circle-three'></div>
               </div>
-            </div>
+            </div> */}
 
             <div className={displayMiniAuth ? 'container active' : 'container'}>
               <div className='option-inner'>
