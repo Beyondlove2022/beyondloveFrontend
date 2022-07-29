@@ -199,6 +199,8 @@ const GridListingsWithLeftSidebar = () => {
   // Get Business with category function
   const getBusinessWithCategory = async (category, id, location) => {
     console.log(category);
+    console.log(id);
+    console.log(location);
     const { data } = await axios.get(
       `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-unique-category/${category}`
     );
@@ -209,6 +211,8 @@ const GridListingsWithLeftSidebar = () => {
       if (location === "state") {
         arr = data.business.filter((profile) => id == profile.state[1]);
       } else if (location === "city") {
+        // console.log(id, profile.city[2]);
+        console.log(data.business.filter((profile) => id == profile.city[2]));
         arr = data.business.filter((profile) => id == profile.city[2]);
       } else if (location === "location") {
         arr = data.business.filter((profile) => id == profile.location[3]);
