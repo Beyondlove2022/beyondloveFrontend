@@ -50,9 +50,7 @@ const Feedback = ({ title, bgColor, bgImage }) => {
             <div className='section-title'>
               <h2>User’s Feedback About Us</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-                ipsum suspendisse ultrices gravida. Risus commodo viverra.
+               
               </p>
             </div>
           )}
