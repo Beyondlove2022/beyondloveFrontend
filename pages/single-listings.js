@@ -9,6 +9,7 @@ const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import NavbarTwo from "../components/_App/NavbarTwo";
 import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
+import { useRouter } from "next/router";
 
 const options = {
   loop: true,
@@ -45,19 +46,31 @@ const optionsTwo = {
 const SingleListings = () => {
   const [display, setDisplay] = useState(false);
   const [isMounted, setisMounted] = useState(false);
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
+  const [run, setRun] = useState(false);
   const [business, setBusiness] = useState(null);
   const [coverImg, setCoverImage] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
+    let category = router.query.category;
+    let id = router.query.id;
     setisMounted(true);
     setDisplay(true);
-    setisMounted(false);
-    setCategory("Pet Training");
-    getUniqueProfile("PetGrooming", "62e12c27c0a2eb7eb630de1c");
-  }, []);
+    // setisMounted(false);
+    // setCategory("Pet Training");
+    if (category != undefined && id != undefined) {
+      console.log("not undefined");
+      getUniqueProfile(category, id);
+    } else {
+      setRun(!run);
+      console.log("undefined");
+    }
+    console.log(router.query.category);
+  }, [run]);
 
   const getUniqueProfile = async (cate, id) => {
+    console.log("running");
     try {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/business/get-profile/${cate}/${id}`
@@ -109,7 +122,7 @@ const SingleListings = () => {
               <div className="listings-details-content">
                 <span className="meta">
                   <i className="flaticon-furniture-and-household"></i>
-                  {category}
+                  {business !== null && business.category}
                 </span>
                 {business !== null && <h3>{business.businessName}</h3>}
                 {/* <----Rating----> */}

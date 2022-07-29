@@ -31,6 +31,7 @@ const GridListingsWithLeftSidebar = () => {
   const [isMounted, setisMounted] = useState(false);
   const [categories, setCategories] = useState([]);
   const [business, setBusiness] = useState([]);
+  // const [run, setRun] = useState(false);
   let router = useRouter();
 
   useEffect(() => {
@@ -44,6 +45,20 @@ const GridListingsWithLeftSidebar = () => {
     console.log(stateFilter);
     console.log(cityFilter);
     console.log(locationFilter);
+    // console.log(router.query, "router query");
+    // if (router.query == "") {
+    //   console.log(router.query.categoryName);
+    //   console.log("empty");
+    // } else if (router.query == undefined) {
+    //   console.log(router.query.categoryName);
+    //   console.log("have value");
+    // } else if (router.query == "undefined") {
+    //   console.log(router.query.categoryName);
+    //   console.log("have value");
+    // } else {
+    //   console.log(router.query.categoryName);
+    //   console.log("nothing comed");
+    // }
     // setisMounted(false);
 
     // All Business filter
@@ -229,6 +244,15 @@ const GridListingsWithLeftSidebar = () => {
         console.log(error);
       }
     }
+  };
+
+  const gotoSingleProfilePage = (e, category, id) => {
+    e.preventDefault();
+    console.log(id, "id");
+    router.push({
+      pathname: "single-listings",
+      query: { category, id },
+    });
   };
 
   return (
@@ -423,7 +447,12 @@ const GridListingsWithLeftSidebar = () => {
                   return (
                     <div className="col-xl-6 col-lg-6 col-md-6" key={bus._id}>
                       <div className="single-listings-box">
-                        <div className="listings-image">
+                        <div
+                          className="listings-image"
+                          onClick={(e) =>
+                            gotoSingleProfilePage(e, bus.category, bus._id)
+                          }
+                        >
                           <img src={profileImg} alt="image" />
                           {/* <Link href="/single-listings">
                             <a className="link-btn"></a>
@@ -447,7 +476,7 @@ const GridListingsWithLeftSidebar = () => {
                             <li>
                               <a href="#">
                                 <i className="flaticon-furniture-and-household"></i>
-                                Restaurant
+                                {bus.category}
                               </a>
                             </li>
                             <li>
@@ -457,10 +486,14 @@ const GridListingsWithLeftSidebar = () => {
                               </a>
                             </li>
                           </ul>
-                          <h3>
-                            <Link href="/single-listings">
-                              <a>{bus.businessName}</a>
-                            </Link>
+                          <h3
+                            onClick={(e) =>
+                              gotoSingleProfilePage(e, bus.category, bus._id)
+                            }
+                          >
+                            {/* <Link href="/single-listings"> */}
+                            {bus.businessName}
+                            {/* </Link> */}
                           </h3>
                           {/* <span className="status">
                             <i className="flaticon-save"></i> Open Now
