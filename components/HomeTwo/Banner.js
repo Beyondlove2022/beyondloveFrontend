@@ -40,7 +40,6 @@ const Banner = () => {
         `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-all-categories`
       );
       console.log(data);
-
       setAllBusinessDetail(data.profilesArray);
       getStateandCities(data.profilesArray);
       dispatch(addAllBusiness(data.profilesArray));
@@ -55,7 +54,7 @@ const Banner = () => {
     let cityArray = [];
     let locationArray = [];
     details.map((states) => {
-      console.log(states);
+      // console.log(states);
       if (states.state[0] !== undefined) {
         stateArray.push(states.state);
       }

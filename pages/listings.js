@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
+import { FaClinicMedical } from "react-icons/fa";
 
 //components
 import NavbarTwo from "../components/_App/NavbarTwo";
@@ -45,6 +46,7 @@ const GridListingsWithLeftSidebar = () => {
     console.log(stateFilter);
     console.log(cityFilter);
     console.log(locationFilter);
+
     // console.log(router.query, "router query");
     // if (router.query == "") {
     //   console.log(router.query.categoryName);
@@ -96,8 +98,7 @@ const GridListingsWithLeftSidebar = () => {
     }
 
     // Filter All business by selected city
-    if (
-      (categoryFilter == "" || categoryFilter == undefined) &&
+    if ((categoryFilter == "" || categoryFilter == undefined) &&
       stateFilter != "" &&
       stateFilter != undefined &&
       cityFilter != "" &&
@@ -165,7 +166,7 @@ const GridListingsWithLeftSidebar = () => {
     }
   }, []);
 
-  // Get Business without category function
+  // Get Business without category function 
   const getBusinessWithoutCategory = async (id, location) => {
     try {
       const { data } = await axios.get(
@@ -443,6 +444,7 @@ const GridListingsWithLeftSidebar = () => {
 
               <div className="row">
                 {business.map((bus) => {
+                  console.log(bus)
                   let profileImg = `${process.env.DOMAIN_NAME}/api/business/get-photos/${bus.profileImage}`;
                   return (
                     <div className="col-xl-6 col-lg-6 col-md-6" key={bus._id}>
@@ -475,7 +477,7 @@ const GridListingsWithLeftSidebar = () => {
                           <ul className="listings-meta">
                             <li>
                               <a href="#">
-                                <i className="flaticon-furniture-and-household"></i>
+                                <i><FaClinicMedical /></i>
                                 {bus.category}
                               </a>
                             </li>
