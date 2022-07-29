@@ -613,7 +613,7 @@ const GridListingsWithLeftSidebar = () => {
                 </div>
               </div>
 
-              <div class="col-lg-3 col-md-6 p-0">
+              <div class="col-lg-2 col-md-6 p-0">
                 <div className="form-group category-select">
                   <label className="category-icon">
                     <i className="flaticon-pin"></i>
@@ -674,7 +674,7 @@ const GridListingsWithLeftSidebar = () => {
                 </div>
               </div>
 
-              <div class="col-lg-1 col-md-6 p-0">
+              <div class="col-lg-2 col-md-6 p-0">
                 <div className="submit-btn">
                   <button type="submit">Search</button>
                 </div>

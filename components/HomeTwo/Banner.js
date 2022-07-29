@@ -328,7 +328,7 @@ const Banner = () => {
                     </div>
 
                     <div class="col-lg-2 col-md-6 p-0">
-                      <div className="submit-btn">
+                      <div className="submit-btn ">
                         <button type="submit">Search</button>
                       </div>
                     </div>

@@ -8768,7 +8768,7 @@ Page Title Area CSS
   margin: 0;
   position: relative;
   border-right: 1px solid #30eded;
-  margin-left: 12px;
+  /* margin-left: 12px; */
 }
 
 .page-title-bg form .form-group label {
@@ -8784,7 +8784,7 @@ Page Title Area CSS
 
 .page-title-bg form .form-group.category-select {
   border-right: none;
-  padding-right: 20px;
+  /* padding-right: 20px; */
 }
 
 .page-title-bg form .form-group .form-control {
@@ -15938,6 +15938,7 @@ Dashboard CSS
   background: none;
   border: none;
   color: #787878;
+  margin-left: 18px;
 }
 
 .banner-content form .form-group.category-select {
