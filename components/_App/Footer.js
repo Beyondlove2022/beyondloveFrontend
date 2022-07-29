@@ -24,7 +24,7 @@ const Footer = ({ bgColor }) => {
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Clinic in
+                      <i className="flaticon-left-chevron"></i> Pet  all Clinic in
                       Chennai
                     </a>
                   </li>
