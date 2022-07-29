@@ -5630,6 +5630,7 @@ Category Area CSS
   transition: var(--transition);
   text-align: center;
   background-color: var(--whiteColor);
+  cursor: pointer;
   padding: 25px 14px;
 }
 
