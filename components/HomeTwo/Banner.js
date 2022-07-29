@@ -187,8 +187,7 @@ const Banner = () => {
     );
 
     router.push({
-      pathname: "/listings",
-      query: { categoryName, stateName, cityName, locationName },
+      pathname: "/listings", query: { categoryName, stateName, cityName, locationName },
     });
   };
 

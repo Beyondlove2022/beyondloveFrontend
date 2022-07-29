@@ -78,7 +78,7 @@ const Banner = () => {
                         <div className='col-lg-6 col-sm-12 col-md-12'>
                             <div style={{ display: "flex" }}>
                                 <div className='search-btn mr-2'>
-                                    <Link href='/vertical-listings-left-sidebar' >
+                                    <Link href='/listings' >
                                         <button>Search Now</button>
                                     </Link>
                                 </div>
