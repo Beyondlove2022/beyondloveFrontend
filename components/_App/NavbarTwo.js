@@ -98,7 +98,7 @@ const NavbarTwo = () => {
               <div className='logo'>
                 <Link href='/'>
                   <a>
-                    <img src='/images/black-logo1.png' alt='logo' />
+                    <img src='/images/black-logo1.png' alt='logo' style={{ maxWidth: "50%" }} />
                   </a>
                 </Link>
               </div>
@@ -111,7 +111,7 @@ const NavbarTwo = () => {
             <nav className='navbar navbar-expand-md navbar-light'>
               <Link href='/'>
                 <a className='navbar-brand'>
-                  <img src='/images/black-logo1.png' alt='logo' />
+                  <img src='/images/black-logo1.png' alt='logo' style={{ maxWidth: "50%" }} />
                 </a>
               </Link>
               <div className='collapse navbar-collapse mean-menu'>
