@@ -195,8 +195,6 @@ const GridListingsWithLeftSidebar = () => {
   }, []);
   useEffect(() => {
     if (typeof window != "undefined") {
-      let category = localStorage.getItem("category");
-
       getAllBusinessProfiles();
       console.log("we are running client side");
     } else {
