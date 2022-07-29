@@ -50,7 +50,7 @@ const Index2 = () => {
       <MainBanner />
       <Banner />
       <CategoryTwo titleOne={true} />
-      <ListingAreaTwo bgColor="bg-f9f9f9" titleOne={true} />
+      {/* <ListingAreaTwo bgColor="bg-f9f9f9" titleOne={true} /> */}
       {/* <Destinations titleOne={true} paddingBottom70="pb-70" /> */}
       <Feedback title={true} bgColor="" bgImage="bg-image" />
       {/* <EventsArea /> */}

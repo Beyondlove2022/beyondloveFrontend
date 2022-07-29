@@ -96,9 +96,9 @@ const NavbarTwo = () => {
                 )}
               </div>
               <div className='logo'>
-                <Link href='/index-2'>
+                <Link href='/'>
                   <a>
-                    <img src='/images/black-logo.png' alt='logo' />
+                    <img src='/images/black-logo1.png' alt='logo' />
                   </a>
                 </Link>
               </div>
@@ -111,7 +111,7 @@ const NavbarTwo = () => {
             <nav className='navbar navbar-expand-md navbar-light'>
               <Link href='/'>
                 <a className='navbar-brand'>
-                  <img src='/images/black-logo.png' alt='logo' />
+                  <img src='/images/black-logo1.png' alt='logo' />
                 </a>
               </Link>
               <div className='collapse navbar-collapse mean-menu'>
@@ -163,7 +163,7 @@ const NavbarTwo = () => {
                   </div> */}
                 </ul>
 
-                <div style={{ marginRight: "85px" }}>
+                {/* <div style={{ marginRight: "85px" }}>
                   {token == null || token == "" ? (<div className='others-option d-flex align-items-center'>
                     <div className='option-item'>
                       <span
@@ -257,7 +257,7 @@ const NavbarTwo = () => {
                         </div>
                       </div>
                     </div>)}
-                </div>
+                </div> */}
 
               </div>
             </nav>
@@ -266,13 +266,13 @@ const NavbarTwo = () => {
 
         <div className='others-option-for-responsive'>
           <div className='container'>
-            <div className='dot-menu' onClick={toggleMiniAuth}>
+            {/* <div className='dot-menu' onClick={toggleMiniAuth}>
               <div className='inner'>
                 <div className='circle circle-one'></div>
                 <div className='circle circle-two'></div>
                 <div className='circle circle-three'></div>
               </div>
-            </div>
+            </div> */}
 
             <div className={displayMiniAuth ? 'container active' : 'container'}>
               <div className='option-inner'>
@@ -291,7 +291,7 @@ const NavbarTwo = () => {
                       </form>
                     </div> */}
 
-                    <div className='option-item'>
+                    {/* <div className='option-item'>
                       <span
                         data-toggle='modal'
                         data-target='#loginRegisterModal'
@@ -299,7 +299,7 @@ const NavbarTwo = () => {
                       >
                         <i className='flaticon-user'></i> Login / Register
                       </span>
-                    </div>
+                    </div> */}
                   </div>) : (
                     <div className='others-option d-flex align-items-center'>
                       <div className='option-item'>
