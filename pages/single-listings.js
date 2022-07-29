@@ -320,7 +320,7 @@ const SingleListings = () => {
                   </li>
                 </ul> */}
 
-                <h3>Gallery</h3>
+                {/* <h3>Gallery</h3>
                 <div id="gallery">
                   <div className="gallery-slides owl-theme">
                     {display ? (
@@ -339,7 +339,9 @@ const SingleListings = () => {
                       ""
                     )}
                   </div>
-                </div>
+                </div> */}
+
+
                 {/* <------Pricing Section ----> */}
                 {/* <h3>Pricing</h3>
                 <div id="pricing">
