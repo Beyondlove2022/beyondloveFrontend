@@ -52,7 +52,7 @@ const Index2 = () => {
       <CategoryTwo titleOne={true} />
       {/* <ListingAreaTwo bgColor="bg-f9f9f9" titleOne={true} /> */}
       {/* <Destinations titleOne={true} paddingBottom70="pb-70" /> */}
-      <Feedback title={true} bgColor="" bgImage="bg-image" />
+      {/* <Feedback title={true} bgColor="" bgImage="bg-image" /> */}
       {/* <EventsArea /> */}
       {/* <HowItWorks bgColor="bg-f9f9f9" /> */}
       {/* <Blog /> */}

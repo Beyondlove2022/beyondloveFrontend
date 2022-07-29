@@ -172,7 +172,6 @@ const Banner = () => {
   };
 
   // Category Change
-
   const handleChangeCategory = (e) => {
     console.log(e.target.value);
     setCategoryName(e.target.value);

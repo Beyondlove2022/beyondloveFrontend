@@ -46,6 +46,7 @@ const GridListingsWithLeftSidebar = () => {
   const [locationName, setLocationName] = useState("");
   const [selectedLocation, setSelectedLocation] = useState([]);
   const [categoryName, setCategoryName] = useState("");
+  const [loading, setLoading] = useState(false);
   // const [run, setRun] = useState(false);
   let router = useRouter();
 
@@ -527,13 +528,17 @@ const GridListingsWithLeftSidebar = () => {
 
   const getBusinessByCategories = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setBusiness([]);
     for (var i = 0; i < categories.length; i++) {
       try {
         const { data } = await axios.get(
           `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-unique-category/${categories[i]}`
         );
-        data.business.map((buss) => setBusiness((prev) => [...prev, buss]));
+        if (data.success) {
+          setLoading(false);
+          data.business.map((buss) => setBusiness((prev) => [...prev, buss]));
+        }
         // console.log(business);
       } catch (error) {
         console.log(error);
@@ -860,6 +865,13 @@ const GridListingsWithLeftSidebar = () => {
               </div> */}
 
               <div className="row">
+                {loading && (
+                  <div className="d-flex justify-content-center align-items-center w-100">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                )}
                 {currentTableData.map((bus) => {
                   console.log(bus);
                   let profileImg = `${process.env.DOMAIN_NAME}/api/business/get-photos/${bus.profileImage}`;

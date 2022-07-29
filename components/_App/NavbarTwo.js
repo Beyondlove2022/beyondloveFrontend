@@ -125,20 +125,21 @@ const NavbarTwo = () => {
                   </li>
 
                   <li className='nav-item'>
-                    <Link href='/' activeClassName='active'>
-                      <a href='#' className='dropdown-toggle nav-link'>
+                    <Link href='' activeClassName='active'>
+                      <a href='https://invisiblesuperhumans.org/' target="_blank" className='dropdown-toggle nav-link'>
                         Donate
                       </a>
                     </Link>
                   </li>
 
-                  <li className='nav-item'>
+                  {/* <li className='nav-item'>
                     <Link href='/' activeClassName='active'>
                       <a href='#' className='dropdown-toggle nav-link'>
                         Community
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
+
                   {/* <div className='main-donate-btn'>
                     <div className='donate-btn mr-3'>
                       <Link
