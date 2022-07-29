@@ -3,6 +3,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import { FaClinicMedical } from "react-icons/fa";
+import { ToastContainer, toast, TypeOptions } from "react-toastify";
 
 //components
 import NavbarTwo from "../components/_App/NavbarTwo";
