@@ -16476,3 +16476,15 @@ th {
 }
 
 /* Pagination End */
+/* password Eye icons */
+.password-icon {
+  position: absolute;
+  top: 16px;
+  right: 21px;
+  height: 18px;
+  width: 18px;
+}
+
+.reset {
+  position: relative;
+}

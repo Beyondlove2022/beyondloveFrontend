@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addBusiness } from "../../../Redux/businessSlice";
 import "react-toastify/ReactToastify.min.css";
 import router from "next/router";
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 const BusinessLogin = () => {
   const [mobile, setMobile] = useState("");
@@ -12,6 +13,11 @@ const BusinessLogin = () => {
   const [category, setCategory] = useState("");
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
+  const [showLoginPassword, setShowLogingPassword] = useState(false)
+
+  const loginPasswordVisibility = () => {
+    setShowLogingPassword(!showLoginPassword)
+  }
 
   const loginSubmit = async (e) => {
     e.preventDefault();
@@ -107,13 +113,22 @@ const BusinessLogin = () => {
               )}
             </div>
 
-            <div className="form-group">
+            <div className="form-group reset">
               <input
-                type="password"
+                type={showLoginPassword ? "text" : "password"}
                 placeholder="Password"
                 className="form-control"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {showLoginPassword ? (<AiOutlineEye
+                className="password-icon"
+                onClick={loginPasswordVisibility}
+              />) : (
+                <AiOutlineEyeInvisible
+                  fill="grey"
+                  className="password-icon"
+                  onClick={loginPasswordVisibility}
+                />)}
               {error && password == "" ? (
                 <span className="text-danger">Please Enter Password</span>
               ) : (

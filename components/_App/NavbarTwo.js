@@ -164,12 +164,12 @@ const NavbarTwo = () => {
                   </div> */}
                 </ul>
 
-                {/* <div style={{ marginRight: "85px" }}>
+                <div style={{ marginRight: "85px" }}>
                   {token == null || token == "" ? (<div className='others-option d-flex align-items-center'>
                     <div className='option-item'>
                       <span
                         data-toggle='modal'
-                        onClick={toggleAuth}
+                        // onClick={toggleAuth}
                         className='auth-one'
                       >
                         <i className='flaticon-user'></i> Login / Register
@@ -178,7 +178,8 @@ const NavbarTwo = () => {
                     <div className="option-item">
                       <span
                         data-toggle="modal"
-                        onClick={toggleAuthRegister}
+                        onClick={toggleAuth}
+                        // onClick={toggleAuthRegister}
                         className="active"
                       >
                         <a className="default-btn button-one">
@@ -258,7 +259,7 @@ const NavbarTwo = () => {
                         </div>
                       </div>
                     </div>)}
-                </div> */}
+                </div>
 
               </div>
             </nav>
@@ -267,40 +268,39 @@ const NavbarTwo = () => {
 
         <div className='others-option-for-responsive'>
           <div className='container'>
-            {/* <div className='dot-menu' onClick={toggleMiniAuth}>
+            <div className='dot-menu' onClick={toggleMiniAuth}>
               <div className='inner'>
                 <div className='circle circle-one'></div>
                 <div className='circle circle-two'></div>
                 <div className='circle circle-three'></div>
               </div>
-            </div> */}
+            </div>
 
             <div className={displayMiniAuth ? 'container active' : 'container'}>
               <div className='option-inner'>
                 {token == null || token == "" ?
                   (<div className='others-option'>
-                    {/* <div className='option-item'>
-                      <form className='navbar-search-box'>
-                        <label>
-                          <i className='flaticon-search'></i>
-                        </label>
-                        <input
-                          type='text'
-                          className='input-search'
-                          placeholder='What are you looking for?'
-                        />
-                      </form>
-                    </div> */}
-
-                    {/* <div className='option-item'>
+                    <div className='option-item'>
                       <span
                         data-toggle='modal'
                         data-target='#loginRegisterModal'
-                        onClick={toggleAuth}
+                      // onClick={toggleAuth}
                       >
                         <i className='flaticon-user'></i> Login / Register
                       </span>
-                    </div> */}
+                    </div>
+                    <div className="option-item">
+                      <span
+                        data-toggle="modal"
+                        onClick={toggleAuth}
+                        // onClick={toggleAuthRegister}
+                        className="active"
+                      >
+                        <a className="default-btn button-one">
+                          <i className="flaticon-more"></i> Business Registeration
+                        </a>
+                      </span>
+                    </div>
                   </div>) : (
                     <div className='others-option d-flex align-items-center'>
                       <div className='option-item'>
