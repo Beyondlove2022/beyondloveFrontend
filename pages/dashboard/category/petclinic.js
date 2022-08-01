@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import NavbarThree from '../../../components/_App/NavbarThree';
-import DashboardNavbar from '../../../components/Dashboard/DashboardNavbar';
-import React, { useEffect, useState } from 'react';
+import Link from "next/link";
+import NavbarThree from "../../../components/_App/NavbarThree";
+import DashboardNavbar from "../../../components/Dashboard/DashboardNavbar";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { states } from '../../../utils/state';
-import { cities } from '../../../utils/cities';
-import { locations } from '../../../utils/location';
+import { states } from "../../../utils/state";
+import { cities } from "../../../utils/cities";
+import { locations } from "../../../utils/location";
 
 const PetTraining = () => {
   const [email, setEmail] = useState("");
@@ -29,25 +29,25 @@ const PetTraining = () => {
   const [packageName, setPackageName] = useState("");
   const [packagePrice, setPackagePrice] = useState("");
   const [established, setestablished] = useState("");
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
   const [error, setError] = useState(false);
   const [apiprofileImg, setApiProfileImg] = useState();
   const [apiCoverImg, setApiCoverImg] = useState();
-  const [profile, setProfile] = useState()
+  const [profile, setProfile] = useState();
   const [cover, setCover] = useState();
   const [businessId, setBusinessid] = useState("");
   const [categoriesProfile, setCategoryProfile] = useState("");
 
-  console.log(profile)
+  console.log(profile);
   // console.log(categoriesProfile)
   useEffect(() => {
     if (typeof window != "undefined") {
-      console.log("we are running on the client")
+      console.log("we are running on the client");
       let token = localStorage.getItem("token");
       let user = JSON.parse(localStorage.getItem("user"));
       let category = localStorage.getItem("category");
-      console.log(token)
-      console.log(user)
+      console.log(token);
+      console.log(user);
       let id = user._id;
       if (category == "petclinic") {
         setCategoryProfile("PetClinic");
@@ -60,41 +60,49 @@ const PetTraining = () => {
       } else if (category == "petfood") {
         setCategoryProfile("PetFood");
       }
-      setBusinessid(id)
-      getBusinessProfile(id)
-      setToken(token)
-      states.sort((a, b) => a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1);
+      setBusinessid(id);
+      getBusinessProfile(id);
+      setToken(token);
+      states.sort((a, b) =>
+        a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1
+      );
     } else {
       console.log("we are running on the server");
     }
-  }, [])
+  }, []);
 
   const getBusinessProfile = async (id) => {
     try {
-      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-profile/PetClinic/${id}`);
-      console.log(data)
-      console.log(data.business.city)
+      const { data } = await axios.get(
+        `${process.env.DOMAIN_NAME}/api/business/get-profile/PetClinic/${id}`
+      );
+      console.log(data);
+      console.log(data.business.city);
       setEmail(data.business.email);
       setMobile(data.business.mobile);
       setBusinessName(data.business.businessName);
       setFacebookUrl(data.business.facebookUrl);
       setInstagramUrl(data.business.instagramUrl);
       setTwitterUrl(data.business.twitterUrl);
-      setLandmark(data.business.landmark)
+      setLandmark(data.business.landmark);
       setPincode(data.business.pincode);
       setestablished(data.business.establishedYear);
       setDoorNumber(data.business.address[0]);
-      setStreet(data.business.address[1])
-      setState(data.business.state)
-      setCity(data.business.city)
-      setLocation(data.business.location)
-      setAbout(data.business.description)
-      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
-      setCover(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`)
+      setStreet(data.business.address[1]);
+      setState(data.business.state);
+      setCity(data.business.city);
+      setLocation(data.business.location);
+      setAbout(data.business.description);
+      setProfile(
+        `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`
+      );
+      setCover(
+        `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const addProfileFormSubmit = async (e) => {
     e.preventDefault();
@@ -112,17 +120,27 @@ const PetTraining = () => {
       state,
       city,
       location,
-      establishedYear: established
-    }
-    console.log(d)
-    if (email === "" && businessName === "" &&
-      mobile === "" && pincode === "" && street === "" &&
-      state === "" && city === "" && location === "") {
+      establishedYear: established,
+    };
+    console.log(d);
+    if (
+      email === "" &&
+      businessName === "" &&
+      mobile === "" &&
+      pincode === "" &&
+      street === "" &&
+      state === "" &&
+      city === "" &&
+      location === ""
+    ) {
       setError(true);
     } else {
       try {
-        const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/update-profile/PetClinic/${token}`, d);
-        console.log(data)
+        const { data } = await axios.put(
+          `${process.env.DOMAIN_NAME}/api/business/update-profile/PetClinic/${token}`,
+          d
+        );
+        console.log(data);
         if (data.success) {
           toast.success(data.msg, {
             theme: "light",
@@ -147,26 +165,26 @@ const PetTraining = () => {
           });
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
-  }
+  };
 
   const handleClickState = (e) => {
-    const stay = e.target.value
+    const stay = e.target.value;
     setState(stay.split(","));
-  }
+  };
 
   const handleOnChangeCity = (e) => {
-    const cty = e.target.value
-    setCity(cty.split(","))
-  }
+    const cty = e.target.value;
+    setCity(cty.split(","));
+  };
 
   const handleOnChangeLocation = (e) => {
-    console.log(e.target.value)
-    const loca = e.target.value
-    setLocation(loca.split(","))
-  }
+    console.log(e.target.value);
+    const loca = e.target.value;
+    setLocation(loca.split(","));
+  };
 
   const handleClickCity = () => {
     if (state == "") {
@@ -181,10 +199,10 @@ const PetTraining = () => {
         progress: undefined,
       });
     } else {
-      const filterCity = cities.filter(citi => citi.Geo_Head == state[1])
-      setCityFilter(filterCity)
+      const filterCity = cities.filter((citi) => citi.Geo_Head == state[1]);
+      setCityFilter(filterCity);
     }
-  }
+  };
 
   const handleClickLocation = () => {
     if (city == "") {
@@ -199,28 +217,33 @@ const PetTraining = () => {
         progress: undefined,
       });
     } else {
-      const filterLocation = locations.filter(loca => loca.Geo_City == city[2])
-      setLocationFilter(filterLocation)
+      const filterLocation = locations.filter(
+        (loca) => loca.Geo_City == city[2]
+      );
+      setLocationFilter(filterLocation);
     }
-  }
+  };
 
   const uploadProfilePhotos = (e) => {
     setProfile(URL.createObjectURL(e.target.files[0]));
-    setApiProfileImg(e.target.files[0])
-  }
+    setApiProfileImg(e.target.files[0]);
+  };
 
   const uploadCoverPhotos = (e) => {
     setCover(URL.createObjectURL(e.target.files[0]));
-    setApiCoverImg(e.target.files[0])
-  }
+    setApiCoverImg(e.target.files[0]);
+  };
 
   const profilePicSubmit = async (e) => {
     e.preventDefault();
-    console.log(apiprofileImg)
-    const formData = new FormData()
+    console.log(apiprofileImg);
+    const formData = new FormData();
     formData.append("file", apiprofileImg);
     try {
-      const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/profile`, formData);
+      const { data } = await axios.post(
+        `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/profile`,
+        formData
+      );
       console.log(data);
       if (data.success) {
         toast.success(data.msg, {
@@ -246,16 +269,19 @@ const PetTraining = () => {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const coverPicSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append("file", apiCoverImg);
     try {
-      const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/cover`, formData);
+      const { data } = await axios.post(
+        `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/cover`,
+        formData
+      );
       console.log(data);
       console.log(data.bussinessCoverImage);
       if (data.success) {
@@ -282,9 +308,9 @@ const PetTraining = () => {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const goToTop = () => {
     window.scrollTo({
@@ -292,7 +318,6 @@ const PetTraining = () => {
       behavior: "smooth",
     });
   };
-
 
   return (
     <>
@@ -334,11 +359,7 @@ const PetTraining = () => {
                   <form onSubmit={coverPicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        <img
-                          src={cover}
-                          alt="imag"
-                          className="profile-image"
-                        />
+                        <img src={cover} alt="imag" className="profile-image" />
                         <input
                           type="file"
                           name="file"
@@ -369,7 +390,7 @@ const PetTraining = () => {
                         value={email}
                       />
                       {error && email == "" ? (
-                        <span className='text-danger'>Please enter email</span>
+                        <span className="text-danger">Please enter email</span>
                       ) : (
                         <></>
                       )}
@@ -387,7 +408,9 @@ const PetTraining = () => {
                         value={mobile}
                       />
                       {error && mobile == "" ? (
-                        <span className='text-danger'>Please enter mobile number</span>
+                        <span className="text-danger">
+                          Please enter mobile number
+                        </span>
                       ) : (
                         <></>
                       )}
@@ -405,7 +428,9 @@ const PetTraining = () => {
                         value={businessName}
                       />
                       {error && businessName == "" ? (
-                        <span className='text-danger'>Please enter business name</span>
+                        <span className="text-danger">
+                          Please enter business name
+                        </span>
                       ) : (
                         <></>
                       )}
@@ -530,7 +555,7 @@ const PetTraining = () => {
                         value={street}
                       />
                       {error && street == "" ? (
-                        <span className='text-danger'>Please enter street</span>
+                        <span className="text-danger">Please enter street</span>
                       ) : (
                         <></>
                       )}
@@ -561,7 +586,9 @@ const PetTraining = () => {
                         value={pincode}
                       />
                       {error && pincode == "" ? (
-                        <span className='text-danger'>Please enter pincode</span>
+                        <span className="text-danger">
+                          Please enter pincode
+                        </span>
                       ) : (
                         <></>
                       )}
@@ -586,8 +613,10 @@ const PetTraining = () => {
                               id={state.Geo_TinNo}
                               value={[state.Geo_Name, state.Geo_TinNo]}
                               key={state.Geo_TinNo}
-                            >{state.Geo_Name}</option>
-                          )
+                            >
+                              {state.Geo_Name}
+                            </option>
+                          );
                         })}
                       </select>
                       {error && state.length == "" ? (
@@ -603,18 +632,27 @@ const PetTraining = () => {
                       <label>
                         <i className="bx bx-menu-alt-left"></i> City:
                       </label>
-                      <select className="dashbaord-category-select"
+                      <select
+                        className="dashbaord-category-select"
                         onChange={handleOnChangeCity}
                         onFocus={handleClickCity}
                       >
-                        <option>{city.length > 0 ? city[0] : "Select the City"}</option>
+                        <option>
+                          {city.length > 0 ? city[0] : "Select the City"}
+                        </option>
                         {cityFilter.map((cityMap) => {
                           return (
                             <option
-                              value={[cityMap.Geo_Name, cityMap.Geo_Head, cityMap.id]}
+                              value={[
+                                cityMap.Geo_Name,
+                                cityMap.Geo_Head,
+                                cityMap.id,
+                              ]}
                               key={cityMap.id}
-                            >{cityMap.Geo_Name}</option>
-                          )
+                            >
+                              {cityMap.Geo_Name}
+                            </option>
+                          );
                         })}
                       </select>
                       {error && city.length == "" ? (
@@ -630,22 +668,36 @@ const PetTraining = () => {
                       <label>
                         <i className="bx bx-menu-alt-left"></i> Location:
                       </label>
-                      <select className="dashbaord-category-select"
+                      <select
+                        className="dashbaord-category-select"
                         onChange={handleOnChangeLocation}
                         onFocus={handleClickLocation}
                       >
-                        <option>{location.length > 0 ? location[0] : "Select the Location"}</option>
+                        <option>
+                          {location.length > 0
+                            ? location[0]
+                            : "Select the Location"}
+                        </option>
                         {locationFilter.map((locaMap) => {
                           return (
                             <option
-                              value={[locaMap.Geo_Name, locaMap.Geo_Head, locaMap.Geo_City, locaMap.id]}
+                              value={[
+                                locaMap.Geo_Name,
+                                locaMap.Geo_Head,
+                                locaMap.Geo_City,
+                                locaMap.id,
+                              ]}
                               key={locaMap.id}
-                            >{locaMap.Geo_Name}</option>
-                          )
+                            >
+                              {locaMap.Geo_Name}
+                            </option>
+                          );
                         })}
                       </select>
                       {error && location.length == "" ? (
-                        <span className="text-danger">Please select location</span>
+                        <span className="text-danger">
+                          Please select location
+                        </span>
                       ) : (
                         <></>
                       )}
@@ -742,7 +794,9 @@ const PetTraining = () => {
 
                   <div className="col-lg-12 col-md-12">
                     <div className="form-group">
-                      <button onClick={goToTop} type="submit">Save Changes</button>
+                      <button onClick={goToTop} type="submit">
+                        Save Changes
+                      </button>
                     </div>
                   </div>
                 </div>
