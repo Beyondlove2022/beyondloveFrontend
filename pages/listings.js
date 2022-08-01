@@ -11,7 +11,7 @@ import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Pagination from "./Pagination";
+import Pagination from "../components/Pagination";
 
 const options = {
   loop: true,

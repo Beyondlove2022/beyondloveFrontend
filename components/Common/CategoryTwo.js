@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaClinicMedical } from "react-icons/fa";
 import { GiHairStrands } from "react-icons/gi";
-import { TbBone } from "react-icons/Tb";
+import { TbBone } from "react-icons/tb";
 import { MdPets, MdOutlineFoodBank } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
