@@ -6,8 +6,10 @@ const Tabs = dynamic(
   { ssr: false }
 );
 import { resetIdCounter, Tab, TabList, TabPanel } from 'react-tabs';
+import BusinessLogin from './Business/BusinessLogin';
 import BusinessRegister from './Business/BusinessRegister';
-import BusinessLogin from './Login/BusinessLogin';
+import CustomerRegister from './Customer/CustomerRegister';
+import CustomerLogin from './Customer/CustomerLogin';
 import router from 'next/router';
 resetIdCounter();
 
@@ -37,6 +39,7 @@ const NavbarTwo = () => {
   const toggleAuth = () => {
     setDisplayAuth(!displayAuth);
   };
+
   const toggleAuthRegister = () => {
     setDisplayVendorRegister(!displayVendorRegister);
   };
@@ -81,6 +84,7 @@ const NavbarTwo = () => {
   return (
     <>
       <div className={displayAuth ? 'body_overlay open' : 'body_overlay'}></div>
+      <div className={displayVendorRegister ? 'body_overlay open' : 'body_overlay'}></div>
       <div className={sticky ? 'is-sticky navbar-area' : 'navbar-area'}>
         <div className='miran-responsive-nav'>
           <div className='container'>
@@ -169,7 +173,7 @@ const NavbarTwo = () => {
                     <div className='option-item'>
                       <span
                         data-toggle='modal'
-                        // onClick={toggleAuth}
+                        onClick={toggleAuthRegister}
                         className='auth-one'
                       >
                         <i className='flaticon-user'></i> Login / Register
@@ -379,7 +383,7 @@ const NavbarTwo = () => {
         </div>
       </div>
 
-      {/* ------------ Auth Modal ------- */}
+      {/* ------------ Auth Modal Business------- */}
       <div
         className={
           displayAuth
@@ -396,6 +400,9 @@ const NavbarTwo = () => {
               </button>
 
               <ul className='nav nav-tabs' id='myTab'>
+                <h3 className="vendor-register-head">
+                  Sign up as Business Register
+                </h3>
                 <TabList>
                   <Tab className="nav-item">
 
@@ -427,6 +434,55 @@ const NavbarTwo = () => {
           </div>
         </div>
       </div>
+
+      {/* ------------ Auth Modal Customer ------- */}
+      <div
+        className={
+          displayVendorRegister
+            ? 'modal loginRegisterModal show'
+            : 'modal loginRegisterModal'
+        }
+        id='loginRegisterModal'
+      >
+        <div className='modal-dialog modal-dialog-centered'>
+          <div className='modal-content'>
+            <Tabs>
+              <button type='button' className='close' onClick={toggleAuthRegister}>
+                <i className='bx bx-x'></i>
+              </button>
+
+              <ul className='nav nav-tabs' id='myTab'>
+                <h3 className="vendor-register-head">
+                  Welcome Back! Customer
+                </h3>
+                <TabList>
+                  <Tab className="nav-item">
+                    <a className='nav-link' id='login-tab'>
+                      Login
+                    </a>
+                  </Tab>
+                  <Tab className="nav-item">
+                    <a className='nav-link' id='register-tab'>
+                      Register
+                    </a>
+                  </Tab>
+                </TabList>
+              </ul>
+
+              <div className='tab-content' id='myTabContent'>
+                <TabPanel>
+                  <CustomerLogin />
+                </TabPanel>
+
+                <TabPanel>
+                  <CustomerRegister />
+                </TabPanel>
+              </div>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+
     </>
   );
 };
