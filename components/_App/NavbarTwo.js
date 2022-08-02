@@ -63,11 +63,10 @@ const NavbarTwo = () => {
     // let abortController = new AbortController();
     const tok = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    const category = localStorage.getItem("category");
+    console.log(user)
     if (user !== null) {
       setToken(tok);
       setUserDetail(user)
-      setCategoryProfile(category)
     }
 
     // your async action is here

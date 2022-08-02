@@ -74,6 +74,8 @@ const PetTraining = () => {
       setCity(data.business.city)
       setLocation(data.business.location)
       setAbout(data.business.description)
+      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
+      setCover(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`)
     } catch (error) {
       console.log(error)
     }
