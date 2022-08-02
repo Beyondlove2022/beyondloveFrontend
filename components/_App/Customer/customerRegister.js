@@ -37,7 +37,7 @@ const CustomerRegister = () => {
                     toast.success(data.msg, {
                         theme: "light",
                         position: "top-right",
-                        autoClose: 1000,
+                        autoClose: 2000,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -52,7 +52,7 @@ const CustomerRegister = () => {
                     toast.error(data.msg, {
                         theme: "light",
                         position: "top-right",
-                        autoClose: 1000,
+                        autoClose: 2000,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
