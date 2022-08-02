@@ -6,13 +6,16 @@ import "react-toastify/ReactToastify.min.css";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
-const AddListing = () => {
+const PetTraining = () => {
   const [files, setFiles] = useState([]);
   const [businessId, setBusinessid] = useState("");
   const [categoriesProfile, setCategoryProfile] = useState("");
   const [businessPhotos, setBusinessPhotos] = useState([]);
+  const [loading, setLoading] = useState(false);
   console.log(categoriesProfile);
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -70,6 +73,7 @@ const AddListing = () => {
     e.preventDefault();
     if (files.length > 0) {
       for (var i = 0; i < files.length; i++) {
+        setLoading(true)
         const formData = new FormData();
         formData.append(`file`, files[i]);
         console.log(files);
@@ -85,10 +89,12 @@ const AddListing = () => {
           console.log(error);
         }
       }
+      setFiles([]);
+      setLoading(false)
       toast.success("Photos Uploaded Successfully", {
         theme: "light",
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -99,7 +105,7 @@ const AddListing = () => {
       toast.error("Please Upload a Image...!", {
         theme: "light",
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -235,7 +241,7 @@ const AddListing = () => {
 
         <div className="add-listings-box">
           <div {...getRootProps()} className="dropzone">
-            <h3>Gallery</h3>
+            <h3>Training Gallery</h3>
             {files.length > 0 ? (
               <div className="gallery-flex">
                 {thumbs}
@@ -255,6 +261,16 @@ const AddListing = () => {
             </div>
           </form>
         </div>
+
+        {/* react loading icons */}
+        <div className="d-flex justify-content-center align-items-center">
+          {loading && (
+            <div className="loader">
+              <ReactLoading type="spokes" color="#febc1e" />
+            </div>
+          )}
+        </div>
+
 
         <div className="gallery add-listings-btn">
           {businessPhotos.map((photos) => {
@@ -998,4 +1014,4 @@ const AddListing = () => {
   );
 };
 
-export default AddListing;
+export default PetTraining;

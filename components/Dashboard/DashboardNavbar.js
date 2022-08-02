@@ -176,7 +176,7 @@ const DashboardNavbar = () => {
             </li> */}
 
             <li className='nav-item'>
-              <Link href='/dashboard/add-listing' activeClassName='active'>
+              <Link href={`/dashboard/add-listing/${categoryProfile}`} activeClassName='active'>
                 <a>
                   <span className='icon'>
                     <i className='bx bx-plus-circle'></i>
