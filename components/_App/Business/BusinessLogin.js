@@ -51,8 +51,7 @@ const BusinessLogin = () => {
           localStorage.setItem("user", user);
           localStorage.setItem("token", data.token);
           dispatch(addBusiness(data.business));
-          const cate = category.toLowerCase();
-          localStorage.setItem("category", cate);
+          const cate = (data.business.category.toLowerCase());
           router.push({ pathname: `/dashboard/category/${cate}` });
         } else {
           toast.error(data.msg, {
@@ -90,7 +89,7 @@ const BusinessLogin = () => {
                 <option value="PetGrooming">Pet Grooming</option>
                 <option value="PetBoarding">Pet Boarding</option>
                 <option value="PetTraining">Pet Training</option>
-                <option value="PetFood">Pet Food</option>
+                {/* <option value="PetFood">Pet Food</option> */}
               </select>
               {error && category.length == "" ? (
                 <span className="text-danger">Please Select Category</span>

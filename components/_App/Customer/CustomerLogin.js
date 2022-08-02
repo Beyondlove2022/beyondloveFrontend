@@ -39,7 +39,7 @@ const CustomerLogin = () => {
                         draggable: true,
                         progress: undefined,
                     });
-                    const user = JSON.stringify(data.customer);
+                    const user = JSON.stringify(data.customer)
                     localStorage.setItem("user", user);
                     localStorage.setItem("token", data.token);
                     router.push({ pathname: `/dashboard/CustomerForm/` })

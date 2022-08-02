@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import Link from '../../utils/ActiveLink';
 import { IndiceContext } from "../../contexts";
 import router from 'next/router';
+import axios from 'axios';
 const NavbarThree = () => {
   const { toggleSideMenu } = useContext(IndiceContext);
   const [displayAuth, setDisplayAuth] = useState(false);
@@ -11,16 +12,28 @@ const NavbarThree = () => {
   const [token, setToken] = useState("");
   const [userDetail, setUserDetail] = useState("");
   const [categoryProfile, setCategoryProfile] = useState("");
+  const [profile, setProfile] = useState();
 
   useEffect(() => {
     let abortController = new AbortController();
     const tok = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-
+    // const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
+    // if (user !== null && user !== undefined) {
+    //   setToken(tok);
+    //   setUserDetail(JSON.parse(user))
+    //   setCategoryProfile(user.category)
+    // }
     if (user !== null && user !== undefined) {
       setToken(tok);
-      setUserDetail(JSON.parse(user))
-      setCategoryProfile(user.category)
+      // setUserDetail(user)
+      setUserDetail(user)
+      let id = user._id;
+      let category = user.category;
+      getBusinessProfile(id, category)
+      if (user.userType == "Business") {
+        setCategoryProfile(category.toLowerCase())
+      }
     }
 
     // your async action is here
@@ -45,6 +58,16 @@ const NavbarThree = () => {
     setDisplayDropdownProfile(!displayDropdownProfile);
   };
 
+  const getBusinessProfile = async (id, category) => {
+    try {
+      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-profile/${category}/${id}`);
+      console.log(data)
+      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -53,7 +76,7 @@ const NavbarThree = () => {
 
   return (
     <>
-      <div className='navbar-area py-2'>
+      <div className='navbar-area py-1'>
         <div className='miran-responsive-nav'>
           <div className='miran-responsive-menu'>
             <div
@@ -103,11 +126,19 @@ const NavbarThree = () => {
                           aria-expanded='false'
                         >
                           <div className='menu-profile'>
-                            <img
-                              src='/images/user1.jpg'
-                              className='rounded-circle'
-                              alt='image'
-                            />
+                            {userDetail.profileImage !== undefined ?
+                              (<img
+                                src={profile}
+                                className='rounded-circle'
+                                alt='image'
+                                style={{ height: "40px", width: "40px" }}
+                              />) : (
+                                <img
+                                  src='/images/user1.jpg'
+                                  className='rounded-circle'
+                                  alt='image'
+                                  style={{ height: "40px", width: "40px" }}
+                                />)}
                             <span className='name' onClick={toggleDropdownProfile}>My Account</span>
                           </div>
                         </a>
@@ -120,11 +151,17 @@ const NavbarThree = () => {
 
                           <div className='dropdown-header d-flex flex-column align-items-center'>
                             <div className='figure mb-3'>
-                              <img
-                                src='/images/user1.jpg'
-                                className='rounded-circle'
-                                alt='image'
-                              />
+                              {userDetail.profileImage !== undefined ?
+                                (<img
+                                  src={profile}
+                                  className='rounded-circle'
+                                  alt='image'
+                                />) : (
+                                  <img
+                                    src='/images/user1.jpg'
+                                    className='rounded-circle'
+                                    alt='image'
+                                  />)}
                             </div>
 
                             <div className='info text-center'>
@@ -135,13 +172,29 @@ const NavbarThree = () => {
 
                           <div className='dropdown-body'>
                             <ul className='profile-nav p-0 pt-3'>
-                              <li className='nav-item'>
+                              {/* <li className='nav-item'>
                                 <Link href={`/dashboard/category/${categoryProfile}`}>
                                   <a className='nav-link'>
                                     <i className='bx bx-user'></i> <span>Profile</span>
                                   </a>
                                 </Link>
-                              </li>
+                              </li> */}
+
+                              {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                <Link href={`/dashboard/category/${categoryProfile}`}>
+                                  <a className='nav-link'>
+                                    <i className='bx bx-user'></i> <span>Profile</span>
+                                  </a>
+                                </Link>
+                              </li>) : (
+                                <li className='nav-item'>
+                                  <Link href={`/dashboard/CustomerForm/`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-user'></i> <span>Profile</span>
+                                    </a>
+                                  </Link>
+                                </li>
+                              )}
 
                             </ul>
                           </div>
@@ -250,13 +303,28 @@ const NavbarThree = () => {
 
                             <div className='dropdown-body'>
                               <ul className='profile-nav p-0 pt-3'>
-                                <li className='nav-item'>
+                                {/* <li className='nav-item'>
                                   <Link href={`/dashboard/category/${categoryProfile}`}>
                                     <a className='nav-link'>
                                       <i className='bx bx-user'></i> <span>Profile</span>
                                     </a>
                                   </Link>
-                                </li>
+                                </li> */}
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                  <Link href={`/dashboard/category/${categoryProfile}`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-user'></i> <span>Profile</span>
+                                    </a>
+                                  </Link>
+                                </li>) : (
+                                  <li className='nav-item'>
+                                    <Link href={`/dashboard/CustomerForm/`}>
+                                      <a className='nav-link'>
+                                        <i className='bx bx-user'></i> <span>Profile</span>
+                                      </a>
+                                    </Link>
+                                  </li>
+                                )}
                               </ul>
                             </div>
 

@@ -57,8 +57,6 @@ const Profile = () => {
             console.log("we are running on the server");
         }
     }, [])
-    console.log(cities)
-    console.log(locations)
 
     const handleClickState = (e) => {
         const stay = e.target.value;
