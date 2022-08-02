@@ -24,7 +24,7 @@ const NavbarTwo = () => {
   const [userDetail, setUserDetail] = useState("");
   const [categoryProfile, setCategoryProfile] = useState("");
   const [profile, setProfile] = useState();
-  console.log(categoryProfile)
+
   //sticky menu
   const showStickyMenu = () => {
     if (window.scrollY >= 80) {

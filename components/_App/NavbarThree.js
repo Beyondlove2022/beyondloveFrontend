@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import Link from '../../utils/ActiveLink';
 import { IndiceContext } from "../../contexts";
 import router from 'next/router';
+import axios from 'axios';
 const NavbarThree = () => {
   const { toggleSideMenu } = useContext(IndiceContext);
   const [displayAuth, setDisplayAuth] = useState(false);
@@ -11,6 +12,7 @@ const NavbarThree = () => {
   const [token, setToken] = useState("");
   const [userDetail, setUserDetail] = useState("");
   const [categoryProfile, setCategoryProfile] = useState("");
+  const [profile, setProfile] = useState();
 
   useEffect(() => {
     let abortController = new AbortController();
@@ -26,13 +28,12 @@ const NavbarThree = () => {
       setToken(tok);
       // setUserDetail(user)
       setUserDetail(user)
+      let id = user._id;
       let category = user.category;
+      getBusinessProfile(id, category)
       if (user.userType == "Business") {
         setCategoryProfile(category.toLowerCase())
       }
-      // let id = user._id;
-      // let category = user.category;
-      // getBusinessProfile(id, category)
     }
 
     // your async action is here
@@ -57,6 +58,16 @@ const NavbarThree = () => {
     setDisplayDropdownProfile(!displayDropdownProfile);
   };
 
+  const getBusinessProfile = async (id, category) => {
+    try {
+      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-profile/${category}/${id}`);
+      console.log(data)
+      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -65,7 +76,7 @@ const NavbarThree = () => {
 
   return (
     <>
-      <div className='navbar-area py-2'>
+      <div className='navbar-area py-1'>
         <div className='miran-responsive-nav'>
           <div className='miran-responsive-menu'>
             <div
@@ -115,11 +126,19 @@ const NavbarThree = () => {
                           aria-expanded='false'
                         >
                           <div className='menu-profile'>
-                            <img
-                              src='/images/user1.jpg'
-                              className='rounded-circle'
-                              alt='image'
-                            />
+                            {userDetail.profileImage !== undefined ?
+                              (<img
+                                src={profile}
+                                className='rounded-circle'
+                                alt='image'
+                                style={{ height: "40px", width: "40px" }}
+                              />) : (
+                                <img
+                                  src='/images/user1.jpg'
+                                  className='rounded-circle'
+                                  alt='image'
+                                  style={{ height: "40px", width: "40px" }}
+                                />)}
                             <span className='name' onClick={toggleDropdownProfile}>My Account</span>
                           </div>
                         </a>
@@ -132,11 +151,17 @@ const NavbarThree = () => {
 
                           <div className='dropdown-header d-flex flex-column align-items-center'>
                             <div className='figure mb-3'>
-                              <img
-                                src='/images/user1.jpg'
-                                className='rounded-circle'
-                                alt='image'
-                              />
+                              {userDetail.profileImage !== undefined ?
+                                (<img
+                                  src={profile}
+                                  className='rounded-circle'
+                                  alt='image'
+                                />) : (
+                                  <img
+                                    src='/images/user1.jpg'
+                                    className='rounded-circle'
+                                    alt='image'
+                                  />)}
                             </div>
 
                             <div className='info text-center'>
@@ -154,8 +179,7 @@ const NavbarThree = () => {
                                   </a>
                                 </Link>
                               </li> */}
-                              {console.log(categoryProfile)}
-                              {console.log(userDetail)}
+
                               {userDetail.userType == "Business" ? (<li className='nav-item'>
                                 <Link href={`/dashboard/category/${categoryProfile}`}>
                                   <a className='nav-link'>
