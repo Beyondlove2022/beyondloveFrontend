@@ -35,10 +35,10 @@ const PetTraining = () => {
   const [files, setFiles] = useState([]);
   const [apiprofileImg, setApiProfileImg] = useState();
   const [apiCoverImg, setApiCoverImg] = useState();
-  const [profile, setProfile] = useState();
-  const [cover, setCover] = useState();
   const [categoriesProfile, setCategoryProfile] = useState("");
   const [businessId, setBusinessid] = useState("");
+  const [profile, setProfile] = useState();
+  const [cover, setCover] = useState();
 
   useEffect(() => {
     if (typeof window != "undefined") {
@@ -79,6 +79,7 @@ const PetTraining = () => {
   const getBusinessProfile = async (id) => {
     try {
       const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-profile/PetBoarding/${id}`);
+      console.log(data)
       setEmail(data.business.email);
       setMobile(data.business.mobile);
       setBusinessName(data.business.businessName);
@@ -94,6 +95,8 @@ const PetTraining = () => {
       setCity(data.business.city)
       setLocation(data.business.location)
       setAbout(data.business.description)
+      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
+      setCover(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`)
     } catch (error) {
       console.log(error)
     }
