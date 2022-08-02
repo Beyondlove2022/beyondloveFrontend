@@ -23,12 +23,12 @@ const Profile = () => {
     const [location, setLocation] = useState("");
     const [token, setToken] = useState("")
     const [petName, setPetName] = useState("");
-    const [breed, setBreed] = useState("");
-    const [breedOptional, setBreedOPtional] = useState("");
+    // const [breed, setBreed] = useState("");
+    const [breedOptional, setBreedOptional] = useState("");
     const [dob, setDob] = useState("");
     const [age, setAge] = useState("");
-    const [gender, SetGender] = useState("");
-    const [weight, setweight] = useState("");
+    const [gender, setGender] = useState("");
+    const [weight, setWeight] = useState("");
     const [active, setActive] = useState("");
     const [vaccinationName, setVaccinationName] = useState("");
     const [vaccinationDate, SetVaccinationDate] = useState("");
@@ -36,8 +36,12 @@ const Profile = () => {
     const [vaccinationDocsUpload, setVaccinationDocsUpload] = useState("");
     const [allergies, setAllergies] = useState("");
     const [error, setError] = useState(false);
-    const [petDetailForm, setPetDetailFomr] = useState(false)
+    const [petDetailForm, setPetDetailFomr] = useState(true)
     const [cityFilter, setCityFilter] = useState([]);
+    const [trainedPet, setTrainedPet] = useState("");
+    const [breed,setBreed] = useState("");
+    const [showOptionalBreed,setShowOptionalBreed] =useState(false)
+
     const [locationFilter, setLocationFilter] = useState([]);
 
     useEffect(() => {
@@ -177,10 +181,10 @@ const Profile = () => {
         }
     };
 
-    const petInformation = (e) => {
+    const petInformation = async(e) => {
         e.preventDefault();
         const d = {
-            name,
+            petName,
             breed,
             breedOptional,
             dob,
@@ -192,17 +196,64 @@ const Profile = () => {
             vaccinationDate,
             vaccinationDueDate,
             vaccinationDocsUpload,
-            allergies
+            allergies,
+            trainedPet
 
         }
+        console.log(breed);
         console.log(d)
-        if (name === "" || breed === "" || breedOptional === "" || dob === "" || age === "" ||
-            gender === "" || weight === "" || active === "" || vaccinationName === "" || vaccinationDate === "" ||
-            vaccinationDueDate === "" || vaccinationDocsUpload === "" || allergies === ""
-        ) {
-            setError(true);
-        }
+        // if (petName === "" || breed === "" || breedOptional === "" || dob === "" || age === "" ||
+        //     gender === "" || weight === "" || active === "" || vaccinationName === "" || vaccinationDate === "" ||
+        //     vaccinationDueDate === "" || vaccinationDocsUpload === "" || allergies === "" || trainedPet === ""
+        // ) {
+        //     console.log("error")
+        //     setError(true); 
+        // }else{
+            try {
+                const {data} = await axios.post(`${process.env.DOMAIN_NAME}/api/customer/pet/create/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZGY3NTNlMDMwYjkwZDc4YzFlYTVjMiIsImlhdCI6MTY1OTQ0MDUzNSwiZXhwIjoxNjU5NTI2OTM1fQ.XG3PkUPL0zTgW4bcjY8VkZ-eopgwJfYQ7qxppBBCCAI`, d);
+                console.log(data);
+                if (data.success) {
+                    toast.success(data.msg, {
+                        theme: "light",
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                } else {
+                    toast.error(data.msg, {
+                        theme: "light",
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        // }
     };
+
+    // Breed Selection
+    const handleBreed =(e)=>{
+        console.log(e.target.value)
+        if(e.target.value == "others"){
+            setShowOptionalBreed(true)
+            setBreed("")
+        }
+        else{
+            setShowOptionalBreed(false)
+            console.log(e.target.value);
+            setBreed(e.target.value)
+        }
+    }
 
 
     return (
@@ -215,6 +266,7 @@ const Profile = () => {
                     <div className="col-lg-12 col-md-12">
                         <div className="my-profile-box">
                             <h3>User Details</h3>
+
                             <form onSubmit={customerDetails} >
                                 <div className="row">
                                     <div className="col-xl-6 col-lg-12 col-md-12">
@@ -271,78 +323,11 @@ const Profile = () => {
                                             )}
                                         </div>
                                     </div>
-
-
-                                    {/* <div className="col-xl-6 col-lg-12 col-md-12">
-                    <div className="form-group">
-                      <label id="studio">Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Name"
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                      {error && name == "" ? (
-                        <span className='text-danger'>Please enter name</span>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  </div> */}
-
-
-
-
-                                    {/* <div className="col-xl-4 col-lg-4 col-md-4">
-                                        <div className="form-group">
-                                            <label className="social-icons-style" id="facebook">
-                                                <i className="bx bxl-facebook-square"></i> Facebook URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Facebook Url"
-                                                onChange={(e) => setFacebookUrl(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-4 col-lg-4 col-md-4">
-                                        <div className="form-group">
-                                            <label className="social-icons-style">
-                                                <i className="bx bxl-instagram"></i>Instagram URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Instagram URL"
-                                                onChange={(e) => setInstagramUrl(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-4 col-lg-4 col-md-4">
-                                        <div className="form-group">
-                                            <label className="social-icons-style">
-                                                <i className="bx bxl-twitter"></i>Twitter URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Twitter URL"
-                                                onChange={(e) => setTwitterUrl(e.target.value)}
-                                            />
-                                        </div>
-                                    </div> */}
-
                                     <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <h3 id="address">ADDRESS</h3>
                                         </div>
                                     </div>
-
-
-
                                     <div className="col-xl-6 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Door No.</label>
@@ -495,115 +480,6 @@ const Profile = () => {
                                         </div>
                                     </div>
 
-                                    {/* <div className="col-lg-12 col-md-12">
-                    <div className="form-group">
-                      <h3 id="address">Facilities </h3>
-                    </div>
-                  </div>
-
-                  <aside className="listings-widget-area">
-                    <section className="widget widget_categories">
-                      <ul className="row">
-                        <div className="col-xl-4 col-lg-6 col-md-12 p-2">
-                          <li>
-                            <input
-                              type="checkbox"
-                            />
-                            <label htmlFor="categories2">All</label>
-                          </li>
-                        </div>
-                      </ul>
-                    </section>
-                  </aside> */}
-                                    {/* 
-                                    <div className="col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <h3 id="address">PACKAGES</h3>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-6 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Name</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                onChange={(e) => setPackageName(e.target.value)}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-4 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Price</label>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                onChange={(e) => setPackagePrice(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="col-xl-2 col-lg-12 col-md-12"
-                                    >
-                                        <div className="form-group">
-                                            <label>
-                                                <br />
-                                            </label>
-                                            <span data-toggle="modal" activeClassName="active">
-                                                <a className="default-btn">
-                                                    Add
-                                                </a>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-12 col-md-12">
-                                        <div
-                                            className="add-listings-box"
-                                            style={{ boxShadow: "none" }}
-                                        >
-                                            <div className="form-group">
-                                                <h3>ADDITIONAL INFORMATION</h3>
-                                                <p>How long you have been into Business?</p>
-                                                <div className="col-xl-4 col-lg-12 col-md-12">
-                                                    <div className="form-group">
-                                                        <label>Established</label>
-                                                        <input
-                                                            type="number"
-                                                            className="form-control"
-                                                            onChange={(e) => setestablished(e.target.value)}
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div> */}
-                                    {/* 
-                  <div className="col-xl-6 col-lg-12 col-md-12">
-                    <div className="form-group">
-                      <label>Payment terms</label>
-                      <textarea
-                        cols="30"
-                        rows="6"
-                        placeholder="..."
-                        className="form-control"
-                      ></textarea>
-                    </div>
-                  </div>
-
-                  <div className="col-xl-6 col-lg-12 col-md-12">
-                    <div className="form-group">
-                      <label>Additional costs</label>
-                      <textarea
-                        cols="30"
-                        rows="6"
-                        placeholder="..."
-                        className="form-control"
-                      ></textarea>
-                    </div>
-                  </div> */}
 
                                     <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
@@ -622,6 +498,27 @@ const Profile = () => {
                     <div className="col-lg-12 col-md-12">
                         <div className="my-profile-box">
                             <h3>Pet Details</h3>
+                            <div className="row mt-5">
+                                <div className="col-lg-6 col-md-12">
+                                    <form >
+                                        <div className="col-xl-6 col-lg-6 col-md-12">
+                                            <div className="form-group profile-box">
+                                                <input
+                                                    type="file"
+                                                    name="file"
+                                                    id="file"
+                                                    className="inputfile p-5 w-10 file-upload input-size"
+                                                ></input>
+                                            </div>
+                                            <div className="mt-5">
+                                                <button type="submit">
+                                                    <i className="bx bx-upload"></i> Upload Profile Photo
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <form onSubmit={petInformation} >
                                 <div className="row">
                                     <div className="col-xl-12 col-lg-12 col-md-12">
@@ -631,112 +528,10 @@ const Profile = () => {
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Pet Name"
+                                                onChange={(e) => setPetName(e.target.value)}
                                             />
                                         </div>
                                     </div>
-
-                                    {/* <div className="col-xl-6 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Email</label>
-                                            <input
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="Email"
-                                                onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                            {error && email == "" ? (
-                                                <span className='text-danger'>Please enter email</span>
-                                            ) : (
-                                                <></>
-                                            )}
-
-                                        </div>
-
-                                    </div> */}
-
-
-                                    {/* 
-                                    <div className="col-xl-6 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Phone</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Phone Number"
-                                                onChange={(e) => setMobile(e.target.value)}
-                                            />
-                                            {error && mobile == "" ? (
-                                                <span className='text-danger'>Please enter mobile number</span>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </div>
-                                    </div> */}
-
-
-
-                                    {/* <div className="col-xl-6 col-lg-12 col-md-12">
-                                                    <div className="form-group">
-                                                    <label id="studio">Name</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Name"
-                                                        onChange={(e) => setName(e.target.value)}
-                                                    />
-                                                    {error && name == "" ? (
-                                                        <span className='text-danger'>Please enter name</span>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                    </div>
-                                                </div> */}
-
-
-
-
-                                    {/* <div className="col-xl-4 col-lg-4 col-md-4">
-                                        <div className="form-group">
-                                            <label className="social-icons-style" id="facebook">
-                                                <i className="bx bxl-facebook-square"></i> Facebook URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Facebook Url"
-                                                onChange={(e) => setFacebookUrl(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-4 col-lg-4 col-md-4">
-                                        <div className="form-group">
-                                            <label className="social-icons-style">
-                                                <i className="bx bxl-instagram"></i>Instagram URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Instagram URL"
-                                                onChange={(e) => setInstagramUrl(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-4 col-lg-4 col-md-4">
-                                        <div className="form-group">
-                                            <label className="social-icons-style">
-                                                <i className="bx bxl-twitter"></i>Twitter URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Twitter URL"
-                                                onChange={(e) => setTwitterUrl(e.target.value)}
-                                            />
-                                        </div>
-                                    </div> */}
-
                                     <div className="col-xl-6 col-lg-12 col-md-12 " >
                                         <div className="form-group">
                                             <label>
@@ -744,25 +539,27 @@ const Profile = () => {
                                             </label>
                                             <select
                                                 className="dashbaord-category-select"
-                                            >
+                                                onChange={(e) => handleBreed(e)} 
+                                                >                                           
                                                 <option>Select the Breed </option>
+                                                <option value="others">Others</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="col-xl-6 col-lg-12 col-md-12">
+
+                               <div className="col-xl-6 col-lg-12 col-md-12">
+                                {showOptionalBreed && 
                                         <div className="form-group">
                                             <label>option:</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Breed Name"
+                                               onChange={(e) => setBreed(e.target.value)}
                                             ></input>
                                         </div>
+                                        }
                                     </div>
-
-
-
-
                                     <div className="col-xl-6 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>DOB</label>
@@ -770,53 +567,59 @@ const Profile = () => {
                                                 type="date"
                                                 className="form-control"
                                                 placeholder="Date of Birth"
+                                                onChange={(e) => setDob(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='col-xl-3 col-lg-12 col-md-12'>
+                                        <div className="form-group">
+                                            <label>Age</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Age"
+                                                onChange={(e) => setAge(e.target.value)}
 
                                             />
                                         </div>
                                     </div>
-                                    <div className='add-listings-box'>
-                                        {/* <div className='col-xl-6 '> */}
-
+                                    <div className='col-xl-3 col-lg-12 col-md-12'>
                                         <div className='form-group'>
                                             <label>Gender</label>
-                                            <ul className='facilities-list'>
-                                                <li>
+                                            <div class="row">
+                                                <div class="col-lg-6 py-3" >
                                                     <label className='checkbox'>
                                                         <input
                                                             type='checkbox'
                                                             name='facilities-list'
-
-
-                                                        />
+                                                            value="Male"
+                                                            onChange={(e) => setGender(e.target.value)}
+                                                            />
                                                         <span>Male</span>
                                                     </label>
-                                                </li>
-                                                <li>
+                                                </div>
+                                                <div class="col-lg-6 py-3">
                                                     <label className='checkbox'>
                                                         <input
                                                             type='checkbox'
                                                             name='facilities-list'
-
-                                                        />
+                                                            value="Female"
+                                                            onChange={(e) => setGender(e.target.value)}
+                                                            />
                                                         <span>Female</span>
                                                     </label>
-                                                </li>
-                                            </ul>
-
-                                            {/* </div> */}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
-
-
                                     <div className="col-xl-12 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Weight</label>
                                             <input
-                                                type="text"
+                                                type="Number"
                                                 className="form-control"
                                                 placeholder="Weight"
-
+                                                onChange={(e) => setWeight(e.target.value)}
 
                                             />
                                         </div>
@@ -825,120 +628,78 @@ const Profile = () => {
                                     <div className="col-xl-12 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Active</label>
-                                            <ul>
-                                                <li>
+                                            <div class="row">
+                                                <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
                                                             type='checkbox'
                                                             name='facilities-list'
-
-                                                        />
-                                                        <span>Low</span>
+                                                            value="High"
+                                                            onChange={(e) => setActive(e.target.value)}
+                                                            
+                                                            />
+                                                        <span> High</span>
                                                     </label>
-                                                </li>
-                                                <li>
+                                                </div>
+                                                <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
                                                             type='checkbox'
                                                             name='facilities-list'
-
-                                                        />
-                                                        <span>Medium</span>
+                                                            value="Medium"
+                                                            onChange={(e) => setActive(e.target.value)}
+                                                            
+                                                            />
+                                                        <span> Medium</span>
                                                     </label>
-                                                </li>
-                                                <li>
+                                                </div>
+                                                <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
                                                             type='checkbox'
                                                             name='facilities-list'
-
-                                                        />
-                                                        <span>High</span>
+                                                            value="Low"
+                                                            onChange={(e) => setActive(e.target.value)}
+                                                            />
+                                                        <span> Low</span>
                                                     </label>
-                                                </li>
-                                            </ul>
-
-
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-6 col-md-6">
-                                        <div className="form-group">
-                                            <label>
-                                                <i className="bx bx-menu-alt-left"></i> State:
-                                            </label>
-                                            <select
-                                                className="dashbaord-category-select"
-                                                placeholder="Select the state"
-                                                onChange={(e) => setState(e.target.value)}
-                                            >
-                                                <option>Select the State</option>
-                                            </select>
-                                            {error && state.length == "" ? (
-                                                <span className="text-danger">Please select state</span>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-6 col-md-6">
-                                        <div className="form-group">
-                                            <label>
-                                                <i className="bx bx-menu-alt-left"></i> City:
-                                            </label>
-                                            <select
-                                                className="dashbaord-category-select"
-                                                onChange={(e) => setCity(e.target.value)}
-                                            >
-                                                <option>Select the City </option>
-                                            </select>
-                                            {error && city.length == "" ? (
-                                                <span className="text-danger">Please select city</span>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>
-                                                <i className="bx bx-menu-alt-left"></i> Location:
-                                            </label>
-                                            <select className="dashbaord-category-select"
-                                                onChange={(e) => setLocation(e.target.value)}
-                                            >
-                                                <option>Select the Location </option>
-                                            </select>
-                                            {error && location.length == "" ? (
-                                                <span className="text-danger">Please select location</span>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* <div className="col-lg-12 col-md-12">
-                                            <div className="form-group">
-                                            <h3 id="address">Facilities </h3>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <aside className="listings-widget-area">
-                                            <section className="widget widget_categories">
-                                            <ul className="row">
-                                                <div className="col-xl-4 col-lg-6 col-md-12 p-2">
-                                                <li>
-                                                    <input
-                                                    type="checkbox"
-                                                    />
-                                                    <label htmlFor="categories2">All</label>
-                                                </li>
+
+
+                                    <div className="col-xl-12 col-lg-12 col-md-12">
+                                        <div className="form-group">
+                                            <label>Trained Pet</label>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label className='checkbox'>
+                                                        <input
+                                                            type='checkbox'
+                                                            name='facilities-list'
+                                                            value="yes"
+                                                            onChange={(e) => setTrained(e.target.value)}
+                                                        />
+                                                        <span> Yes</span>
+                                                    </label>
                                                 </div>
-                                            </ul>
-                                            </section>
-                                        </aside> */}
+                                                <div class="col-lg-4">
+                                                    <label className='checkbox'>
+                                                        <input
+                                                            type='checkbox'
+                                                            name='facilities-list' 
+                                                            value="No"    
+                                                            onChange={(e) => setTrained(e.target.value)}                                           
 
+                                                        />
+                                                        <span> No</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <h3 id="address">vaccination Details</h3>
@@ -951,6 +712,7 @@ const Profile = () => {
                                             <input
                                                 type="text"
                                                 className="form-control"
+                                                onChange={(e) => setVaccinationName(e.target.value)}
 
                                             />
                                         </div>
@@ -962,6 +724,7 @@ const Profile = () => {
                                             <input
                                                 type="date"
                                                 className="form-control"
+                                                onChange={(e) => SetVaccinationDate(e.target.value)}
 
                                             />
                                         </div>
@@ -972,6 +735,7 @@ const Profile = () => {
                                             <input
                                                 type="date"
                                                 className="form-control"
+                                                onChange={(e) => SetVaccinationDueDate(e.target.value)}
 
                                             />
                                         </div>
@@ -990,34 +754,22 @@ const Profile = () => {
                                             </span>
                                         </div>
                                     </div>
+                                    <div className="col-xl-4 col-lg-12 col-md-12">
+                                        <div className="form-group">
+                                            <label>vaccination</label>
+                                            <input
+                                                type="file"
+                                                className="form-control"
+                                                onChange={(e) => setVaccinationDocsUpload(e.target.value)}
 
-                                    <div className="col-lg-12 col-md-12">
-                                        <div
-                                            className="add-listings-box"
-                                            style={{ boxShadow: "none" }}
-                                        >
-                                            <div className="form-group">
-
-                                                <div className="col-xl-4 col-lg-12 col-md-12">
-                                                    <div className="form-group">
-                                                        <label>vaccination</label>
-                                                        <input
-                                                            type="file"
-                                                            className="form-control"
-
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                            />
                                         </div>
                                     </div>
-
-                                    <div className="col-xl-6 col-lg-12 col-md-12">
+                                    <div className="col-xl-12 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Allergies</label>
                                             <textarea
-                                                cols="10"
+                                                cols="5"
                                                 rows="3"
                                                 placeholder="..."
                                                 className="form-control"
