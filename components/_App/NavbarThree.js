@@ -15,12 +15,24 @@ const NavbarThree = () => {
   useEffect(() => {
     let abortController = new AbortController();
     const tok = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-
+    // const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
+    // if (user !== null && user !== undefined) {
+    //   setToken(tok);
+    //   setUserDetail(JSON.parse(user))
+    //   setCategoryProfile(user.category)
+    // }
     if (user !== null && user !== undefined) {
       setToken(tok);
-      setUserDetail(JSON.parse(user))
-      setCategoryProfile(user.category)
+      // setUserDetail(user)
+      setUserDetail(user)
+      let category = user.category;
+      if (user.userType == "Business") {
+        setCategoryProfile(category.toLowerCase())
+      }
+      // let id = user._id;
+      // let category = user.category;
+      // getBusinessProfile(id, category)
     }
 
     // your async action is here
@@ -135,13 +147,30 @@ const NavbarThree = () => {
 
                           <div className='dropdown-body'>
                             <ul className='profile-nav p-0 pt-3'>
-                              <li className='nav-item'>
+                              {/* <li className='nav-item'>
                                 <Link href={`/dashboard/category/${categoryProfile}`}>
                                   <a className='nav-link'>
                                     <i className='bx bx-user'></i> <span>Profile</span>
                                   </a>
                                 </Link>
-                              </li>
+                              </li> */}
+                              {console.log(categoryProfile)}
+                              {console.log(userDetail)}
+                              {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                <Link href={`/dashboard/category/${categoryProfile}`}>
+                                  <a className='nav-link'>
+                                    <i className='bx bx-user'></i> <span>Profile</span>
+                                  </a>
+                                </Link>
+                              </li>) : (
+                                <li className='nav-item'>
+                                  <Link href={`/dashboard/CustomerForm/`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-user'></i> <span>Profile</span>
+                                    </a>
+                                  </Link>
+                                </li>
+                              )}
 
                             </ul>
                           </div>
@@ -250,13 +279,28 @@ const NavbarThree = () => {
 
                             <div className='dropdown-body'>
                               <ul className='profile-nav p-0 pt-3'>
-                                <li className='nav-item'>
+                                {/* <li className='nav-item'>
                                   <Link href={`/dashboard/category/${categoryProfile}`}>
                                     <a className='nav-link'>
                                       <i className='bx bx-user'></i> <span>Profile</span>
                                     </a>
                                   </Link>
-                                </li>
+                                </li> */}
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                  <Link href={`/dashboard/category/${categoryProfile}`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-user'></i> <span>Profile</span>
+                                    </a>
+                                  </Link>
+                                </li>) : (
+                                  <li className='nav-item'>
+                                    <Link href={`/dashboard/CustomerForm/`}>
+                                      <a className='nav-link'>
+                                        <i className='bx bx-user'></i> <span>Profile</span>
+                                      </a>
+                                    </Link>
+                                  </li>
+                                )}
                               </ul>
                             </div>
 

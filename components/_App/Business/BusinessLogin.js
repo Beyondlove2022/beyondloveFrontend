@@ -51,8 +51,7 @@ const BusinessLogin = () => {
           localStorage.setItem("user", user);
           localStorage.setItem("token", data.token);
           dispatch(addBusiness(data.business));
-          const cate = category.toLowerCase();
-          localStorage.setItem("category", cate);
+          const cate = (data.business.category.toLowerCase());
           router.push({ pathname: `/dashboard/category/${cate}` });
         } else {
           toast.error(data.msg, {

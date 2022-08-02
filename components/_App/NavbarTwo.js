@@ -11,6 +11,7 @@ import BusinessRegister from './Business/BusinessRegister';
 import CustomerRegister from './Customer/CustomerRegister';
 import CustomerLogin from './Customer/CustomerLogin';
 import router from 'next/router';
+import axios from 'axios';
 resetIdCounter();
 
 const NavbarTwo = () => {
@@ -22,7 +23,8 @@ const NavbarTwo = () => {
   const [token, setToken] = useState("");
   const [userDetail, setUserDetail] = useState("");
   const [categoryProfile, setCategoryProfile] = useState("");
-
+  const [profile, setProfile] = useState();
+  console.log(categoryProfile)
   //sticky menu
   const showStickyMenu = () => {
     if (window.scrollY >= 80) {
@@ -63,17 +65,31 @@ const NavbarTwo = () => {
     // let abortController = new AbortController();
     const tok = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user)
-    if (user !== null) {
+    if (user !== null && user !== undefined) {
       setToken(tok);
       setUserDetail(user)
+      let id = user._id;
+      let category = user.category;
+      getBusinessProfile(id, category)
+      if (user.userType == "Business") {
+        setCategoryProfile(category.toLowerCase())
+      }
     }
-
     // your async action is here
     // return () => {
     // abortController.abort();
     // }
   }, []);
+
+  const getBusinessProfile = async (id, category) => {
+    try {
+      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-profile/${category}/${id}`);
+      console.log(data)
+      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -203,11 +219,17 @@ const NavbarTwo = () => {
                             aria-expanded='false'
                           >
                             <div className='menu-profile'>
-                              <img
-                                src='/images/user1.jpg'
-                                className='rounded-circle'
-                                alt='image'
-                              />
+                              {userDetail.profileImage !== undefined ?
+                                (<img
+                                  src={profile}
+                                  className='rounded-circle'
+                                  alt='image'
+                                />) : (
+                                  <img
+                                    src='/images/user1.jpg'
+                                    className='rounded-circle'
+                                    alt='image'
+                                  />)}
                               <span className='name' onClick={toggleDropdownProfile}>My Account</span>
                             </div>
                           </a>
@@ -220,12 +242,19 @@ const NavbarTwo = () => {
 
                             <div className='dropdown-header d-flex flex-column align-items-center'>
                               <div className='figure mb-3'>
-                                <img
-                                  src='/images/user1.jpg'
-                                  className='rounded-circle'
-                                  alt='image'
-                                  style={{ height: "80px", width: "80px" }}
-                                />
+                                {userDetail.profileImage !== undefined ?
+                                  (<img
+                                    src={profile}
+                                    className='rounded-circle'
+                                    alt='image'
+                                    style={{ height: "80px", width: "80px" }}
+                                  />) : (
+                                    <img
+                                      src='/images/user1.jpg'
+                                      className='rounded-circle'
+                                      alt='image'
+                                      style={{ height: "80px", width: "80px" }}
+                                    />)}
                               </div>
 
                               <div className='info text-center'>
@@ -236,13 +265,21 @@ const NavbarTwo = () => {
 
                             <div className='dropdown-body'>
                               <ul className='profile-nav p-0 pt-3'>
-                                <li className='nav-item'>
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
                                   <Link href={`/dashboard/category/${categoryProfile}`}>
                                     <a className='nav-link'>
                                       <i className='bx bx-user'></i> <span>Profile</span>
                                     </a>
                                   </Link>
-                                </li>
+                                </li>) : (
+                                  <li className='nav-item'>
+                                    <Link href={`/dashboard/CustomerForm/`}>
+                                      <a className='nav-link'>
+                                        <i className='bx bx-user'></i> <span>Profile</span>
+                                      </a>
+                                    </Link>
+                                  </li>
+                                )}
                               </ul>
                             </div>
 
@@ -315,11 +352,17 @@ const NavbarTwo = () => {
                             aria-expanded='false'
                           >
                             <div className='menu-profile'>
-                              <img
-                                src='/images/user1.jpg'
-                                className='rounded-circle'
-                                alt='image'
-                              />
+                              {userDetail.profileImage !== undefined ?
+                                (<img
+                                  src={profile}
+                                  className='rounded-circle'
+                                  alt='image'
+                                />) : (
+                                  <img
+                                    src='/images/user1.jpg'
+                                    className='rounded-circle'
+                                    alt='image'
+                                  />)}
                               <span className='name' onClick={toggleDropdownProfile}>My Account</span>
                             </div>
                           </a>
@@ -332,12 +375,19 @@ const NavbarTwo = () => {
 
                             <div className='dropdown-header d-flex flex-column align-items-center'>
                               <div className='figure mb-3'>
-                                <img
-                                  src='/images/user1.jpg'
-                                  className='rounded-circle'
-                                  alt='image'
-                                  style={{ height: "80px", width: "80px" }}
-                                />
+                                {userDetail.profileImage !== undefined ?
+                                  (<img
+                                    src={profile}
+                                    className='rounded-circle'
+                                    alt='image'
+                                    style={{ height: "80px", width: "80px" }}
+                                  />) : (
+                                    <img
+                                      src='/images/user1.jpg'
+                                      className='rounded-circle'
+                                      alt='image'
+                                      style={{ height: "80px", width: "80px" }}
+                                    />)}
                               </div>
 
                               <div className='info text-center'>
