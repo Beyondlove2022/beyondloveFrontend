@@ -5,23 +5,26 @@ import { IndiceContext } from "../../contexts";
 const DashboardNavbar = () => {
   const { displaySideMenu, toggleSideMenu } = useContext(IndiceContext);
   const [display, setDisplay] = useState(false);
-  const [categoryProfile, setCategoryProfile] = useState("")
+  const [categoryProfile, setCategoryProfile] = useState("");
+
   const listingToggle = () => {
     setDisplay(!display);
   };
 
   useEffect(() => {
     if (typeof window != "undefined") {
-      let user = JSON.parse(localStorage.getItem("user"))
-      let category = localStorage.getItem("category")
-      if (user != null) {
-        setCategoryProfile(category)
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user !== null && user !== undefined) {
+        let category = user.category;
+        if (user.userType == "Business") {
+          setCategoryProfile(category.toLowerCase())
+        }
       }
-      console.log("we are running client side")
-    } else {
+    }
+    else {
       console.log("we area running server side")
     }
-  })
+  }, []);
 
   return (
     <>

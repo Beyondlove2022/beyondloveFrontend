@@ -13854,6 +13854,9 @@ Dashboard CSS
 
 .my-profile-box .profile-box img {
   border-radius: 5px;
+  height: 200px;
+  object-fit: cover;
+  object-position: top;
 }
 
 .my-profile-box .profile-box .file-upload {
@@ -16487,4 +16490,9 @@ th {
 
 .reset {
   position: relative;
+}
+
+.opacity-input {
+  opacity: 0;
+  cursor: pointer;
 }

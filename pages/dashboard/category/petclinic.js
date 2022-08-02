@@ -37,14 +37,14 @@ const PetTraining = () => {
   const [cover, setCover] = useState();
   const [businessId, setBusinessid] = useState("");
   const [categoriesProfile, setCategoryProfile] = useState("");
+  const [userDetail, setUserDetail] = useState("");
 
-  console.log(profile);
-  // console.log(categoriesProfile)
   useEffect(() => {
     if (typeof window != "undefined") {
       console.log("we are running on the client");
       let token = localStorage.getItem("token");
       let user = JSON.parse(localStorage.getItem("user"))
+      setUserDetail(user)
       setCategoryProfile(user.category)
       let id = user._id;
       setBusinessid(id);
@@ -321,16 +321,22 @@ const PetTraining = () => {
                   <form onSubmit={profilePicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        <img
+                        {userDetail.profileImage !== undefined ? (<img
                           src={profile}
                           alt="imag"
                           className="profile-image"
-                        />
+                        />) : (
+                          <img
+                            src='/images/profile.png'
+                            className='rounded-circle'
+                            alt='image'
+                          />
+                        )}
                         <input
                           type="file"
                           name="file"
                           id="file"
-                          className="inputfile p-5 w-10 file-upload input-size"
+                          className="inputfile p-5 w-10 file-upload input-size opacity-input"
                           onChange={uploadProfilePhotos}
                         ></input>
                       </div>
@@ -346,12 +352,21 @@ const PetTraining = () => {
                   <form onSubmit={coverPicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        <img src={cover} alt="imag" className="profile-image" />
+                        {userDetail.profileImage !== undefined ?
+                          (<img src={cover} alt="imag"
+                            className="profile-image" />
+                          ) : (
+                            <img
+                              src='/images/profile.png'
+                              className='rounded-circle'
+                              alt='image'
+                            />
+                          )}
                         <input
                           type="file"
                           name="file"
                           id="cover"
-                          className="inputfile p-5 w-10  file-upload input-size"
+                          className="inputfile p-5 w-10  file-upload input-size opacity-input"
                           onChange={uploadCoverPhotos}
                         ></input>
                       </div>
