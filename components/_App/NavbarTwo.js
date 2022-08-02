@@ -24,7 +24,7 @@ const NavbarTwo = () => {
   const [userDetail, setUserDetail] = useState("");
   const [categoryProfile, setCategoryProfile] = useState("");
   const [profile, setProfile] = useState();
-
+  const [run, setRun] = useState(false);
   //sticky menu
   const showStickyMenu = () => {
     if (window.scrollY >= 80) {
@@ -62,9 +62,16 @@ const NavbarTwo = () => {
   };
 
   useEffect(() => {
+    console.log({ token }, { userDetail })
+  }, [run, userDetail])
+
+
+  useEffect(() => {
     // let abortController = new AbortController();
     const tok = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
+    // console.log()
+    setToken("")
     if (user !== null && user !== undefined) {
       setToken(tok);
       setUserDetail(user)
@@ -79,7 +86,7 @@ const NavbarTwo = () => {
     // return () => {
     // abortController.abort();
     // }
-  }, []);
+  }, [run]);
 
   const getBusinessProfile = async (id, category) => {
     try {
@@ -94,6 +101,7 @@ const NavbarTwo = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setRun(!run)
   }
 
   return (

@@ -24,6 +24,7 @@ const NavbarThree = () => {
     //   setUserDetail(JSON.parse(user))
     //   setCategoryProfile(user.category)
     // }
+    setToken("")
     if (user !== null && user !== undefined) {
       setToken(tok);
       // setUserDetail(user)
@@ -76,7 +77,7 @@ const NavbarThree = () => {
 
   return (
     <>
-      <div className='navbar-area py-1'>
+      <div className='navbar-area py-md-3 py-lg-1'>
         <div className='miran-responsive-nav'>
           <div className='miran-responsive-menu'>
             <div
@@ -101,7 +102,7 @@ const NavbarThree = () => {
           <nav className='navbar navbar-expand-md navbar-light'>
             <div className='collapse navbar-collapse mean-menu'>
 
-              <div style={{ marginRight: "85px" }}>
+              <div>
                 {token == null || token == "" ? (<div className='others-option d-flex align-items-center'>
                   <div className='option-item'>
                     {/* <span
