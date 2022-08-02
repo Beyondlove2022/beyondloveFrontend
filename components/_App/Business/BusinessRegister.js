@@ -51,7 +51,7 @@ const BusinessRegister = () => {
           toast.success(data.msg, {
             theme: "light",
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -68,7 +68,7 @@ const BusinessRegister = () => {
           toast.error(data.msg, {
             theme: "light",
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -176,9 +176,9 @@ const BusinessRegister = () => {
 
             <button type="submit">Register Now</button>
           </form>
-          <span className="already-account">
+          {/* <span className="already-account">
             Already have an account? <a href="#">Login Now</a>
-          </span>
+          </span> */}
         </div>
       </div>
     </>

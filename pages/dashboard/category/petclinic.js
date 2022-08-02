@@ -44,22 +44,9 @@ const PetTraining = () => {
     if (typeof window != "undefined") {
       console.log("we are running on the client");
       let token = localStorage.getItem("token");
-      let user = JSON.parse(localStorage.getItem("user"));
-      let category = localStorage.getItem("category");
-      console.log(token);
-      console.log(user);
+      let user = JSON.parse(localStorage.getItem("user"))
+      setCategoryProfile(user.category)
       let id = user._id;
-      if (category == "petclinic") {
-        setCategoryProfile("PetClinic");
-      } else if (category == "pettraning") {
-        setCategoryProfile("PetTraining");
-      } else if (category == "petgrooming") {
-        setCategoryProfile("PetGrooming");
-      } else if (category == "petboarding") {
-        setCategoryProfile("PetBoarding");
-      } else if (category == "petfood") {
-        setCategoryProfile("PetFood");
-      }
       setBusinessid(id);
       getBusinessProfile(id);
       setToken(token);
@@ -145,7 +132,7 @@ const PetTraining = () => {
           toast.success(data.msg, {
             theme: "light",
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -156,7 +143,7 @@ const PetTraining = () => {
           toast.error(data.msg, {
             theme: "light",
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -249,7 +236,7 @@ const PetTraining = () => {
         toast.success(data.msg, {
           theme: "light",
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -260,7 +247,7 @@ const PetTraining = () => {
         toast.error(data.msg, {
           theme: "light",
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -288,7 +275,7 @@ const PetTraining = () => {
         toast.success(data.msg, {
           theme: "light",
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -299,7 +286,7 @@ const PetTraining = () => {
         toast.error(data.msg, {
           theme: "light",
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

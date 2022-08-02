@@ -29,7 +29,7 @@ const DashboardNavbar = () => {
         <div className='sidemenu-header'>
           <Link href='/'>
             <a className='navbar-brand d-flex align-items-center'>
-              <img src='/images/black-logo.png' alt='image' />
+              <img src='/images/black-logo1.png' alt='image' />
             </a>
           </Link>
 

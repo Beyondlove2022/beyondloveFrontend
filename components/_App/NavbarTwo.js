@@ -183,7 +183,6 @@ const NavbarTwo = () => {
                       <span
                         data-toggle="modal"
                         onClick={toggleAuth}
-                        // onClick={toggleAuthRegister}
                         className="active"
                       >
                         <a className="default-btn button-one">
@@ -288,7 +287,7 @@ const NavbarTwo = () => {
                       <span
                         data-toggle='modal'
                         data-target='#loginRegisterModal'
-                      // onClick={toggleAuth}
+                        onClick={toggleAuthRegister}
                       >
                         <i className='flaticon-user'></i> Login / Register
                       </span>
@@ -297,7 +296,6 @@ const NavbarTwo = () => {
                       <span
                         data-toggle="modal"
                         onClick={toggleAuth}
-                        // onClick={toggleAuthRegister}
                         className="active"
                       >
                         <a className="default-btn button-one">

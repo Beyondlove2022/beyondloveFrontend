@@ -33,15 +33,21 @@ const PetTraining = () => {
   const [token, setToken] = useState("")
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
+  const [apiprofileImg, setApiProfileImg] = useState();
+  const [apiCoverImg, setApiCoverImg] = useState();
+  const [profile, setProfile] = useState();
+  const [cover, setCover] = useState();
+  const [categoriesProfile, setCategoryProfile] = useState("");
+  const [businessId, setBusinessid] = useState("");
 
   useEffect(() => {
     if (typeof window != "undefined") {
       console.log("we are running on the client")
       let token = localStorage.getItem("token");
-      let user = JSON.parse(localStorage.getItem("user"));
-      // console.log(token)
-      // console.log(user)
+      let user = JSON.parse(localStorage.getItem("user"))
+      setCategoryProfile(user.category)
       let id = user._id;
+      setBusinessid(id);
       getBusinessProfile(id)
       setToken(token)
       states.sort((a, b) => a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1);
@@ -124,7 +130,7 @@ const PetTraining = () => {
           toast.success(data.msg, {
             theme: "light",
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -135,7 +141,7 @@ const PetTraining = () => {
           toast.error(data.msg, {
             theme: "light",
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -201,6 +207,94 @@ const PetTraining = () => {
     }
   }
 
+  const uploadProfilePhotos = (e) => {
+    setProfile(URL.createObjectURL(e.target.files[0]));
+    setApiProfileImg(e.target.files[0]);
+  };
+
+  const uploadCoverPhotos = (e) => {
+    setCover(URL.createObjectURL(e.target.files[0]));
+    setApiCoverImg(e.target.files[0]);
+  };
+
+  const profilePicSubmit = async (e) => {
+    e.preventDefault();
+    console.log(apiprofileImg);
+    const formData = new FormData();
+    formData.append("file", apiprofileImg);
+    try {
+      const { data } = await axios.post(
+        `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/profile`,
+        formData
+      );
+      console.log(data);
+      if (data.success) {
+        toast.success(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const coverPicSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", apiCoverImg);
+    try {
+      const { data } = await axios.post(
+        `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/cover`,
+        formData
+      );
+      console.log(data);
+      console.log(data.bussinessCoverImage);
+      if (data.success) {
+        toast.success(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const goToTop = () => {
     window.scrollTo({
       top: 0,
@@ -220,14 +314,20 @@ const PetTraining = () => {
               <h3>Pet Boarding</h3>
               <div className="row mt-5">
                 <div className="col-lg-6 col-md-12">
-                  <form>
+                  <form onSubmit={profilePicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
+                        <img
+                          src={profile}
+                          alt="imag"
+                          className="profile-image"
+                        />
                         <input
                           type="file"
                           name="file"
                           id="file"
                           className="inputfile p-5 w-10 file-upload input-size"
+                          onChange={uploadProfilePhotos}
                         ></input>
                       </div>
                       <div className="mt-5">
@@ -239,14 +339,16 @@ const PetTraining = () => {
                   </form>
                 </div>
                 <div className="col-lg-6 col-md-12">
-                  <form >
+                  <form onSubmit={coverPicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
+                        <img src={cover} alt="imag" className="profile-image" />
                         <input
                           type="file"
                           name="file"
                           id="cover"
                           className="inputfile p-5 w-10  file-upload input-size"
+                          onChange={uploadCoverPhotos}
                         ></input>
                       </div>
                       <div className="mt-5">
@@ -258,6 +360,8 @@ const PetTraining = () => {
                   </form>
                 </div>
               </div>
+
+
               <form onSubmit={addProfileFormSubmit}>
                 <div className="row">
                   <div className="col-xl-6 col-lg-12 col-md-12">

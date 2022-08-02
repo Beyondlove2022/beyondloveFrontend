@@ -15,12 +15,12 @@ const NavbarThree = () => {
   useEffect(() => {
     let abortController = new AbortController();
     const tok = localStorage.getItem("token");
-    const category = localStorage.getItem("category");
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user !== null) {
+    const user = localStorage.getItem("user");
+
+    if (user !== null && user !== undefined) {
       setToken(tok);
-      setUserDetail(user)
-      setCategoryProfile(category)
+      setUserDetail(JSON.parse(user))
+      setCategoryProfile(user.category)
     }
 
     // your async action is here
@@ -53,7 +53,7 @@ const NavbarThree = () => {
 
   return (
     <>
-      <div className='navbar-area'>
+      <div className='navbar-area py-2'>
         <div className='miran-responsive-nav'>
           <div className='miran-responsive-menu'>
             <div
@@ -81,15 +81,14 @@ const NavbarThree = () => {
               <div style={{ marginRight: "85px" }}>
                 {token == null || token == "" ? (<div className='others-option d-flex align-items-center'>
                   <div className='option-item'>
-                    <span
+                    {/* <span
                       data-toggle='modal'
                       onClick={toggleAuth}
                       className='auth-one'
                     >
                       <i className='flaticon-user'></i> Login / Register
-                    </span>
+                    </span> */}
                   </div>
-
                 </div>
                 ) : (
                   <div className='others-option d-flex align-items-center'>

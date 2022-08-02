@@ -35,20 +35,8 @@ const AddListing = () => {
   useEffect(() => {
     if (typeof window != "undefined") {
       let user = JSON.parse(localStorage.getItem("user"));
-      let category = localStorage.getItem("category")
-      console.log(category)
+      setCategoryProfile(user.category)
       setBusinessid(user._id)
-      if (category == "petclinic") {
-        setCategoryProfile("PetClinic");
-      } else if (category == "pettraning") {
-        setCategoryProfile("PetTraining");
-      } else if (category == "petgrooming") {
-        setCategoryProfile("PetGrooming");
-      } else if (category == "petboarding") {
-        setCategoryProfile("PetBoarding");
-      } else if (category == "petfood") {
-        setCategoryProfile("PetFood");
-      }
       console.log("we are running client side")
       if (categoriesProfile != "") {
         getBusinessProfile(user._id)
@@ -239,6 +227,7 @@ const AddListing = () => {
             </div>
           </div>
         </div> */}
+
         <div className='add-listings-box'>
           <div {...getRootProps()} className='dropzone'>
             <h3>Gallery</h3>
