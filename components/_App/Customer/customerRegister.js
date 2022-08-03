@@ -12,32 +12,32 @@ const CustomerRegister = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [showLoginPassword, setShowLogingPassword] = useState(false);
-    const [otpPopUp,setOtpPopUp] = useState(false);
-    const [otp ,setOtp] = useState("");
+    const [otpPopUp, setOtpPopUp] = useState(false);
+    const [otp, setOtp] = useState("");
 
     const loginPasswordVisibility = () => {
         setShowLogingPassword(!showLoginPassword)
     }
 
-    const closePopup = () =>{
+    const closePopup = () => {
         setOtpPopUp(!otpPopUp)
     }
 
     const onSubmitOtp = async (e) => {
         e.preventDefault();
         try {
-          const d = {
-            type: "Customer"
-          }
-          const { data } = await axios.post(` ${process.env.DOMAIN_NAME}/api/customer/register-otp/${mobile}`, d);
-          console.log(data)
-          if (data.success) {
-            setOtpPopUp(!otpPopUp);
-          }
+            const d = {
+                type: "Customer"
+            }
+            const { data } = await axios.post(` ${process.env.DOMAIN_NAME}/api/customer/register-otp/${mobile}`, d);
+            console.log(data)
+            if (data.success) {
+                setOtpPopUp(!otpPopUp);
+            }
         } catch (error) {
-          console.log(error)
+            console.log(error)
         }
-      }
+    }
 
     const submit = async (e) => {
         e.preventDefault();
@@ -53,7 +53,7 @@ const CustomerRegister = () => {
         }
         else {
             try {
-               const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}`, d);
+                const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}`, d);
                 console.log(data)
                 if (data.success) {
                     toast.success(data.msg, {
@@ -66,6 +66,8 @@ const CustomerRegister = () => {
                         draggable: true,
                         progress: undefined,
                     });
+                    setOtpPopUp(false)
+                    setOtp("")
                     const user = JSON.stringify(data.customerDetails)
                     localStorage.setItem("user", user)
                     localStorage.setItem("token", data.token);
@@ -89,6 +91,7 @@ const CustomerRegister = () => {
     }
 
     return (<>
+        <div className={otpPopUp ? 'body_overlay open' : 'body_overlay'}></div>
         <div className='tab-pane' id='register'>
             <ToastContainer />
             <div className='miran-register'>
@@ -163,38 +166,38 @@ const CustomerRegister = () => {
         </div>
 
         {/* ------------ OTP section ------- */}
-      <div
-        className={
-          otpPopUp
-            ? "modal loginRegisterModal show scroll-popup"
-            : "modal loginRegisterModal"
-        }
-        id="loginRegisterModal"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <button type="button" className="close" onClick={closePopup}>
-              <i className="bx bx-x"></i>
-            </button>
-            <h2 className="vendor-register-head" style={{ fontSize: "20px" }}>
-              Enter OTP{" "}
-            </h2>
-            {/* onSubmit={submit} */}   
-            <form onSubmit={submit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  placeholder="OTP"
-                  className="form-control"
-                  onChange={(e) => setOtp(e.target.value)}
-                />
-              </div>
-              <button className="popup-btn" type="submit">
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
+        <div
+            className={
+                otpPopUp
+                    ? "modal loginRegisterModal show scroll-popup"
+                    : "modal loginRegisterModal"
+            }
+            id="loginRegisterModal"
+        >
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                    <button type="button" className="close" onClick={closePopup}>
+                        <i className="bx bx-x"></i>
+                    </button>
+                    <h2 className="vendor-register-head" style={{ fontSize: "20px" }}>
+                        Enter OTP{" "}
+                    </h2>
+
+                    <form onSubmit={submit}>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="OTP"
+                                className="form-control"
+                                onChange={(e) => setOtp(e.target.value)}
+                            />
+                        </div>
+                        <button className="popup-btn" type="submit">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </>);
 }

@@ -82,7 +82,7 @@ const BusinessRegister = () => {
           localStorage.setItem("token", data.token);
           dispatch(addBusiness(data.businessDetails));
           setPopUp(false)
-          setPopUp("")
+          setOtp("")
           const cate = (data.businessDetails.category.toLowerCase());
           router.push({ pathname: `/dashboard/category/${cate}` });
         } else {

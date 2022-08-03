@@ -63,8 +63,6 @@ const BusinessLogin = () => {
           mobile,
           category
         }
-        console.log(mobile, "this mobile")
-        console.log(category)
         const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}/`, d);
         console.log(data);
         if (data.success) {
@@ -365,7 +363,6 @@ const BusinessLogin = () => {
                   type={showResetPassword ? "text" : "password"}
                   placeholder="Password"
                   className="form-control"
-                  // onChange={(e) => setResetPasswordChange(e.target.value)}
                   onChange={resetPasswordOnChange}
                 />
                 {showResetPassword ? (
@@ -386,7 +383,6 @@ const BusinessLogin = () => {
                   type={showResetPassword ? "text" : "password"}
                   placeholder="Confirm password"
                   className="form-control"
-                  // onChange={(e) => serConfirmPasswordChange(e.target.value)}
                   onChange={confirmPasswordOnChange}
                 />
                 {showResetPassword ? (
@@ -405,11 +401,6 @@ const BusinessLogin = () => {
               {passwordDidntMatch && (
                 <p style={{ color: "red" }}>Passwords did not match</p>
               )}
-              {/* {passwordLength && (
-                <p style={{ color: "red" }}>
-                  Length of the password should be 8.
-                </p>
-              )} */}
               <button className="popup-btn" type="submit">
                 Submit
               </button>
