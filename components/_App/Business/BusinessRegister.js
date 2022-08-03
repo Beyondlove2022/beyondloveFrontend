@@ -35,7 +35,7 @@ const BusinessRegister = () => {
       const d = {
         type: "Business"
       }
-      const { data } = await axios.post(` ${process.env.DOMAIN_NAME}/api/business/register-otp/${category}/${mobile}`, d);
+      const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/business/register-otp/${category}/${mobile}`, d);
       console.log(data)
       if (data.success) {
         setPopUp(!otpPopUp);
