@@ -15,6 +15,8 @@ const BusinessRegister = () => {
   const [category, setCategory] = useState("");
   const [error, setError] = useState(false);
   const [showLoginPassword, setShowLogingPassword] = useState(false);
+  const [otpPopUp, setPopUp] = useState(false);
+  const [otp, setOtp] = useState("");
 
   let dispatch = useDispatch();
 
@@ -22,7 +24,28 @@ const BusinessRegister = () => {
     setShowLogingPassword(!showLoginPassword)
   }
 
-  const submitOTP = async (e) => {
+
+  const closeOtpPopup = () => {
+    setPopUp(!otpPopUp)
+  }
+
+  const onSubmitOtp = async (e) => {
+    e.preventDefault();
+    try {
+      const d = {
+        type: "Business"
+      }
+      const { data } = await axios.post(` ${process.env.DOMAIN_NAME}/api/business/register-otp/${category}/${mobile}`, d);
+      console.log(data)
+      if (data.success) {
+        setPopUp(!otpPopUp);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const BusinessRegisterOnSubmit = async (e) => {
     e.preventDefault();
     const d = {
       businessName,
@@ -31,7 +54,7 @@ const BusinessRegister = () => {
       password,
       category,
     };
-    console.log(d);
+    // console.log(d);
     if (
       businessName === "" ||
       email === "" ||
@@ -43,9 +66,7 @@ const BusinessRegister = () => {
     } else {
       try {
         const { data } = await axios.post(
-          `${process.env.DOMAIN_NAME}/api/business/register`,
-          d
-        );
+          `${process.env.DOMAIN_NAME}/api/verify-otp/${otp}`, d);
         console.log(data);
         if (data.success) {
           toast.success(data.msg, {
@@ -62,7 +83,8 @@ const BusinessRegister = () => {
           localStorage.setItem("user", user);
           localStorage.setItem("token", data.token);
           dispatch(addBusiness(data.businessDetails));
-
+          setPopUp(false)
+          setPopUp("")
           const cate = (data.businessDetails.category.toLowerCase());
           router.push({ pathname: `/dashboard/category/${cate}` });
         } else {
@@ -84,11 +106,11 @@ const BusinessRegister = () => {
   };
 
   return (
-    <>
+    <>  <div className={otpPopUp ? 'body_overlay open' : 'body_overlay'}></div>
       <div className="tab-pane" id="register">
         <ToastContainer />
         <div className="miran-register">
-          <form onSubmit={submitOTP}>
+          <form onSubmit={onSubmitOtp}>
             <div className="form-group">
               <input
                 type="text"
@@ -180,6 +202,42 @@ const BusinessRegister = () => {
           {/* <span className="already-account">
             Already have an account? <a href="#">Login Now</a>
           </span> */}
+        </div>
+      </div>
+
+
+      {/* ------------ OTP section ------- */}
+      <div
+        className={
+          otpPopUp
+            ? "modal loginRegisterModal show scroll-popup"
+            : "modal loginRegisterModal"
+        }
+        id="loginRegisterModal"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <button type="button" className="close" onClick={closeOtpPopup}>
+              <i className="bx bx-x"></i>
+            </button>
+            <h2 className="vendor-register-head" style={{ fontSize: "20px" }}>
+              Enter OTP{" "}
+            </h2>
+
+            <form onSubmit={BusinessRegisterOnSubmit}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  placeholder="OTP"
+                  className="form-control"
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </div>
+              <button className="popup-btn" type="submit">
+                Submit
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </>

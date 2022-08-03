@@ -6,7 +6,7 @@ const DashboardNavbar = () => {
   const { displaySideMenu, toggleSideMenu } = useContext(IndiceContext);
   const [display, setDisplay] = useState(false);
   const [categoryProfile, setCategoryProfile] = useState("");
-
+  const [userDetail, setUserDetail] = useState("");
   const listingToggle = () => {
     setDisplay(!display);
   };
@@ -15,6 +15,7 @@ const DashboardNavbar = () => {
     if (typeof window != "undefined") {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user !== null && user !== undefined) {
+        setUserDetail(user)
         let category = user.category;
         if (user.userType == "Business") {
           setCategoryProfile(category.toLowerCase())
@@ -175,7 +176,7 @@ const DashboardNavbar = () => {
               </Link>
             </li> */}
 
-            <li className='nav-item'>
+            {userDetail.userType == "Business" ? (<li className='nav-item'>
               <Link href={`/dashboard/add-listing/${categoryProfile}`} activeClassName='active'>
                 <a>
                   <span className='icon'>
@@ -184,7 +185,7 @@ const DashboardNavbar = () => {
                   <span className='menu-title'>Portfolio</span>
                 </a>
               </Link>
-            </li>
+            </li>) : (<></>)}
 
             {/* <li className='nav-item'>
               <Link href='/dashboard/invoice' activeClassName='active'>
@@ -199,7 +200,7 @@ const DashboardNavbar = () => {
 
             {/* <li className='nav-item-title'>Account</li> */}
 
-            <li className='nav-item'>
+            {userDetail.userType == "Business" ? (<li className='nav-item'>
               <Link href={`/dashboard/category/${categoryProfile}`} activeClassName='active'>
                 <a>
                   <span className='icon'>
@@ -208,7 +209,16 @@ const DashboardNavbar = () => {
                   <span className='menu-title'>Profile</span>
                 </a>
               </Link>
-            </li>
+            </li>) : (<li className='nav-item'>
+              <Link href={`/dashboard/CustomerForm/`} activeClassName='active'>
+                <a>
+                  <span className='icon'>
+                    <i className='bx bxs-user-circle'></i>
+                  </span>
+                  <span className='menu-title'>Profile</span>
+                </a>
+              </Link>
+            </li>)}
 
             {/* <li className='nav-item'>
               <a>

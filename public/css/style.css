@@ -16496,3 +16496,17 @@ th {
   opacity: 0;
   cursor: pointer;
 }
+
+.popup-btn {
+  display: block;
+  background-color: var(--mainColor);
+  color: var(--whiteColor);
+  border: none;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  padding: 14px 30px 13px;
+  -webkit-transition: var(--transition);
+  transition: var(--transition);
+}
