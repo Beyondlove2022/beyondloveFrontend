@@ -24,7 +24,6 @@ const BusinessRegister = () => {
     setShowLogingPassword(!showLoginPassword)
   }
 
-
   const closeOtpPopup = () => {
     setPopUp(!otpPopUp)
   }
@@ -54,7 +53,6 @@ const BusinessRegister = () => {
       password,
       category,
     };
-    // console.log(d);
     if (
       businessName === "" ||
       email === "" ||
