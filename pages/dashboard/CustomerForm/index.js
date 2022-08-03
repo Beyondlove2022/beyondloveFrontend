@@ -49,9 +49,12 @@ const Profile = () => {
             console.log("we are running on the client");
             let token = localStorage.getItem("token")
             let user = JSON.parse(localStorage.getItem("user"));
-            let id = user._id;
-            getCustomerProfile(id)
-            setToken(token)
+            if(user != null && user != undefined){
+
+                let id = user._id;
+                getCustomerProfile(id)
+                setToken(token)
+            }
             states.sort((a, b) => a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1);
         } else {
             console.log("we are running on the server");
