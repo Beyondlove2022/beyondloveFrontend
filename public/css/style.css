@@ -16510,3 +16510,13 @@ th {
   -webkit-transition: var(--transition);
   transition: var(--transition);
 }
+
+.forgot-pass {
+  text-align: end;
+}
+
+.forgot-pass p {
+  color: #fabc1d;
+  cursor: pointer;
+  padding-bottom: 5px;
+}
