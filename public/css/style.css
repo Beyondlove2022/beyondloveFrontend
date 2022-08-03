@@ -16526,3 +16526,11 @@ th {
   cursor: pointer;
   padding-bottom: 5px;
 }
+
+.like-btn button {
+  background-color: #fed023;
+  padding: 5px 25px;
+  outline: none;
+  border: none;
+  margin-top: 5px;
+}

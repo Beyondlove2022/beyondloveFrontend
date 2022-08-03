@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
-
+import { BsFacebook, BsFillHeartFill, BsYoutube } from "react-icons/bs";
 //components
 import NavbarTwo from "../components/_App/NavbarTwo";
 import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
@@ -50,15 +50,29 @@ const SingleListings = () => {
   const [run, setRun] = useState(false);
   const [business, setBusiness] = useState(null);
   const [coverImg, setCoverImage] = useState(null);
+  const [token, setToken] = useState("");
+  const [categoryProfile, setCategoryProfile] = useState("")
+  const [businessId, setBusinessid] = useState("")
+  const [custonerId, setCustomerId] = useState("")
+  const [userType, setUsetType] = useState("")
+  const [like, setLike] = useState(null);
+  const [likeCount, setLikeCount] = useState(0)
   const router = useRouter();
-
+  console.log(likeCount)
   useEffect(() => {
     let category = router.query.category;
     let id = router.query.id;
     setisMounted(true);
     setDisplay(true);
-    // setisMounted(false);
-    // setCategory("Pet Training");
+    let token = localStorage.getItem("token");
+    let user = JSON.parse(localStorage.getItem("user"))
+    if (user != null) {
+      setUsetType(user.userType)
+      setCustomerId(user._id)
+      setToken(token)
+    }
+    setCategoryProfile(category)
+    setBusinessid(id)
     if (category != undefined && id != undefined) {
       console.log("not undefined");
       getUniqueProfile(category, id);
@@ -107,6 +121,54 @@ const SingleListings = () => {
       console.log(error);
     }
   };
+
+  const businessLikeWithoutLogin = () => {
+    toast.error("Please Login As Customer", {
+      theme: "light",
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+
+  const vendorLike = async (e) => {
+    e.preventDefault();
+    const d = {
+      businessId,
+      custonerId
+    }
+    try {
+      const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/like-unlike/${categoryProfile}/${token}`, d);
+      console.log(data)
+      if (data.success) {
+        toast.success(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setLike(data.like)
+        if (data.like) {
+          setLikeCount(likeCount + 1);
+        }
+        if (!data.like) {
+          setLikeCount(likeCount - 1);
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   return (
     <>
       <NavbarTwo />
@@ -188,9 +250,32 @@ const SingleListings = () => {
               </li>
 
               <li>
-                <a href="#">
+                <div className="like-btn">
+                  {/* <button onClick={vendorLike}>
+                    <BsFillHeartFill fill="red" className="mr-1" />
+                  </button> */}
+                  {userType == "Customer" ? (
+                    <button onClick={vendorLike}>
+                      {like ? (
+                        <>
+                          <BsFillHeartFill fill="red" className="mr-1" />{likeCount}
+                        </>
+                      ) : (
+                        <>
+                          <BsFillHeartFill className="mr-1" />{likeCount}
+                        </>
+                      )}
+                    </button>
+                  ) : (
+                    <button onClick={businessLikeWithoutLogin}>
+                      <>
+                        <BsFillHeartFill className="mr-1" />{likeCount}
+                      </>
+                    </button>)}
+                </div>
+                {/* <a href="#">
                   <i className="bx bx-heart"></i> Like
-                </a>
+                </a> */}
               </li>
             </ul>
           </div>
