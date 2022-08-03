@@ -6926,6 +6926,12 @@ Events Details Area CSS
   margin-bottom: 40px;
 }
 
+.location p {
+  font-size: 16px;
+  color: #fed023;
+  font-weight: 600;
+}
+
 .events-details-location #map iframe {
   height: 400px;
   width: 100%;

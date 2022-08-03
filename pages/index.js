@@ -57,6 +57,7 @@ const Index2 = () => {
       {/* <HowItWorks bgColor="bg-f9f9f9" /> */}
       {/* <Blog /> */}
       {/* <AppDownload /> */}
+      <hr></hr>
       <Footer />
     </>
   );

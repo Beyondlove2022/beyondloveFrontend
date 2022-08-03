@@ -152,8 +152,8 @@ const SingleListings = () => {
                     <li className="location">
                       <i className="bx bx-map"></i>
                       <span>Location</span>
-                      {business.location[0]}, {business.city[0]},{" "}
-                      {business.state[0]}
+                      <p>  {business.location[0]}, {business.city[0]},{" "}
+                        {business.state[0]}</p>
                     </li>
                   )}
                 </ul>
@@ -161,7 +161,7 @@ const SingleListings = () => {
             </div>
           </div>
           {/* <----Share And Save----> */}
-          {/* <div className="container-fluid">
+          <div className="container-fluid">
             <ul className="share-save">
               <li>
                 <div className="share">
@@ -189,11 +189,11 @@ const SingleListings = () => {
 
               <li>
                 <a href="#">
-                  <i className="bx bx-heart"></i> Save
+                  <i className="bx bx-heart"></i> Like
                 </a>
               </li>
             </ul>
-          </div> */}
+          </div>
         </div>
 
         {/* <div className='listings-details-nav'>
