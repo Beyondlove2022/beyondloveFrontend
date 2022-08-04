@@ -239,8 +239,11 @@ p:last-child {
   border: none;
   text-align: center;
   border: 1px solid #96e3e3;
+  border: 1px solid #4b2d22 !important;
   -webkit-box-shadow: 4px 4px #b2eaea;
+  -webkit-box-shadow: 4px 4px #4b2d22 !important;
   box-shadow: 4px 4px #b2eaea;
+  box-shadow: 4px 4px #4b2d22 !important;
   background-color: var(--whiteColor);
   color: var(--blackColor);
   font-size: var(--fontSize);
@@ -253,9 +256,14 @@ p:last-child {
 
 .default-btn:hover {
   border-color: var(--mainColor);
+  border-color: #fabc1d !important;
+
   -webkit-box-shadow: 4px 4px var(--mainColor);
+  -webkit-box-shadow: 4px 4px #fabc1d !important;
   box-shadow: 4px 4px var(--mainColor);
+  box-shadow: 4px 4px #fabc1d !important;
   color: var(--blackColor);
+  
 }
 
 /*form-control*/
@@ -2774,7 +2782,7 @@ Listings Area CSS
   -webkit-transition: var(--transition);
   transition: var(--transition);
   background-color: var(--whiteColor);
-  border: 1px solid #96e3e3;
+  border: 1px solid #fabc1d;
   border-radius: 5px;
   margin-bottom: 35px;
   margin-right: 5px;
@@ -5120,7 +5128,7 @@ Listings Widget Sidebar CSS
 .listings-widget-area .widget_categories ul li input[type="checkbox"] {
   --active: var(--mainColor);
   --active-inner: var(--whiteColor);
-  --focus: 2px rgba(39, 94, 254, 0.3);
+  --focus: 2px rgba(236, 254, 39, 0.3);
   --border: #d5d5d5;
   --border-hover: var(--mainColor);
   --background: var(--whiteColor);
@@ -12144,7 +12152,9 @@ All Modal CSS
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-login form button:hover {
   background-color: var(--blackColor);
+  background-color:#fabc1d !important ;
   color: var(--whiteColor);
+  color: black !important;
 }
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-login .dont-account {
@@ -12288,7 +12298,9 @@ All Modal CSS
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-register form button:hover {
   background-color: var(--blackColor);
+  background-color:#fabc1d !important ;
   color: var(--whiteColor);
+  color: black !important;
 }
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-register .already-account {
@@ -13849,7 +13861,9 @@ Dashboard CSS
 
 .my-profile-box form button:hover {
   background-color: #3b99ca;
+  background-color: #fabc1d !important;
   color: var(--whiteColor);
+  color:black !important;
 }
 
 .my-profile-box .profile-box {
@@ -16534,3 +16548,10 @@ th {
   border: none;
   margin-top: 5px;
 }
+.btn-loginreg :hover{
+  background-color:#fabc1d !important;
+}
+.form-color{
+  background-color: #ffffee !important;
+}
+

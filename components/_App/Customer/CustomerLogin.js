@@ -26,17 +26,17 @@ const CustomerLogin = () => {
         setForgotPop(!fotgotPopup)
     }
 
-    const forgotClose = () => {
-        setForgotPop(!fotgotPopup)
-    }
+    // const forgotClose = () => {
+    //     setForgotPop(!fotgotPopup)
+    // }
 
     const resetPasswordVisibilityClick = () => {
         setShowResetPassword(!showResetPassword);
     };
 
-    const closeConfirmPasswordPopup = () => {
-        setDisplayConfirm(!displayConfirm)
-    }
+    // const closeConfirmPasswordPopup = () => {
+    //     setDisplayConfirm(!displayConfirm)
+    // }
 
     const resetPasswordOnChange = (e) => {
         setResetPasswordChange(e.target.value)
@@ -76,6 +76,7 @@ const CustomerLogin = () => {
                     setOtp("");
                     setResetPasswordChange("")
                     setConfirmPasswordChange("")
+                    
                 } else {
                     toast.error(data.msg, {
                         theme: "light",
@@ -246,9 +247,9 @@ const CustomerLogin = () => {
         >
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                    <button type="button" className="close" onClick={forgotClose}>
+                    {/* <button type="button" className="close" onClick={forgotClose}>
                         <i className="bx bx-x"></i>
-                    </button>
+                    </button> */}
                     <h2 className="vendor-register-head">Forgot Password</h2>
 
                     <form onSubmit={forgotPasswordSubmit}>
@@ -281,13 +282,13 @@ const CustomerLogin = () => {
         >
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                    <button
+                    {/* <button
                         type="button"
                         className="close"
                         onClick={closeConfirmPasswordPopup}
                     >
                         <i className="bx bx-x"></i>
-                    </button>
+                    </button> */}
                     <h2 className="vendor-register-head">Enter a New Password </h2>
 
                     <form onSubmit={resetPasswordSubmit}>

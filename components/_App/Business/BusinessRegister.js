@@ -24,9 +24,9 @@ const BusinessRegister = () => {
     setShowLogingPassword(!showLoginPassword)
   }
 
-  const closeOtpPopup = () => {
-    setPopUp(!otpPopUp)
-  }
+  // const closeOtpPopup = () => {
+  //   setPopUp(!otpPopUp)
+  // }
 
   const onSubmitOtp = async (e) => {
     e.preventDefault();
@@ -215,9 +215,9 @@ const BusinessRegister = () => {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <button type="button" className="close" onClick={closeOtpPopup}>
+            {/* <button type="button" className="close" onClick={closeOtpPopup}>
               <i className="bx bx-x"></i>
-            </button>
+            </button> */}
             <h2 className="vendor-register-head" style={{ fontSize: "20px" }}>
               Enter OTP{" "}
             </h2>
