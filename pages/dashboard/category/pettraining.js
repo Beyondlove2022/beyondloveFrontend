@@ -357,7 +357,7 @@ const PetTraining = () => {
                       <label>Email</label>
                       <input
                         type="email"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
@@ -375,7 +375,7 @@ const PetTraining = () => {
                       <label>Phone</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Mobile Number"
                         onChange={(e) => setMobile(e.target.value)}
                         value={mobile}
@@ -393,7 +393,7 @@ const PetTraining = () => {
                       <label>Business Name</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Business Name"
                         onChange={(e) => setBusinessName(e.target.value)}
                         value={businessName}
@@ -411,7 +411,7 @@ const PetTraining = () => {
                       <label>Established Year</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         onChange={(e) => setestablished(e.target.value)}
                         value={established}
                       />
@@ -442,7 +442,7 @@ const PetTraining = () => {
                         cols="30"
                         rows="6"
                         placeholder="Short description about you..."
-                        className="form-control"
+                        className="form-control form-color"
                         onChange={(e) => setAbout(e.target.value)}
                         value={about}
                       ></textarea>
@@ -456,7 +456,7 @@ const PetTraining = () => {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Facebook Url"
                         onChange={(e) => setFacebookUrl(e.target.value)}
                         value={facebookUrl}
@@ -471,7 +471,7 @@ const PetTraining = () => {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Instagram URL"
                         onChange={(e) => setInstagramUrl(e.target.value)}
                         value={instagramUrl}
@@ -486,7 +486,7 @@ const PetTraining = () => {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="twitter URL"
                         onChange={(e) => setTwitterUrl(e.target.value)}
                         value={twitterUrl}
@@ -505,7 +505,7 @@ const PetTraining = () => {
                       <label>Door No.</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Door No."
                         onChange={(e) => setDoorNumber(e.target.value)}
                         value={doorNumber}
@@ -518,7 +518,7 @@ const PetTraining = () => {
                       <label>Street, Sector, Area, Colony</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Street"
                         onChange={(e) => setStreet(e.target.value)}
                         value={street}
@@ -536,7 +536,7 @@ const PetTraining = () => {
                       <label>Landmark</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Landmark"
                         onChange={(e) => setLandmark(e.target.value)}
                         value={landmark}
@@ -549,7 +549,7 @@ const PetTraining = () => {
                       <label>PIN code</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-color"
                         placeholder="Pin Code"
                         onChange={(e) => setPincode(e.target.value)}
                         value={pincode}
@@ -568,7 +568,7 @@ const PetTraining = () => {
                         <i className="bx bx-menu-alt-left"></i> State:
                       </label>
                       <select
-                        className="dashbaord-category-select"
+                        className="dashbaord-category-select form-color"
                         placeholder="Select the state"
                         onChange={handleClickState}
                         value={state}
@@ -597,7 +597,7 @@ const PetTraining = () => {
                       <label>
                         <i className="bx bx-menu-alt-left"></i> City:
                       </label>
-                      <select className="dashbaord-category-select"
+                      <select className="dashbaord-category-select form-color"
                         onChange={handleOnChangeCity}
                         onFocus={handleClickCity}
                       >
@@ -624,7 +624,7 @@ const PetTraining = () => {
                       <label>
                         <i className="bx bx-menu-alt-left"></i> Location:
                       </label>
-                      <select className="dashbaord-category-select"
+                      <select className="dashbaord-category-select form-color"
                         onChange={handleOnChangeLocation}
                         onFocus={handleClickLocation}
                       >

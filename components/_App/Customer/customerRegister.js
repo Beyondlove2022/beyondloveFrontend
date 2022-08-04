@@ -19,9 +19,9 @@ const CustomerRegister = () => {
         setShowLogingPassword(!showLoginPassword)
     }
 
-    const closePopup = () => {
-        setOtpPopUp(!otpPopUp)
-    }
+    // const closePopup = () => {
+    //     setOtpPopUp(!otpPopUp)
+    // }
 
     const onSubmitOtp = async (e) => {
         e.preventDefault();
@@ -176,9 +176,9 @@ const CustomerRegister = () => {
         >
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                    <button type="button" className="close" onClick={closePopup}>
+                    {/* <button type="button" className="close" onClick={closePopup}>
                         <i className="bx bx-x"></i>
-                    </button>
+                    </button> */}
                     <h2 className="vendor-register-head" style={{ fontSize: "20px" }}>
                         Enter OTP{" "}
                     </h2>

@@ -239,8 +239,11 @@ p:last-child {
   border: none;
   text-align: center;
   border: 1px solid #96e3e3;
+  border: 1px solid #4b2d22 !important;
   -webkit-box-shadow: 4px 4px #b2eaea;
+  -webkit-box-shadow: 4px 4px #4b2d22 !important;
   box-shadow: 4px 4px #b2eaea;
+  box-shadow: 4px 4px #4b2d22 !important;
   background-color: var(--whiteColor);
   color: var(--blackColor);
   font-size: var(--fontSize);
@@ -253,9 +256,14 @@ p:last-child {
 
 .default-btn:hover {
   border-color: var(--mainColor);
+  border-color: #fabc1d !important;
+
   -webkit-box-shadow: 4px 4px var(--mainColor);
+  -webkit-box-shadow: 4px 4px #fabc1d !important;
   box-shadow: 4px 4px var(--mainColor);
+  box-shadow: 4px 4px #fabc1d !important;
   color: var(--blackColor);
+  
 }
 
 /*form-control*/
@@ -13853,7 +13861,9 @@ Dashboard CSS
 
 .my-profile-box form button:hover {
   background-color: #3b99ca;
+  background-color: #fabc1d !important;
   color: var(--whiteColor);
+  color:black !important;
 }
 
 .my-profile-box .profile-box {

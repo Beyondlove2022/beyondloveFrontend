@@ -36,11 +36,11 @@ const Profile = () => {
     const [vaccinationDocsUpload, setVaccinationDocsUpload] = useState("");
     const [allergies, setAllergies] = useState("");
     const [error, setError] = useState(false);
-    const [petDetailForm, setPetDetailFomr] = useState(true)
+    const [petDetailForm, setPetDetailForm] = useState(false);
     const [cityFilter, setCityFilter] = useState([]);
     const [trainedPet, setTrainedPet] = useState("");
     const [breed,setBreed] = useState("");
-    const [showOptionalBreed,setShowOptionalBreed] =useState(false)
+    const [showOptionalBreed,setShowOptionalBreed] =useState(false);
 
     const [locationFilter, setLocationFilter] = useState([]);
 
@@ -156,6 +156,7 @@ const Profile = () => {
                 const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/customer/update-profile/${token}`, d)
                 console.log(data)
                 if (data.success) {
+                    setPetDetailForm(true)
                     toast.success(data.msg, {
                         theme: "light",
                         position: "top-right",
@@ -213,7 +214,7 @@ const Profile = () => {
         //     setError(true); 
         // }else{
             try {
-                const {data} = await axios.post(`${process.env.DOMAIN_NAME}/api/customer/pet/create/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZGY3NTNlMDMwYjkwZDc4YzFlYTVjMiIsImlhdCI6MTY1OTQ0MDUzNSwiZXhwIjoxNjU5NTI2OTM1fQ.XG3PkUPL0zTgW4bcjY8VkZ-eopgwJfYQ7qxppBBCCAI`, d);
+                const {data} = await axios.post(`${process.env.DOMAIN_NAME}/api/customer/pet/create/${token}`, d);
                 console.log(data);
                 if (data.success) {
                     toast.success(data.msg, {
