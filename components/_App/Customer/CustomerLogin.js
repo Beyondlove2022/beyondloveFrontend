@@ -76,6 +76,7 @@ const CustomerLogin = () => {
                     setOtp("");
                     setResetPasswordChange("")
                     setConfirmPasswordChange("")
+                    
                 } else {
                     toast.error(data.msg, {
                         theme: "light",
