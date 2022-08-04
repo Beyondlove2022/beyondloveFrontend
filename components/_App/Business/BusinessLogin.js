@@ -55,17 +55,74 @@ const BusinessLogin = () => {
 
   const resetPasswordSubmit = async (e) => {
     e.preventDefault();
-    if (resetPasswordChange === confirmPasswordChange) {
+    if (otp === "" || resetPasswordChange === "" || confirmPasswordChange === "") {
+      setError(true)
+    } else {
+      if (resetPasswordChange === confirmPasswordChange) {
+        try {
+          const d = {
+            password: resetPasswordChange,
+            type: "Business",
+            mobile,
+            category
+          }
+          const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}/`, d);
+          console.log(data);
+          if (data.success) {
+            toast.success(data.msg, {
+              theme: "light",
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setMobile("")
+            setCategory("")
+            setOtp("");
+            setResetPasswordChange("")
+            setConfirmPasswordChange("")
+            setDisplayConfirm(false)
+          } else {
+            toast.error(data.msg, {
+              theme: "light",
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
+        catch (error) {
+          console.log(error)
+        }
+      } else {
+        setPasswordDidntMatch(true)
+        setError(true)
+      }
+    }
+
+  }
+
+  const forgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (mobile === "" || category === "") {
+      setError(true)
+    } else {
       try {
         const d = {
-          password: resetPasswordChange,
-          type: "Business",
-          mobile,
-          category
+          type: "Business"
         }
-        const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}/`, d);
+        const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/forget-password/${category}/${mobile}`, d);
         console.log(data);
         if (data.success) {
+          setForgotPop(false);
+          setDisplayConfirm(!displayConfirm)
           toast.success(data.msg, {
             theme: "light",
             position: "top-right",
@@ -76,12 +133,6 @@ const BusinessLogin = () => {
             draggable: true,
             progress: undefined,
           });
-          setMobile("")
-          setCategory("")
-          setOtp("");
-          setResetPasswordChange("")
-          setConfirmPasswordChange("")
-          setDisplayConfirm(false)
         } else {
           toast.error(data.msg, {
             theme: "light",
@@ -94,51 +145,11 @@ const BusinessLogin = () => {
             progress: undefined,
           });
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error)
       }
-    } else {
-      setPasswordDidntMatch(true)
     }
-  }
 
-  const forgotPasswordSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const d = {
-        type: "Business"
-      }
-      const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/forget-password/${category}/${mobile}`, d);
-      console.log(data);
-      if (data.success) {
-        setForgotPop(false);
-        setDisplayConfirm(!displayConfirm)
-        toast.success(data.msg, {
-          theme: "light",
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      } else {
-        toast.error(data.msg, {
-          theme: "light",
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    } catch (error) {
-      console.log(error)
-    }
   }
 
 
@@ -296,6 +307,11 @@ const BusinessLogin = () => {
                   className="form-control"
                   onChange={(e) => setMobile(e.target.value)}
                 />
+                {error && mobile == "" ? (
+                  <span className="text-danger">Please Enter Mobile Number</span>
+                ) : (
+                  <></>
+                )}
               </div>
               <div className="form-group">
                 <select
@@ -356,6 +372,11 @@ const BusinessLogin = () => {
                   className="form-control"
                   onChange={(e) => setOtp(e.target.value)}
                 />
+                {error && otp == "" ? (
+                  <span className="text-danger">Please Enter otp</span>
+                ) : (
+                  <></>
+                )}
               </div>
 
               <div className="form-group reset">
@@ -365,6 +386,11 @@ const BusinessLogin = () => {
                   className="form-control"
                   onChange={resetPasswordOnChange}
                 />
+                {error && resetPasswordChange == "" ? (
+                  <span className="text-danger">Please Enter Password</span>
+                ) : (
+                  <></>
+                )}
                 {showResetPassword ? (
                   <AiOutlineEye
                     className="password-icon"
@@ -385,6 +411,11 @@ const BusinessLogin = () => {
                   className="form-control"
                   onChange={confirmPasswordOnChange}
                 />
+                {error && confirmPasswordChange == "" ? (
+                  <span className="text-danger">Please Enter Confirm Password</span>
+                ) : (
+                  <></>
+                )}
                 {showResetPassword ? (
                   <AiOutlineEye
                     className="password-icon"

@@ -30,18 +30,29 @@ const BusinessRegister = () => {
 
   const onSubmitOtp = async (e) => {
     e.preventDefault();
-    try {
-      const d = {
-        type: "Business"
+    if (
+      businessName === "" ||
+      email === "" ||
+      mobile === "" ||
+      password === "" ||
+      category === ""
+    ) {
+      setError(true);
+    } else {
+      try {
+        const d = {
+          type: "Business"
+        }
+        const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/business/register-otp/${category}/${mobile}`, d);
+        console.log(data)
+        if (data.success) {
+          setPopUp(!otpPopUp);
+        }
+      } catch (error) {
+        console.log(error)
       }
-      const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/business/register-otp/${category}/${mobile}`, d);
-      console.log(data)
-      if (data.success) {
-        setPopUp(!otpPopUp);
-      }
-    } catch (error) {
-      console.log(error)
     }
+
   }
 
   const BusinessRegisterOnSubmit = async (e) => {
@@ -53,13 +64,7 @@ const BusinessRegister = () => {
       password,
       category,
     };
-    if (
-      businessName === "" ||
-      email === "" ||
-      mobile === "" ||
-      password === "" ||
-      category === ""
-    ) {
+    if (otp === "") {
       setError(true);
     } else {
       try {
@@ -86,6 +91,7 @@ const BusinessRegister = () => {
           const cate = (data.businessDetails.category.toLowerCase());
           router.push({ pathname: `/dashboard/category/${cate}` });
         } else {
+          setOtp("")
           toast.error(data.msg, {
             theme: "light",
             position: "top-right",
@@ -230,6 +236,11 @@ const BusinessRegister = () => {
                   className="form-control"
                   onChange={(e) => setOtp(e.target.value)}
                 />
+                {error && otp == "" ? (
+                  <span className="text-danger">Please Enter OTP</span>
+                ) : (
+                  <></>
+                )}
               </div>
               <button className="popup-btn" type="submit">
                 Submit
