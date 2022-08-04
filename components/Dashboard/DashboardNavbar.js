@@ -177,6 +177,18 @@ const DashboardNavbar = () => {
             </li> */}
 
             {userDetail.userType == "Business" ? (<li className='nav-item'>
+              <Link href={`/dashboard/reviews/${categoryProfile}`} activeClassName='active'>
+                <a>
+                  <span className='icon'>
+                    <i className='bx bx-star'></i>
+                  </span>
+                  <span className='menu-title'>Reviews</span>
+                </a>
+              </Link>
+            </li>) :
+              (<></>)}
+
+            {userDetail.userType == "Business" ? (<li className='nav-item'>
               <Link href={`/dashboard/add-listing/${categoryProfile}`} activeClassName='active'>
                 <a>
                   <span className='icon'>
