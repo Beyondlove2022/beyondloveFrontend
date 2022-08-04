@@ -56,9 +56,9 @@ const SingleListings = () => {
   const [custonerId, setCustomerId] = useState("")
   const [userType, setUsetType] = useState("")
   const [like, setLike] = useState(null);
-  const [likeCount, setLikeCount] = useState(0)
+  const [likeCount, setLikeCount] = useState()
   const router = useRouter();
-  console.log(likeCount)
+
   useEffect(() => {
     let category = router.query.category;
     let id = router.query.id;
@@ -90,6 +90,7 @@ const SingleListings = () => {
         `${process.env.DOMAIN_NAME}/api/business/get-profile/${cate}/${id}`
       );
       console.log(data);
+      setLikeCount(data.business.likes.length)
       setBusiness(data.business);
       setCoverImage(
         `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`
