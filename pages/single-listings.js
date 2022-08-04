@@ -53,35 +53,57 @@ const SingleListings = () => {
   const [token, setToken] = useState("");
   const [categoryProfile, setCategoryProfile] = useState("")
   const [businessId, setBusinessid] = useState("")
-  const [custonerId, setCustomerId] = useState("")
+  const [customerId, setCustomerId] = useState("")
   const [userType, setUsetType] = useState("")
   const [like, setLike] = useState(null);
   const [likeCount, setLikeCount] = useState()
+  const [customerName, SetCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("")
+  const [reviewMsg, setReviewMsg] = useState("")
+  const [rating, setRating] = useState(null)
+  const [error, setError] = useState(false)
+  const [averageRating, setAverageRating] = useState()
+  const [review, setReview] = useState([])
   const router = useRouter();
 
   useEffect(() => {
-    let category = router.query.category;
-    let id = router.query.id;
-    setisMounted(true);
-    setDisplay(true);
-    let token = localStorage.getItem("token");
-    let user = JSON.parse(localStorage.getItem("user"))
-    if (user != null) {
-      setUsetType(user.userType)
-      setCustomerId(user._id)
-      setToken(token)
-    }
-    setCategoryProfile(category)
-    setBusinessid(id)
-    if (category != undefined && id != undefined) {
-      console.log("not undefined");
-      getUniqueProfile(category, id);
+    if (typeof window !== "undefined") {
+      let category = router.query.category;
+      let id = router.query.id;
+      setBusinessid(id)
+      setisMounted(true);
+      setDisplay(true);
+      let token = localStorage.getItem("token");
+      let user = JSON.parse(localStorage.getItem("user"))
+      if (user != null) {
+        setUsetType(user.userType)
+        setCustomerId(user._id)
+        setCustomerEmail(user.email)
+        SetCustomerName(user.customerName)
+        setToken(token)
+      }
+      setCategoryProfile(category)
+      if (category != undefined && id != undefined) {
+        console.log("not undefined");
+        getUniqueProfile(category, id);
+      } else {
+        setRun(!run);
+        console.log("undefined");
+      }
+      console.log(router.query.category);
     } else {
-      setRun(!run);
-      console.log("undefined");
+      console.log("we are running on the server");
     }
-    console.log(router.query.category);
   }, [run]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let id = router.query.id;
+      getReviews(id);
+    } else {
+      console.log("we are running on the server");
+    }
+  }, [review])
 
   const getUniqueProfile = async (cate, id) => {
     console.log("running");
@@ -99,7 +121,7 @@ const SingleListings = () => {
         toast.success(data.msg, {
           theme: "light",
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -110,7 +132,7 @@ const SingleListings = () => {
         toast.error(data.msg, {
           theme: "light",
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -140,7 +162,7 @@ const SingleListings = () => {
     e.preventDefault();
     const d = {
       businessId,
-      custonerId
+      customerId
     }
     try {
       const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/like-unlike/${categoryProfile}/${token}`, d);
@@ -169,6 +191,66 @@ const SingleListings = () => {
     }
   }
 
+  const reviewSubmit = async (e) => {
+    e.preventDefault();
+    if (reviewMsg !== " " && rating !== null) {
+      setError(false)
+      const d = {
+        customerId,
+        businessId,
+        customerEmail,
+        customerName,
+        customerRating: rating,
+        customerReview: reviewMsg
+      }
+      console.log(d)
+      try {
+        const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/create-review/${token}`, d);
+        console.log(data)
+        if (data.success) {
+          let custRating = 0;
+          toast.success(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setReviewMsg(" ");
+          data.review.map((rate) => {
+            custRating = parseInt(rate.customerRating) + custRating;
+          })
+          const average = Math.round(custRating / data.review.length);
+          setAverageRating(average)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      setError(true)
+    }
+
+  }
+
+
+  const getReviews = async (id) => {
+    let custRating = 0;
+    try {
+      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/get-review/${id}`)
+      setReview(data.review);
+      data.review.map((rate) => {
+        custRating = parseInt(rate.customerRating) + custRating;
+      })
+      const average = Math.round(custRating / data.review.length);
+      setAverageRating(average)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <>
@@ -189,14 +271,40 @@ const SingleListings = () => {
                 </span>
                 {business !== null && <h3>{business.businessName}</h3>}
                 {/* <----Rating----> */}
-                {/* <div className="rating d-flex align-items-center">
-                  <span className="bx bxs-star checked"></span>
-                  <span className="bx bxs-star checked"></span>
-                  <span className="bx bxs-star checked"></span>
-                  <span className="bx bxs-star checked"></span>
-                  <span className="bx bxs-star checked"></span>
-                  <span className="rating-count">(45)</span>
-                </div> */}
+                <div className="rating d-flex align-items-center">
+                  {averageRating >= 1 && (
+                    <span className="bx bxs-star checked"></span>
+                  )}
+                  {averageRating >= 2 && (
+                    <span className="bx bxs-star checked"></span>
+                  )}
+                  {averageRating >= 3 && (
+                    <span className="bx bxs-star checked"></span>
+                  )}
+                  {averageRating >= 4 && (
+                    <span className="bx bxs-star checked"></span>
+                  )}
+                  {averageRating >= 5 && (
+                    <span className="bx bxs-star checked"></span>
+                  )}
+                  {/*  */}
+                  {averageRating < 5 && (
+                    <span className="bx bx-star checked"></span>
+                  )}
+                  {averageRating < 4 && (
+                    <span className="bx bx-star checked"></span>
+                  )}
+                  {averageRating < 3 && (
+                    <span className="bx bx-star checked"></span>
+                  )}
+                  {averageRating < 2 && (
+                    <span className="bx bx-star checked"></span>
+                  )}
+                  {averageRating < 1 && (
+                    <span className="bx bx-star checked"></span>
+                  )}
+                  {/* <span className="rating-count">-{averageRating}</span> */}
+                </div>
                 <ul className="d-flex align-items-center">
                   {business !== null && (
                     <li className="phone-number">
@@ -341,8 +449,154 @@ const SingleListings = () => {
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Quis ipsum suspendisse ultrices gravida.
                 </p>
-                {/* <------Amenities-----> */}
-                {/* <h3>Amenities</h3>
+
+                {/* Review show secttion */}
+                {review.length > 0 && (<div id="review">
+                  <h3>Review</h3>
+                  <div className="listings-review-comments">
+                    {review.map((rev) => {
+                      let date = rev.createdAt;
+                      let createDate = new Date(date);
+                      let stringDate = createDate.toString()
+                      let reviewDate = stringDate.split(" ")
+                      return (
+                        <div className="user-review">
+                          <div className="row m-0">
+                            <div className="col-lg-4 col-md-4 p-0">
+                              <div className="user">
+                                <div className="d-flex">
+                                  <img src="/images/user1.jpg" alt="image" />
+                                  <div className="title">
+                                    <h4>{customerName}</h4>
+                                    <span>{customerEmail}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-lg-8 col-md-8 p-0">
+                              <div className="comments">
+                                <div className="rating">
+                                  {rev.customerRating >= 1 && (
+                                    <span className="bx bxs-star checked"></span>
+                                  )}
+                                  {rev.customerRating >= 2 && (
+                                    <span className="bx bxs-star checked"></span>
+                                  )}
+                                  {rev.customerRating >= 3 && (
+                                    <span className="bx bxs-star checked"></span>
+                                  )}
+                                  {rev.customerRating >= 4 && (
+                                    <span className="bx bxs-star checked"></span>
+                                  )}
+                                  {rev.customerRating >= 5 && (
+                                    <span className="bx bxs-star checked"></span>
+                                  )}
+                                  {/*  */}
+                                  {rev.customerRating <= 4 && (
+                                    <span className="bx bx-star checked"></span>
+                                  )}
+                                  {rev.customerRating <= 3 && (
+                                    <span className="bx bx-star checked"></span>
+                                  )}
+                                  {rev.customerRating <= 2 && (
+                                    <span className="bx bx-star checked"></span>
+                                  )}
+                                  {rev.customerRating <= 1 && (
+                                    <span className="bx bx-star checked"></span>
+                                  )}
+                                </div>
+                                <p>
+                                  {rev.customerReview}
+                                </p>
+                                <div className="row m-0">
+                                  <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
+                                    <ul className="like-unlike">
+                                      <li>
+                                        <a>{reviewDate[2]}</a>
+                                      </li>
+                                      <li>
+                                        <a>{reviewDate[1]}</a>
+                                      </li>
+                                      <li>
+                                        <a>{reviewDate[3]}</a>
+                                      </li>
+                                      <li>
+                                        <a>{reviewDate[4]}</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  {/* <div
+                                    className="
+                                  col-lg-4 col-md-4 col-4 col-sm-4
+                                  p-0
+                                  text-right
+                                "
+                                  >
+                                    <a href="#">Comment</a>
+                                  </div> */}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      )
+                    })}
+
+
+                  </div>
+                </div>)}
+
+
+              </div>
+            </div>
+
+            <div className="col-lg-4 col-md-12">
+              <div className="listings-sidebar">
+                {/* Booking Online */}
+                {/* <div className="listings-widget book_listings">
+                  <h3>Booking Online</h3>
+                  <a href="#" className="default-btn">
+                    Book Now
+                  </a>
+                  <span>
+                    By <a href="#">Booking.com</a>
+                  </span>
+                </div> */}
+
+                <div className="listings-widget listings_contact_details">
+                  <h3>Contact Details</h3>
+                  <ul>
+                    {/* <li>
+                      <i className="bx bx-globe"></i>
+                      <a href="#">www.indice.com</a>
+                    </li> */}
+                    {business !== null && (
+                      <li>
+                        <i className="bx bx-phone-call"></i>
+                        <a href="tel:+2122791456">{business.mobile}</a>
+                      </li>
+                    )}
+                    {/* <li>
+                      <i className="bx bx-directions"></i>
+                      <a href="#">Get Directions</a>
+                    </li> */}
+                    {business !== null && (
+                      <li>
+                        <i className="bx bx-map"></i>
+                        {business.location[0]}, {business.city[0]},{" "}
+                        {business.state[0]}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+
+
+
+                <div className="listings-details-desc">
+                  {/* <------Amenities-----> */}
+                  {/* <h3>Amenities</h3>
                 <ul className="amenities-list">
                   <li>
                     <span>
@@ -406,7 +660,7 @@ const SingleListings = () => {
                   </li>
                 </ul> */}
 
-                {/* <h3>Gallery</h3>
+                  {/* <h3>Gallery</h3>
                 <div id="gallery">
                   <div className="gallery-slides owl-theme">
                     {display ? (
@@ -428,8 +682,8 @@ const SingleListings = () => {
                 </div> */}
 
 
-                {/* <------Pricing Section ----> */}
-                {/* <h3>Pricing</h3>
+                  {/* <------Pricing Section ----> */}
+                  {/* <h3>Pricing</h3>
                 <div id="pricing">
                   <ul className="pricing-list">
                     <li>
@@ -450,8 +704,8 @@ const SingleListings = () => {
                   </ul>
                 </div> */}
 
-                {/* <------Review Section ----> */}
-                {/* <h3>Review</h3>
+                  {/* <------Review Section ----> */}
+                  {/* <h3>Review</h3>
                 <div className="listings-review">
                   <div className="rating d-flex align-items-center">
                     <span className="bx bxs-star checked"></span>
@@ -557,484 +811,115 @@ const SingleListings = () => {
                   </a>
                 </div>
 
-                <div id="review">
-                  <div className="listings-review-comments">
-                    <div className="user-review">
-                      <div className="row m-0">
-                        <div className="col-lg-4 col-md-4 p-0">
-                          <div className="user">
-                            <div className="d-flex">
-                              <img src="/images/user1.jpg" alt="image" />
-                              <div className="title">
-                                <h4>James Andy</h4>
-                                <span>New York, USA</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
 
-                        <div className="col-lg-8 col-md-8 p-0">
-                          <div className="comments">
-                            <div className="rating">
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                            </div>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Quis ipsum suspendisse
-                              ultrices gravida. Risus commodo maecenas accumsan
-                              lacus vel facilisis.
-                            </p>
-                            <div className="row m-0">
-                              <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
-                                <ul className="like-unlike">
-                                  <li>
-                                    <a href="#">Like</a>
-                                  </li>
-                                  <li>
-                                    <a href="#">Unlike</a>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div
-                                className="
-                                col-lg-4 col-md-4 col-4 col-sm-4
-                                p-0
-                                text-right
-                              "
-                              >
-                                <a href="#">Comment</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div className="user-review">
-                      <div className="row m-0">
-                        <div className="col-lg-4 col-md-4 p-0">
-                          <div className="user">
-                            <div className="d-flex">
-                              <img src="/images/user2.jpg" alt="image" />
-                              <div className="title">
-                                <h4>Sarah Taylor</h4>
-                                <span>New York, USA</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="col-lg-8 col-md-8 p-0">
-                          <div className="comments">
-                            <div className="rating">
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                            </div>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Quis ipsum suspendisse
-                              ultrices gravida. Risus commodo maecenas accumsan
-                              lacus vel facilisis.
-                            </p>
-                            <div className="row m-0">
-                              <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
-                                <ul className="like-unlike">
-                                  <li>
-                                    <a href="#">Like</a>
-                                  </li>
-                                  <li>
-                                    <a href="#">Unlike</a>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div
-                                className="
-                                col-lg-4 col-md-4 col-4 col-sm-4
-                                p-0
-                                text-right
-                              "
-                              >
-                                <a href="#">Comment</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="user-review">
-                      <div className="row m-0">
-                        <div className="col-lg-4 col-md-4 p-0">
-                          <div className="user">
-                            <div className="d-flex">
-                              <img src="/images/user3.jpg" alt="image" />
-                              <div className="title">
-                                <h4>Jason Smith</h4>
-                                <span>New York, USA</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="col-lg-8 col-md-8 p-0">
-                          <div className="comments">
-                            <div className="rating">
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                              <span className="bx bxs-star checked"></span>
-                            </div>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Quis ipsum suspendisse
-                              ultrices gravida. Risus commodo maecenas accumsan
-                              lacus vel facilisis.
-                            </p>
-                            <div className="row m-0">
-                              <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
-                                <ul className="like-unlike">
-                                  <li>
-                                    <a href="#">Like</a>
-                                  </li>
-                                  <li>
-                                    <a href="#">Unlike</a>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div
-                                className="
-                                col-lg-4 col-md-4 col-4 col-sm-4
-                                p-0
-                                text-right
-                              "
-                              >
-                                <a href="#">Comment</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="add-review">
-                  <div className="review-form-wrapper">
-                    <h3>Add A Review</h3>
-                    <p className="comment-notes">
+                 */}
+                  <div id="add-review">
+                    {userType == "Customer" &&
+                      (<div className="review-form-wrapper">
+                        <h3>Add A Review</h3>
+                        {/* <p className="comment-notes">
                       Your email address will not be published. Required fields
                       are marked <span>*</span>
-                    </p>
+                    </p> */}
 
-                    <form>
-                      <div className="row">
-                        <div className="col-lg-12 col-md-12">
-                          <div className="sub-ratings">
-                            <div className="row">
-                              <div className="col-lg-4 col-md-4 col-6 col-sm-6">
-                                <div className="add-sub-rating">
-                                  <h4>Cleanliness</h4>
-                                  <div className="cleanliness-rating">
-                                    <input
-                                      type="radio"
-                                      id="cleanlinessStar5"
-                                      name="cleanliness-rating"
-                                      value="5"
-                                    />
-                                    <label htmlFor="cleanlinessStar5"></label>
-                                    <input
-                                      type="radio"
-                                      id="cleanlinessStar4"
-                                      name="cleanliness-rating"
-                                      value="4"
-                                    />
-                                    <label htmlFor="cleanlinessStar4"></label>
-                                    <input
-                                      type="radio"
-                                      id="cleanlinessStar3"
-                                      name="cleanliness-rating"
-                                      value="3"
-                                    />
-                                    <label htmlFor="cleanlinessStar3"></label>
-                                    <input
-                                      type="radio"
-                                      id="cleanlinessStar2"
-                                      name="cleanliness-rating"
-                                      value="2"
-                                    />
-                                    <label htmlFor="cleanlinessStar2"></label>
-                                    <input
-                                      type="radio"
-                                      id="cleanlinessStar1"
-                                      name="cleanliness-rating"
-                                      value="1"
-                                    />
-                                    <label htmlFor="cleanlinessStar1"></label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-lg-4 col-md-4 col-6 col-sm-6">
-                                <div className="add-sub-rating">
-                                  <h4>Accuracy</h4>
-                                  <div className="accuracy-rating">
-                                    <input
-                                      type="radio"
-                                      id="accuracyStar5"
-                                      name="accuracy-rating"
-                                      value="5"
-                                    />
-                                    <label htmlFor="accuracyStar5"></label>
-                                    <input
-                                      type="radio"
-                                      id="accuracyStar4"
-                                      name="accuracy-rating"
-                                      value="4"
-                                    />
-                                    <label htmlFor="accuracyStar4"></label>
-                                    <input
-                                      type="radio"
-                                      id="accuracyStar3"
-                                      name="accuracy-rating"
-                                      value="3"
-                                    />
-                                    <label htmlFor="accuracyStar3"></label>
-                                    <input
-                                      type="radio"
-                                      id="accuracyStar2"
-                                      name="accuracy-rating"
-                                      value="2"
-                                    />
-                                    <label htmlFor="accuracyStar2"></label>
-                                    <input
-                                      type="radio"
-                                      id="accuracyStar1"
-                                      name="accuracy-rating"
-                                      value="1"
-                                    />
-                                    <label htmlFor="accuracyStar1"></label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-lg-4 col-md-4 col-6 col-sm-6">
-                                <div className="add-sub-rating">
-                                  <h4>Location</h4>
-                                  <div className="location-rating">
-                                    <input
-                                      type="radio"
-                                      id="locationStar5"
-                                      name="location-rating"
-                                      value="5"
-                                    />
-                                    <label htmlFor="locationStar5"></label>
-                                    <input
-                                      type="radio"
-                                      id="locationStar4"
-                                      name="location-rating"
-                                      value="4"
-                                    />
-                                    <label htmlFor="locationStar4"></label>
-                                    <input
-                                      type="radio"
-                                      id="locationStar3"
-                                      name="location-rating"
-                                      value="3"
-                                    />
-                                    <label htmlFor="locationStar3"></label>
-                                    <input
-                                      type="radio"
-                                      id="locationStar2"
-                                      name="location-rating"
-                                      value="2"
-                                    />
-                                    <label htmlFor="locationStar2"></label>
-                                    <input
-                                      type="radio"
-                                      id="locationStar1"
-                                      name="location-rating"
-                                      value="1"
-                                    />
-                                    <label htmlFor="locationStar1"></label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-lg-4 col-md-4 col-6 col-sm-6">
-                                <div className="add-sub-rating">
-                                  <h4>Check-in</h4>
-                                  <div className="checkin-rating">
-                                    <input
-                                      type="radio"
-                                      id="checkInStar5"
-                                      name="rating"
-                                      value="5"
-                                    />
-                                    <label htmlFor="checkInStar5"></label>
-                                    <input
-                                      type="radio"
-                                      id="checkInStar4"
-                                      name="rating"
-                                      value="4"
-                                    />
-                                    <label htmlFor="checkInStar4"></label>
-                                    <input
-                                      type="radio"
-                                      id="checkInStar3"
-                                      name="rating"
-                                      value="3"
-                                    />
-                                    <label htmlFor="checkInStar3"></label>
-                                    <input
-                                      type="radio"
-                                      id="checkInStar2"
-                                      name="rating"
-                                      value="2"
-                                    />
-                                    <label htmlFor="checkInStar2"></label>
-                                    <input
-                                      type="radio"
-                                      id="checkInStar1"
-                                      name="rating"
-                                      value="1"
-                                    />
-                                    <label htmlFor="checkInStar1"></label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-lg-4 col-md-4 col-6 col-sm-6">
-                                <div className="add-sub-rating">
-                                  <h4>Communication</h4>
-                                  <div className="communication-rating">
-                                    <input
-                                      type="radio"
-                                      id="communicationStar5"
-                                      name="communication-rating"
-                                      value="5"
-                                    />
-                                    <label htmlFor="communicationStar5"></label>
-                                    <input
-                                      type="radio"
-                                      id="communicationStar4"
-                                      name="communication-rating"
-                                      value="4"
-                                    />
-                                    <label htmlFor="communicationStar4"></label>
-                                    <input
-                                      type="radio"
-                                      id="communicationStar3"
-                                      name="communication-rating"
-                                      value="3"
-                                    />
-                                    <label htmlFor="communicationStar3"></label>
-                                    <input
-                                      type="radio"
-                                      id="communicationStar2"
-                                      name="communication-rating"
-                                      value="2"
-                                    />
-                                    <label htmlFor="communicationStar2"></label>
-                                    <input
-                                      type="radio"
-                                      id="communicationStar1"
-                                      name="communication-rating"
-                                      value="1"
-                                    />
-                                    <label htmlFor="communicationStar1"></label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-lg-4 col-md-4 col-6 col-sm-6">
-                                <div className="add-sub-rating">
-                                  <h4>Value</h4>
-                                  <div className="value-rating">
-                                    <input
-                                      type="radio"
-                                      id="valueStar5"
-                                      name="value-rating"
-                                      value="5"
-                                    />
-                                    <label htmlFor="valueStar5"></label>
-                                    <input
-                                      type="radio"
-                                      id="valueStar4"
-                                      name="value-rating"
-                                      value="4"
-                                    />
-                                    <label htmlFor="valueStar4"></label>
-                                    <input
-                                      type="radio"
-                                      id="valueStar3"
-                                      name="value-rating"
-                                      value="3"
-                                    />
-                                    <label htmlFor="valueStar3"></label>
-                                    <input
-                                      type="radio"
-                                      id="valueStar2"
-                                      name="value-rating"
-                                      value="2"
-                                    />
-                                    <label htmlFor="valueStar2"></label>
-                                    <input
-                                      type="radio"
-                                      id="valueStar1"
-                                      name="value-rating"
-                                      value="1"
-                                    />
-                                    <label htmlFor="valueStar1"></label>
+                        <form onSubmit={reviewSubmit}>
+                          <div className="row">
+                            <div className="col-lg-12 col-md-12">
+                              <div className="sub-ratings">
+                                <div className="row">
+                                  <div className="col-lg-12 col-md-4 col-6 col-sm-6">
+                                    <div className="add-sub-rating">
+                                      <h4>Rating</h4>
+                                      <div className="cleanliness-rating">
+                                        <input
+                                          type="radio"
+                                          id="cleanlinessStar5"
+                                          name="cleanliness-rating"
+                                          // value="5"
+                                          onChange={() => setRating(5)}
+                                        />
+                                        <label htmlFor="cleanlinessStar5"></label>
+                                        <input
+                                          type="radio"
+                                          id="cleanlinessStar4"
+                                          name="cleanliness-rating"
+                                          // value="4"
+                                          onChange={() => setRating(4)}
+                                        />
+                                        <label htmlFor="cleanlinessStar4"></label>
+                                        <input
+                                          type="radio"
+                                          id="cleanlinessStar3"
+                                          name="cleanliness-rating"
+                                          value="3"
+                                          onChange={() => setRating(3)}
+                                        />
+                                        <label htmlFor="cleanlinessStar3"></label>
+                                        <input
+                                          type="radio"
+                                          id="cleanlinessStar2"
+                                          name="cleanliness-rating"
+                                          value="2"
+                                          onChange={() => setRating(2)}
+                                        />
+                                        <label htmlFor="cleanlinessStar2"></label>
+                                        <input
+                                          type="radio"
+                                          id="cleanlinessStar1"
+                                          name="cleanliness-rating"
+                                          value="1"
+                                          onChange={() => setRating(1)}
+                                        />
+                                        <label htmlFor="cleanlinessStar1"></label>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
 
-                        <div className="col-lg-6 col-md-6">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Name *"
-                            />
-                          </div>
-                        </div>
+                            <div className="col-lg-12 col-md-6">
+                              <div className="form-group">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Name *"
+                                  value={customerName}
+                                />
+                              </div>
+                            </div>
 
-                        <div className="col-lg-6 col-md-6">
-                          <div className="form-group">
-                            <input
-                              type="email"
-                              className="form-control"
-                              placeholder="Email *"
-                            />
-                          </div>
-                        </div>
+                            <div className="col-lg-12 col-md-6">
+                              <div className="form-group">
+                                <input
+                                  type="email"
+                                  className="form-control"
+                                  placeholder="Email *"
+                                  value={customerEmail}
+                                />
+                              </div>
+                            </div>
 
-                        <div className="col-lg-12 col-md-12">
-                          <div className="form-group">
-                            <textarea
-                              placeholder="Your review"
-                              className="form-control"
-                              cols="30"
-                              rows="6"
-                            ></textarea>
-                          </div>
-                        </div>
+                            <div className="col-lg-12 col-md-12">
+                              <div className="form-group">
+                                <textarea
+                                  placeholder="Your review"
+                                  className="form-control"
+                                  cols="30"
+                                  rows="6"
+                                  value={reviewMsg}
+                                  onChange={(e) => setReviewMsg(e.target.value)}
+                                ></textarea>
+                              </div>
+                              {error && (
+                                <p style={{ color: "red" }}>
+                                  Please give ratings and review
+                                </p>
+                              )}
+                            </div>
 
-                        <div className="col-lg-12 col-md-12">
+                            {/* <div className="col-lg-12 col-md-12">
                           <p className="comment-form-cookies-consent">
                             <input type="checkbox" id="test1" />
                             <label htmlFor="test1">
@@ -1042,17 +927,17 @@ const SingleListings = () => {
                               for the next time I comment.
                             </label>
                           </p>
-                        </div>
+                        </div> */}
 
-                        <div className="col-lg-12 col-md-12">
-                          <button type="submit">Submit</button>
-                        </div>
-                      </div>
-                    </form>
+                            <div className="col-lg-12 col-md-12">
+                              <button type="submit">Submit</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>)}
                   </div>
-                </div> */}
-                {/* <--------Other Services-------> */}
-                {/* <h3>Other Nearby Services</h3>
+                  {/* <--------Other Services-------> */}
+                  {/* <h3>Other Nearby Services</h3>
                 <div className="row">
                   <div className="col-lg-6 col-md-6">
                     <div className="single-listings-box">
@@ -1101,11 +986,11 @@ const SingleListings = () => {
                         "
                         >
                           <div className="rating">
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
                             <span className="count">(45)</span>
                           </div>
                           <div className="price">
@@ -1184,10 +1069,10 @@ const SingleListings = () => {
                         "
                         >
                           <div className="rating">
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
+                           <span className="bx bxs-star checked"></span>
                             <i className="bx bx-star"></i>
                             <span className="count">(10)</span>
                           </div>
@@ -1199,47 +1084,6 @@ const SingleListings = () => {
                     </div>
                   </div>
                 </div> */}
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-md-12">
-              <div className="listings-sidebar">
-                {/* Booking Online */}
-                {/* <div className="listings-widget book_listings">
-                  <h3>Booking Online</h3>
-                  <a href="#" className="default-btn">
-                    Book Now
-                  </a>
-                  <span>
-                    By <a href="#">Booking.com</a>
-                  </span>
-                </div> */}
-
-                <div className="listings-widget listings_contact_details">
-                  <h3>Contact Details</h3>
-                  <ul>
-                    {/* <li>
-                      <i className="bx bx-globe"></i>
-                      <a href="#">www.indice.com</a>
-                    </li> */}
-                    {business !== null && (
-                      <li>
-                        <i className="bx bx-phone-call"></i>
-                        <a href="tel:+2122791456">{business.mobile}</a>
-                      </li>
-                    )}
-                    {/* <li>
-                      <i className="bx bx-directions"></i>
-                      <a href="#">Get Directions</a>
-                    </li> */}
-                    {business !== null && (
-                      <li>
-                        <i className="bx bx-map"></i>
-                        {business.location[0]}, {business.city[0]},{" "}
-                        {business.state[0]}
-                      </li>
-                    )}
-                  </ul>
                 </div>
 
                 {/* Hosted By Profile */}
@@ -1295,7 +1139,7 @@ const SingleListings = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
       <Footer bgColor="bg-f5f5f5" />
     </>
   );
