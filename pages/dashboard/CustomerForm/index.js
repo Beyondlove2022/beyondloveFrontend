@@ -273,11 +273,11 @@ const Profile = () => {
                             <form onSubmit={customerDetails} >
                                 <div className="row">
                                     <div className="col-xl-6 col-lg-12 col-md-12">
-                                        <div className="form-group">
+                                        <div className="form-group" >
                                             <label> Name</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Name"
                                                 onChange={(e) => setName(e.target.value)}
                                                 value={name}
@@ -291,11 +291,11 @@ const Profile = () => {
                                     </div>
 
                                     <div className="col-xl-6 col-lg-12 col-md-12">
-                                        <div className="form-group">
+                                        <div className="form-group ">
                                             <label>Email</label>
                                             <input
                                                 type="email"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Email"
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 value={email}
@@ -313,7 +313,7 @@ const Profile = () => {
                                             <label>Phone</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Phone Number"
                                                 maxlength={10}
                                                 onChange={(e) => setMobile(e.target.value)}
@@ -336,7 +336,7 @@ const Profile = () => {
                                             <label>Door No.</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Door No."
                                                 onChange={(e) => setDoorNumber(e.target.value)}
                                                 value={doorNumber}
@@ -349,7 +349,7 @@ const Profile = () => {
                                             <label>Street, Sector, Area, Colony</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Street"
                                                 onChange={(e) => setStreet(e.target.value)}
                                                 value={street}
@@ -362,7 +362,7 @@ const Profile = () => {
                                             <label>Landmark</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Landmark"
                                                 onChange={(e) => setLandmark(e.target.value)}
                                                 value={landmark}
@@ -374,7 +374,7 @@ const Profile = () => {
                                             <label>PIN code</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Pin Code"
                                                 onChange={(e) => setPincode(e.target.value)}
                                                 value={pincode}
@@ -393,7 +393,7 @@ const Profile = () => {
                                                 <i className="bx bx-menu-alt-left"></i> State:
                                             </label>
                                             <select
-                                                className="dashbaord-category-select"
+                                                className="dashbaord-category-select form-color"
                                                 placeholder="Select the state"
                                                 onChange={handleClickState}
                                                 value={state}
@@ -420,7 +420,7 @@ const Profile = () => {
                                                 <i className="bx bx-menu-alt-left"></i> City:
                                             </label>
                                             <select
-                                                className="dashbaord-category-select"
+                                                className="dashbaord-category-select form-color"
                                                 onChange={handleOnChangeCity}
                                                 onFocus={handleClickCity}
                                             >
@@ -452,7 +452,7 @@ const Profile = () => {
                                             <label>
                                                 <i className="bx bx-menu-alt-left"></i> Location:
                                             </label>
-                                            <select className="dashbaord-category-select"
+                                            <select className="dashbaord-category-select form-color"
                                                 onChange={handleOnChangeLocation}
                                                 onFocus={handleClickLocation}
                                             >
@@ -529,7 +529,7 @@ const Profile = () => {
                                             <label> Name</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Pet Name"
                                                 onChange={(e) => setPetName(e.target.value)}
                                             />
@@ -541,7 +541,7 @@ const Profile = () => {
                                                 <i className="bx bx-menu-alt-left"></i> Breed:
                                             </label>
                                             <select
-                                                className="dashbaord-category-select"
+                                                className="dashbaord-category-select form-color"
                                                 onChange={(e) => handleBreed(e)} 
                                                 >                                           
                                                 <option>Select the Breed </option>
@@ -556,7 +556,7 @@ const Profile = () => {
                                             <label>option:</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Breed Name"
                                                onChange={(e) => setBreed(e.target.value)}
                                             ></input>
@@ -568,7 +568,7 @@ const Profile = () => {
                                             <label>DOB</label>
                                             <input
                                                 type="date"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Date of Birth"
                                                 onChange={(e) => setDob(e.target.value)}
                                             />
@@ -579,7 +579,7 @@ const Profile = () => {
                                             <label>Age</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Age"
                                                 onChange={(e) => setAge(e.target.value)}
 
@@ -593,8 +593,8 @@ const Profile = () => {
                                                 <div class="col-lg-6 py-3" >
                                                     <label className='checkbox'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list'
+                                                            type='radio'
+                                                            name='Gender'
                                                             value="Male"
                                                             onChange={(e) => setGender(e.target.value)}
                                                             />
@@ -602,11 +602,13 @@ const Profile = () => {
                                                     </label>
                                                 </div>
                                                 <div class="col-lg-6 py-3">
-                                                    <label className='checkbox'>
+                                                    <label className='checkbox check'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list'
+                                                            type='radio'
+                                                            name='Gender'
                                                             value="Female"
+                                                            className='checked1'                                                           
+                                                            
                                                             onChange={(e) => setGender(e.target.value)}
                                                             />
                                                         <span>Female</span>
@@ -620,7 +622,7 @@ const Profile = () => {
                                             <label>Weight</label>
                                             <input
                                                 type="Number"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 placeholder="Weight"
                                                 onChange={(e) => setWeight(e.target.value)}
 
@@ -635,8 +637,8 @@ const Profile = () => {
                                                 <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list'
+                                                            type='radio'
+                                                            name='Active'
                                                             value="High"
                                                             onChange={(e) => setActive(e.target.value)}
                                                             
@@ -647,8 +649,8 @@ const Profile = () => {
                                                 <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list'
+                                                            type='radio'
+                                                            name='Active'
                                                             value="Medium"
                                                             onChange={(e) => setActive(e.target.value)}
                                                             
@@ -659,8 +661,8 @@ const Profile = () => {
                                                 <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list'
+                                                            type='radio'
+                                                            name='Active'
                                                             value="Low"
                                                             onChange={(e) => setActive(e.target.value)}
                                                             />
@@ -676,14 +678,16 @@ const Profile = () => {
                                     <div className="col-xl-12 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Trained Pet</label>
+                                            
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list'
+                                                            type='radio'
+                                                            name='TrainedPet'
                                                             value="yes"
-                                                            onChange={(e) => setTrained(e.target.value)}
+                                                            className='form-radio'
+                                                            onChange={(e) => setTrainedPet(e.target.value)}
                                                         />
                                                         <span> Yes</span>
                                                     </label>
@@ -691,16 +695,17 @@ const Profile = () => {
                                                 <div class="col-lg-4">
                                                     <label className='checkbox'>
                                                         <input
-                                                            type='checkbox'
-                                                            name='facilities-list' 
+                                                            type='radio'
+                                                            name='TrainedPet' 
                                                             value="No"    
-                                                            onChange={(e) => setTrained(e.target.value)}                                           
+                                                            onChange={(e) => setTrainedPet(e.target.value)}                                           
 
                                                         />
-                                                        <span> No</span>
+                                                        <span > No</span>
                                                     </label>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                     <div className="col-lg-12 col-md-12">
@@ -714,7 +719,7 @@ const Profile = () => {
                                             <label>Name</label>
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 onChange={(e) => setVaccinationName(e.target.value)}
 
                                             />
@@ -726,7 +731,7 @@ const Profile = () => {
                                             <label>Date</label>
                                             <input
                                                 type="date"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 onChange={(e) => SetVaccinationDate(e.target.value)}
 
                                             />
@@ -737,7 +742,7 @@ const Profile = () => {
                                             <label>Due Date</label>
                                             <input
                                                 type="date"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 onChange={(e) => SetVaccinationDueDate(e.target.value)}
 
                                             />
@@ -762,7 +767,7 @@ const Profile = () => {
                                             <label>vaccination</label>
                                             <input
                                                 type="file"
-                                                className="form-control"
+                                                className="form-control form-color"
                                                 onChange={(e) => setVaccinationDocsUpload(e.target.value)}
 
                                             />
@@ -775,7 +780,7 @@ const Profile = () => {
                                                 cols="5"
                                                 rows="3"
                                                 placeholder="..."
-                                                className="form-control"
+                                                className="form-control form-color"
                                             ></textarea>
                                         </div>
                                     </div>

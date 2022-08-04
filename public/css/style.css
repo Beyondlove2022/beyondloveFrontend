@@ -5120,7 +5120,7 @@ Listings Widget Sidebar CSS
 .listings-widget-area .widget_categories ul li input[type="checkbox"] {
   --active: var(--mainColor);
   --active-inner: var(--whiteColor);
-  --focus: 2px rgba(39, 94, 254, 0.3);
+  --focus: 2px rgba(236, 254, 39, 0.3);
   --border: #d5d5d5;
   --border-hover: var(--mainColor);
   --background: var(--whiteColor);
@@ -12144,7 +12144,9 @@ All Modal CSS
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-login form button:hover {
   background-color: var(--blackColor);
+  background-color:#fabc1d !important ;
   color: var(--whiteColor);
+  color: black !important;
 }
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-login .dont-account {
@@ -12288,7 +12290,9 @@ All Modal CSS
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-register form button:hover {
   background-color: var(--blackColor);
+  background-color:#fabc1d !important ;
   color: var(--whiteColor);
+  color: black !important;
 }
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-register .already-account {
@@ -16534,3 +16538,10 @@ th {
   border: none;
   margin-top: 5px;
 }
+.btn-loginreg :hover{
+  background-color:#fabc1d !important;
+}
+.form-color{
+  background-color: #ffffee !important;
+}
+
