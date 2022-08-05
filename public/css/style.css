@@ -251,6 +251,7 @@ p:last-child {
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 13px;
+  cursor: pointer;
   padding-bottom: 13px;
 }
 
@@ -16565,14 +16566,21 @@ th {
 }
 
 .breed-card img {
-
   max-width: 200px;
   height: auto;
+  margin: 0 auto;
 }
 
 .breed-namelist {
   list-style-type: none;
-  padding: 2px
+  padding: 10px;
+  line-height: 33px;
+}
+
+.breed-namelist li {
+  font-weight: 600;
+  color: #fabc1d;
+  font-size: 18px;
 }
 
 .breed-card {
@@ -16585,6 +16593,9 @@ th {
 
 .fontbi {
   margin-left: auto;
+  font-size: 27px;
+  margin-top: 12px;
+  margin-right: 10px;
 }
 
 .replay-btn {
@@ -16593,4 +16604,25 @@ th {
 
 .replay-btn input {
   border-radius: 30px;
+}
+
+.package-view {
+  text-align: center;
+  background: #ffffee;
+  padding: 30px 20px 10px 20px;
+  border-radius: 10px;
+}
+
+.package-view .forgot-group {
+  margin-bottom: unset;
+}
+
+.package-view .form-group div {
+  line-height: 35px;
+  font-weight: 580;
+  font-size: 18px;
+}
+
+.package-view a {
+  cursor: pointer;
 }

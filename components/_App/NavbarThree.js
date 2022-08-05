@@ -234,7 +234,6 @@ const NavbarThree = () => {
 
             <div className={displayMiniAuth ? 'container active' : 'container'}>
               <div className='option-inner'>
-                {console.log(token)}
                 {token == null || token == "" ?
                   (<div className='others-option'>
                     <div className='option-item'>

@@ -36,29 +36,40 @@ const Profile = () => {
     const [vaccinationDocsUpload, setVaccinationDocsUpload] = useState("");
     const [allergies, setAllergies] = useState("");
     const [error, setError] = useState(false);
-    const [petDetailForm, setPetDetailForm] = useState(false);
+    const [petDetailForm, setPetDetailForm] = useState(true);
     const [cityFilter, setCityFilter] = useState([]);
     const [trainedPet, setTrainedPet] = useState("");
     const [breed, setBreed] = useState("");
     const [showOptionalBreed, setShowOptionalBreed] = useState(false);
-
     const [locationFilter, setLocationFilter] = useState([]);
+    const [vaccinatedId, setVaccinatedId] = useState(1);
+    const [vaccinatedList, setVaccinatedList] = useState([])
+    const [petData, setPetData] = useState([]);
+    const [petDetails, setPetDetails] = useState("")
 
     useEffect(() => {
         if (typeof window != "undefined") {
             console.log("we are running on the client");
             let token = localStorage.getItem("token")
             let user = JSON.parse(localStorage.getItem("user"));
-            if (user != null && user != undefined) {
 
+            if (user != null && user != undefined) {
                 let id = user._id;
                 getCustomerProfile(id)
                 setToken(token)
+                getAllCustomerPetProfiles(id)
             }
             states.sort((a, b) => a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1);
         } else {
             console.log("we are running on the server");
         }
+    }, [])
+
+    useEffect(() => {
+        petData.map((pet) => {
+            console.log(pet)
+            getPetProfile(pet._id)
+        })
     }, [])
 
     const handleClickState = (e) => {
@@ -79,7 +90,6 @@ const Profile = () => {
     const getCustomerProfile = async (id) => {
         try {
             const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/get-profile/${id}`);
-            console.log(data)
             setName(data.customer.customerName)
             setEmail(data.customer.email)
             setMobile(data.customer.mobile)
@@ -185,6 +195,29 @@ const Profile = () => {
         }
     };
 
+    const handleVaccinatedList = () => {
+        setVaccinatedList((vaccinatedList) => [...vaccinatedList,
+        { id: vaccinatedId, vacName: vaccinationName, vacDate: vaccinationDate, vacDue: vaccinationDueDate },]);
+        console.log(vaccinatedList)
+        setVaccinationName("")
+        SetVaccinationDate("")
+        SetVaccinationDueDate("")
+    }
+
+    const vaccinationCreate = () => {
+        if (vaccinationName !== "" && vaccinationDate !== "" && vaccinationDueDate !== "") {
+            setVaccinatedId((vaccinatedId) => vaccinatedId + 1);
+            handleVaccinatedList();
+
+        }
+    }
+
+    const rmPackage = (Name) => {
+        const remove = vaccinatedList.filter((rem) => rem.vacName !== Name);
+        setVaccinatedList(remove)
+        console.log(remove)
+    }
+
     const petInformation = async (e) => {
         e.preventDefault();
         const d = {
@@ -196,15 +229,11 @@ const Profile = () => {
             gender,
             weight,
             active,
-            vaccinationName,
-            vaccinationDate,
-            vaccinationDueDate,
-            vaccinationDocsUpload,
+            vaccinationDetails: vaccinatedList,
+            vacinationCertificates: vaccinationDocsUpload,
             allergies,
-            trainedPet
-
+            trained: trainedPet
         }
-        console.log(breed);
         console.log(d)
         // if (petName === "" || breed === "" || breedOptional === "" || dob === "" || age === "" ||
         //     gender === "" || weight === "" || active === "" || vaccinationName === "" || vaccinationDate === "" ||
@@ -216,6 +245,7 @@ const Profile = () => {
         try {
             const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/customer/pet/create/${token}`, d);
             console.log(data);
+            // setPetData(data.petDetails)
             if (data.success) {
                 toast.success(data.msg, {
                     theme: "light",
@@ -245,6 +275,27 @@ const Profile = () => {
         // }
     };
 
+    // get all customer pet profile
+    const getAllCustomerPetProfiles = async (cusId) => {
+        console.log(cusId)
+        try {
+            const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/pet/get-allprofiles-by-customer/${cusId}`)
+            setPetData(data.customerPets)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // get pet unique profiles
+    const getPetProfile = async (petId) => {
+        try {
+            const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/pet/get-unique-profile/${petId}`)
+            console.log(data.pet)
+            setPetDetails(data.pet)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     // Breed Selection
     const handleBreed = (e) => {
         console.log(e.target.value)
@@ -284,7 +335,7 @@ const Profile = () => {
                                                 value={name}
                                             />
                                             {error && name == "" ? (
-                                                <span className='text-danger'>Please enter business name</span>
+                                                <span className='text-danger'>Please enter name</span>
                                             ) : (
                                                 <></>
                                             )}
@@ -686,7 +737,7 @@ const Profile = () => {
                                                         <input
                                                             type='radio'
                                                             name='TrainedPet'
-                                                            value="yes"
+                                                            value={true}
                                                             className='form-radio'
                                                             onChange={(e) => setTrainedPet(e.target.value)}
                                                         />
@@ -698,7 +749,7 @@ const Profile = () => {
                                                         <input
                                                             type='radio'
                                                             name='TrainedPet'
-                                                            value="No"
+                                                            value={false}
                                                             onChange={(e) => setTrainedPet(e.target.value)}
 
                                                         />
@@ -721,6 +772,7 @@ const Profile = () => {
                                             <input
                                                 type="text"
                                                 className="form-control form-color"
+                                                value={vaccinationName}
                                                 onChange={(e) => setVaccinationName(e.target.value)}
 
                                             />
@@ -733,6 +785,7 @@ const Profile = () => {
                                             <input
                                                 type="date"
                                                 className="form-control form-color"
+                                                value={vaccinationDate}
                                                 onChange={(e) => SetVaccinationDate(e.target.value)}
 
                                             />
@@ -744,25 +797,72 @@ const Profile = () => {
                                             <input
                                                 type="date"
                                                 className="form-control form-color"
+                                                value={vaccinationDueDate}
                                                 onChange={(e) => SetVaccinationDueDate(e.target.value)}
 
                                             />
                                         </div>
                                     </div>
-                                    <div
-                                        className="col-xl-2 col-lg-12 col-md-12"
-                                    >
+                                    <div className="col-xl-2 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>
                                                 <br />
                                             </label>
                                             <span data-toggle="modal" activeClassName="active">
-                                                <a className="default-btn">
+                                                <a className="default-btn"
+                                                    onClick={vaccinationCreate}
+                                                >
                                                     Add
                                                 </a>
                                             </span>
                                         </div>
                                     </div>
+
+                                    {/* vaccination display section */}
+                                    {vaccinatedList.map((vac) => {
+                                        return (
+                                            <div
+                                                className="col-xl-3 col-lg-12 col-md-12 package-view"
+                                                key={vac.id}
+                                                style={{ marginRight: "5px", marginBottom: "5px" }}
+                                            >
+                                                <div className="form-group">
+                                                    <div>
+                                                        <span>{vac.vacName}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>{vac.vacDate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>{vac.vacDue}</span>
+                                                    </div>
+                                                </div>
+                                                <span data-toggle="modal" activeClassName="active">
+                                                    <a
+                                                        className="default-btn"
+                                                        onClick={() => rmPackage(vac.vacName)}
+                                                    >
+                                                        Remove
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        )
+                                    })}
+
+
+                                    <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+                                        <div className="form-group">
+                                            <label>Allergies</label>
+                                            <textarea
+                                                cols="5"
+                                                rows="3"
+                                                placeholder="..."
+                                                className="form-control form-color"
+                                                onChange={(e) => setAllergies(e.target.value)}
+                                            ></textarea>
+                                        </div>
+                                    </div>
+
                                     <div className="col-xl-4 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>vaccination</label>
@@ -774,36 +874,28 @@ const Profile = () => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
+
+                                    <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
-                                            <label>Allergies</label>
-                                            <textarea
-                                                cols="5"
-                                                rows="3"
-                                                placeholder="..."
-                                                className="form-control form-color"
-                                            ></textarea>
-                                        </div>
-                                    </div>
-                                    <div className='card breed-card'>
-                                      <BiEdit className='fontbi'/>
-                                        <img src='/images/profile.png'></img>
-                                        <hr></hr>
-                                        <div className='card-body '>
-                                            <ul className='breed-namelist'>
-                                                <li>Name:</li>                                                
-                                            </ul>
+                                            <button type="submit">Save Changes</button>
                                         </div>
                                     </div>
 
-
-                                    
-                                        <div className="col-lg-12 col-md-12">
-                                            <div className="form-group">
-                                                <button type="submit">Save Changes</button>
+                                    <div className='col-xl-4 col-lg-12 col-md-12'>
+                                        <div className='card breed-card'>
+                                            <BiEdit className='fontbi' />
+                                            <img src='/images/profile.png'></img>
+                                            <hr></hr>
+                                            <div className='card-body '>
+                                                <ul className='breed-namelist'>
+                                                    <li>Name:</li>
+                                                    <li>Breed:</li>
+                                                    <li>DOB:</li>
+                                                </ul>
                                             </div>
                                         </div>
-                                    
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
