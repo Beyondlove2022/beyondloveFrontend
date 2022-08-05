@@ -5,12 +5,23 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import { BsFacebook, BsFillHeartFill, BsYoutube } from "react-icons/bs";
+import { RiWhatsappFill } from "react-icons/ri";
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  EmailShareButton,
+  EmailIcon,
+} from "react-share";
+import { MdEmail } from "react-icons/md";
 //components
 import NavbarTwo from "../components/_App/NavbarTwo";
 import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
 import { useRouter } from "next/router";
 
+ 
 const options = {
   loop: true,
   margin: 20,
@@ -65,7 +76,10 @@ const SingleListings = () => {
   const [averageRating, setAverageRating] = useState()
   const [review, setReview] = useState([])
   const router = useRouter();
+  const [displayDropdownShare, setDisplayDropdownShare] = useState(false);
 
+  // const shareUrl = `http://localhost:3000/single-listings/?category=${cate},${id}`;
+   const shareUrl =`www.google.com`
   useEffect(() => {
     if (typeof window !== "undefined") {
       let category = router.query.category;
@@ -96,6 +110,9 @@ const SingleListings = () => {
     }
   }, [run]);
 
+  const toggleDropdownShare = () => {
+    setDisplayDropdownShare(!displayDropdownShare);
+  }
   useEffect(() => {
     if (typeof window !== "undefined") {
       let id = router.query.id;
@@ -335,9 +352,47 @@ const SingleListings = () => {
           <div className="container-fluid">
             <ul className="share-save">
               <li>
-                <div className="share">
+                <div className="share" onClick={toggleDropdownShare}>
                   <i className="bx bx-share-alt"></i> Share
                 </div>
+                <div
+                  className={
+                    displayDropdownShare
+                      ? "dropdown-menu show pad-none"
+                      : "dropdown-menu "
+                  }
+                >
+                <div className="share-icons">
+                  <div>
+                    <FacebookShareButton
+                      url={shareUrl}
+                      quote={""}
+                      hashtag={""}
+                    >
+                      <BsFacebook size="27px" color="3B5998" />
+                    </FacebookShareButton>
+                  </div>
+                  <div>
+                    <EmailShareButton
+                      url={shareUrl}
+                      quote={""}
+                      hashtag={""}
+                    >
+                      <MdEmail size="27px" color="red" />
+                    </EmailShareButton>
+                  </div>
+                  <div>
+                    <WhatsappShareButton
+                      url={shareUrl}
+                      quote={""}
+                      hashtag={""}
+                    >
+                      <RiWhatsappFill size="27px" color="rgb(78 197 91)" />
+                    </WhatsappShareButton>
+                  </div>
+                </div>
+                  
+                  </div>
 
                 <div className="social">
                   <a href="#">

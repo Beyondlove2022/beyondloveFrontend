@@ -8752,10 +8752,12 @@ Page Title Area CSS
 }
 
 .page-title-bg {
-  background-color: #f6f6f6;
+  background-color: #f7e6bb;
   text-align: center;
   padding-top: 80px;
   padding-bottom: 80px;
+  
+  
 }
 
 .page-title-bg h2 {
@@ -16554,4 +16556,25 @@ th {
 .form-color{
   background-color: #ffffee !important;
 }
-
+.share-icons {
+  display: flex;
+  justify-content: space-evenly;
+}
+.breed-card img{
+  
+  max-width: 200px;
+  height: auto;
+}
+.breed-namelist{
+  list-style-type:none;
+  padding: 2px
+}
+.breed-card{
+  box-shadow: 0 0 8px 0 rgb(0 0 0 / 50%);
+}
+.card-body{
+  padding: 0.25rem !important;
+}
+.fontbi{
+  margin-left: auto;
+}

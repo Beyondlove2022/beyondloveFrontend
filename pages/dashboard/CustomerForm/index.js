@@ -1,5 +1,5 @@
 import Link from 'next/link';
-
+import { BiEdit } from "react-icons/bi";
 import DashboardNavbar from '../../../components/Dashboard/DashboardNavbar';
 import NavbarThree from '../../../components/_App/NavbarThree';
 import React, { useEffect, useState } from 'react';
@@ -39,8 +39,8 @@ const Profile = () => {
     const [petDetailForm, setPetDetailForm] = useState(false);
     const [cityFilter, setCityFilter] = useState([]);
     const [trainedPet, setTrainedPet] = useState("");
-    const [breed,setBreed] = useState("");
-    const [showOptionalBreed,setShowOptionalBreed] =useState(false);
+    const [breed, setBreed] = useState("");
+    const [showOptionalBreed, setShowOptionalBreed] = useState(false);
 
     const [locationFilter, setLocationFilter] = useState([]);
 
@@ -49,7 +49,7 @@ const Profile = () => {
             console.log("we are running on the client");
             let token = localStorage.getItem("token")
             let user = JSON.parse(localStorage.getItem("user"));
-            if(user != null && user != undefined){
+            if (user != null && user != undefined) {
 
                 let id = user._id;
                 getCustomerProfile(id)
@@ -185,7 +185,7 @@ const Profile = () => {
         }
     };
 
-    const petInformation = async(e) => {
+    const petInformation = async (e) => {
         e.preventDefault();
         const d = {
             petName,
@@ -213,46 +213,46 @@ const Profile = () => {
         //     console.log("error")
         //     setError(true); 
         // }else{
-            try {
-                const {data} = await axios.post(`${process.env.DOMAIN_NAME}/api/customer/pet/create/${token}`, d);
-                console.log(data);
-                if (data.success) {
-                    toast.success(data.msg, {
-                        theme: "light",
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                } else {
-                    toast.error(data.msg, {
-                        theme: "light",
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }
-            } catch (error) {
-                console.log(error);
+        try {
+            const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/customer/pet/create/${token}`, d);
+            console.log(data);
+            if (data.success) {
+                toast.success(data.msg, {
+                    theme: "light",
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                toast.error(data.msg, {
+                    theme: "light",
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
+        } catch (error) {
+            console.log(error);
+        }
         // }
     };
 
     // Breed Selection
-    const handleBreed =(e)=>{
+    const handleBreed = (e) => {
         console.log(e.target.value)
-        if(e.target.value == "others"){
+        if (e.target.value == "others") {
             setShowOptionalBreed(true)
             setBreed("")
         }
-        else{
+        else {
             setShowOptionalBreed(false)
             console.log(e.target.value);
             setBreed(e.target.value)
@@ -543,25 +543,25 @@ const Profile = () => {
                                             </label>
                                             <select
                                                 className="dashbaord-category-select form-color"
-                                                onChange={(e) => handleBreed(e)} 
-                                                >                                           
+                                                onChange={(e) => handleBreed(e)}
+                                            >
                                                 <option>Select the Breed </option>
                                                 <option value="others">Others</option>
                                             </select>
                                         </div>
                                     </div>
 
-                               <div className="col-xl-6 col-lg-12 col-md-12">
-                                {showOptionalBreed && 
-                                        <div className="form-group">
-                                            <label>option:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control form-color"
-                                                placeholder="Breed Name"
-                                               onChange={(e) => setBreed(e.target.value)}
-                                            ></input>
-                                        </div>
+                                    <div className="col-xl-6 col-lg-12 col-md-12">
+                                        {showOptionalBreed &&
+                                            <div className="form-group">
+                                                <label>option:</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-color"
+                                                    placeholder="Breed Name"
+                                                    onChange={(e) => setBreed(e.target.value)}
+                                                ></input>
+                                            </div>
                                         }
                                     </div>
                                     <div className="col-xl-6 col-lg-12 col-md-12">
@@ -598,7 +598,7 @@ const Profile = () => {
                                                             name='Gender'
                                                             value="Male"
                                                             onChange={(e) => setGender(e.target.value)}
-                                                            />
+                                                        />
                                                         <span>Male</span>
                                                     </label>
                                                 </div>
@@ -608,10 +608,10 @@ const Profile = () => {
                                                             type='radio'
                                                             name='Gender'
                                                             value="Female"
-                                                            className='checked1'                                                           
-                                                            
+                                                            className='checked1'
+
                                                             onChange={(e) => setGender(e.target.value)}
-                                                            />
+                                                        />
                                                         <span>Female</span>
                                                     </label>
                                                 </div>
@@ -642,8 +642,8 @@ const Profile = () => {
                                                             name='Active'
                                                             value="High"
                                                             onChange={(e) => setActive(e.target.value)}
-                                                            
-                                                            />
+
+                                                        />
                                                         <span> High</span>
                                                     </label>
                                                 </div>
@@ -654,8 +654,8 @@ const Profile = () => {
                                                             name='Active'
                                                             value="Medium"
                                                             onChange={(e) => setActive(e.target.value)}
-                                                            
-                                                            />
+
+                                                        />
                                                         <span> Medium</span>
                                                     </label>
                                                 </div>
@@ -666,7 +666,7 @@ const Profile = () => {
                                                             name='Active'
                                                             value="Low"
                                                             onChange={(e) => setActive(e.target.value)}
-                                                            />
+                                                        />
                                                         <span> Low</span>
                                                     </label>
                                                 </div>
@@ -679,7 +679,7 @@ const Profile = () => {
                                     <div className="col-xl-12 col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Trained Pet</label>
-                                            
+
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <label className='checkbox'>
@@ -697,16 +697,16 @@ const Profile = () => {
                                                     <label className='checkbox'>
                                                         <input
                                                             type='radio'
-                                                            name='TrainedPet' 
-                                                            value="No"    
-                                                            onChange={(e) => setTrainedPet(e.target.value)}                                           
+                                                            name='TrainedPet'
+                                                            value="No"
+                                                            onChange={(e) => setTrainedPet(e.target.value)}
 
                                                         />
                                                         <span > No</span>
                                                     </label>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     <div className="col-lg-12 col-md-12">
@@ -785,14 +785,25 @@ const Profile = () => {
                                             ></textarea>
                                         </div>
                                     </div>
-
-
-
-                                    <div className="col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <button type="submit">Save Changes</button>
+                                    <div className='card breed-card'>
+                                      <BiEdit className='fontbi'/>
+                                        <img src='/images/profile.png'></img>
+                                        <hr></hr>
+                                        <div className='card-body '>
+                                            <ul className='breed-namelist'>
+                                                <li>Name:</li>                                                
+                                            </ul>
                                         </div>
                                     </div>
+
+
+                                    
+                                        <div className="col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <button type="submit">Save Changes</button>
+                                            </div>
+                                        </div>
+                                    
                                 </div>
                             </form>
                         </div>
