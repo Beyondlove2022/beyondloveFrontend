@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast, TypeOptions } from "react-toastify";
+import "react-toastify/ReactToastify.min.css";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import { BsFacebook, BsFillHeartFill, BsYoutube } from "react-icons/bs";
 //components
@@ -78,8 +79,8 @@ const SingleListings = () => {
       if (user != null) {
         setUsetType(user.userType)
         setCustomerId(user._id)
+        getCustomerProfile(user._id)
         setCustomerEmail(user.email)
-        SetCustomerName(user.customerName)
         setToken(token)
       }
       setCategoryProfile(category)
@@ -103,7 +104,17 @@ const SingleListings = () => {
     } else {
       console.log("we are running on the server");
     }
-  }, [review])
+  }, [review]);
+
+
+  const getCustomerProfile = async (id) => {
+    try {
+      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/get-profile/${id}`);
+      SetCustomerName(data.customer.customerName)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getUniqueProfile = async (cate, id) => {
     console.log("running");
@@ -111,7 +122,6 @@ const SingleListings = () => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/business/get-profile/${cate}/${id}`
       );
-      console.log(data);
       setLikeCount(data.business.likes.length)
       setBusiness(data.business);
       setCoverImage(
@@ -166,7 +176,6 @@ const SingleListings = () => {
     }
     try {
       const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/like-unlike/${categoryProfile}/${token}`, d);
-      console.log(data)
       if (data.success) {
         toast.success(data.msg, {
           theme: "light",
@@ -467,8 +476,8 @@ const SingleListings = () => {
                                 <div className="d-flex">
                                   <img src="/images/user1.jpg" alt="image" />
                                   <div className="title">
-                                    <h4>{customerName}</h4>
-                                    <span>{customerEmail}</span>
+                                    <h4>{rev.customerName}</h4>
+                                    <span>{rev.customerEmail}</span>
                                   </div>
                                 </div>
                               </div>
@@ -509,6 +518,9 @@ const SingleListings = () => {
                                 <p>
                                   {rev.customerReview}
                                 </p>
+                                <p style={{ textAlign: "center" }}>
+                                  - {rev.reply}
+                                </p>
                                 <div className="row m-0">
                                   <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
                                     <ul className="like-unlike">
@@ -540,15 +552,10 @@ const SingleListings = () => {
                             </div>
                           </div>
                         </div>
-
                       )
                     })}
-
-
                   </div>
                 </div>)}
-
-
               </div>
             </div>
 
