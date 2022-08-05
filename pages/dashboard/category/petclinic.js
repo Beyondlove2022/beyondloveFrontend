@@ -43,9 +43,9 @@ const PetTraining = () => {
     if (typeof window != "undefined") {
       console.log("we are running on the client");
       let token = localStorage.getItem("token");
-      let user = JSON.parse(localStorage.getItem("user"))
-      setUserDetail(user)
-      setCategoryProfile(user.category)
+      let user = JSON.parse(localStorage.getItem("user"));
+      setUserDetail(user);
+      setCategoryProfile(user.category);
       let id = user._id;
       setBusinessid(id);
       getBusinessProfile(id);
@@ -110,10 +110,18 @@ const PetTraining = () => {
       establishedYear: established,
     };
     console.log(d);
-    if (email == "" || email == undefined && businessName == "" || businessName == undefined &&
-      mobile == "" || mobile == undefined && pincode == "" || pincode == undefined &&
-      state == "" || state == undefined && city == "" || city == undefined && location == "" ||
-      location == undefined && street == "" || street == undefined || street == null) {
+    if (
+      email == "" ||
+      (email == undefined && businessName == "") ||
+      (businessName == undefined && mobile == "") ||
+      (mobile == undefined && pincode == "") ||
+      (pincode == undefined && state == "") ||
+      (state == undefined && city == "") ||
+      (city == undefined && location == "") ||
+      (location == undefined && street == "") ||
+      street == undefined ||
+      street == null
+    ) {
       setError(true);
     } else {
       try {
@@ -218,6 +226,19 @@ const PetTraining = () => {
   const profilePicSubmit = async (e) => {
     e.preventDefault();
     console.log(apiprofileImg);
+    if (apiprofileImg == undefined) {
+      console.log("error");
+      return toast.error("Please Select Image", {
+        theme: "light",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     const formData = new FormData();
     formData.append("file", apiprofileImg);
     try {
@@ -256,6 +277,19 @@ const PetTraining = () => {
 
   const coverPicSubmit = async (e) => {
     e.preventDefault();
+    console.log(apiCoverImg);
+    if (apiCoverImg == undefined) {
+      return toast.error("Please Select Image", {
+        theme: "light",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     const formData = new FormData();
     formData.append("file", apiCoverImg);
     try {
@@ -315,11 +349,12 @@ const PetTraining = () => {
                   <form onSubmit={profilePicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        {userDetail.profileImage !== undefined && (<img
-                          src={profile}
-                          alt="imag"
-                          className="profile-image"
-                        />
+                        {userDetail.profileImage !== undefined && (
+                          <img
+                            src={profile}
+                            alt="imag"
+                            className="profile-image"
+                          />
                         )}
                         <input
                           type="file"
@@ -341,11 +376,12 @@ const PetTraining = () => {
                   <form onSubmit={coverPicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        {userDetail.profileImage !== undefined && (<img
-                          src={cover}
-                          alt="imag"
-                          className="profile-image"
-                        />
+                        {userDetail.profileImage !== undefined && (
+                          <img
+                            src={cover}
+                            alt="imag"
+                            className="profile-image"
+                          />
                         )}
                         <input
                           type="file"
@@ -528,7 +564,8 @@ const PetTraining = () => {
                         onChange={(e) => setDoorNumber(e.target.value)}
                         value={doorNumber}
                       />
-                      {error && doorNumber == "" || doorNumber == undefined ? (
+                      {(error && doorNumber == "") ||
+                      doorNumber == undefined ? (
                         <span className="text-danger">Please enter number</span>
                       ) : (
                         <></>
@@ -546,7 +583,7 @@ const PetTraining = () => {
                         onChange={(e) => setStreet(e.target.value)}
                         value={street}
                       />
-                      {error && street == "" || street == undefined ? (
+                      {(error && street == "") || street == undefined ? (
                         <span className="text-danger">Please enter street</span>
                       ) : (
                         <></>
@@ -577,7 +614,7 @@ const PetTraining = () => {
                         onChange={(e) => setPincode(e.target.value)}
                         value={pincode}
                       />
-                      {error && pincode == "" || pincode == undefined ? (
+                      {(error && pincode == "") || pincode == undefined ? (
                         <span className="text-danger">
                           Please enter pincode
                         </span>

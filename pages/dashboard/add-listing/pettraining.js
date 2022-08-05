@@ -73,7 +73,7 @@ const PetTraining = () => {
     e.preventDefault();
     if (files.length > 0) {
       for (var i = 0; i < files.length; i++) {
-        setLoading(true)
+        setLoading(true);
         const formData = new FormData();
         formData.append(`file`, files[i]);
         console.log(files);
@@ -90,7 +90,7 @@ const PetTraining = () => {
         }
       }
       setFiles([]);
-      setLoading(false)
+      setLoading(false);
       toast.success("Photos Uploaded Successfully", {
         theme: "light",
         position: "top-right",
@@ -270,7 +270,6 @@ const PetTraining = () => {
             </div>
           )}
         </div>
-
 
         <div className="gallery add-listings-btn">
           {businessPhotos.map((photos) => {
@@ -994,8 +993,8 @@ const PetTraining = () => {
           <div className="row align-items-center">
             <div className="col-lg-6 col-sm-6 col-md-6">
               <p>
-                <i className="bx bx-copyright"></i>2020 <a href="#">Indice</a>.
-                All rights reserved
+                <i className="bx bx-copyright"></i>2022
+                <a href="#">BEYONDLOVE</a>. All rights reserved
               </p>
             </div>
 
