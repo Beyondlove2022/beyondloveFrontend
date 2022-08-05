@@ -110,16 +110,10 @@ const PetTraining = () => {
       establishedYear: established,
     };
     console.log(d);
-    if (
-      email === "" &&
-      businessName === "" &&
-      mobile === "" &&
-      pincode === "" &&
-      street === "" &&
-      state === "" &&
-      city === "" &&
-      location === ""
-    ) {
+    if (email == "" || email == undefined && businessName == "" || businessName == undefined &&
+      mobile == "" || mobile == undefined && pincode == "" || pincode == undefined &&
+      state == "" || state == undefined && city == "" || city == undefined && location == "" ||
+      location == undefined && street == "" || street == undefined || street == null) {
       setError(true);
     } else {
       try {
@@ -534,6 +528,11 @@ const PetTraining = () => {
                         onChange={(e) => setDoorNumber(e.target.value)}
                         value={doorNumber}
                       />
+                      {error && doorNumber == "" || doorNumber == undefined ? (
+                        <span className="text-danger">Please enter number</span>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
 
@@ -547,7 +546,7 @@ const PetTraining = () => {
                         onChange={(e) => setStreet(e.target.value)}
                         value={street}
                       />
-                      {error && street == "" ? (
+                      {error && street == "" || street == undefined ? (
                         <span className="text-danger">Please enter street</span>
                       ) : (
                         <></>
@@ -578,7 +577,7 @@ const PetTraining = () => {
                         onChange={(e) => setPincode(e.target.value)}
                         value={pincode}
                       />
-                      {error && pincode == "" ? (
+                      {error && pincode == "" || pincode == undefined ? (
                         <span className="text-danger">
                           Please enter pincode
                         </span>
