@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import axios from "axios";
 import "react-toastify/ReactToastify.min.css";
@@ -6,6 +6,13 @@ import router from "next/router";
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 const CustomerRegister = () => {
+
+
+    useEffect(() => {
+        console.log("working")
+    }, [otp])
+
+
     const [name, setName] = useState("")
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
@@ -25,18 +32,23 @@ const CustomerRegister = () => {
 
     const onSubmitOtp = async (e) => {
         e.preventDefault();
-        try {
-            const d = {
-                type: "Customer"
+        if (name === "" && email === "" && mobile === "" && password === "") {
+            setError(true);
+        } else {
+            try {
+                const d = {
+                    type: "Customer"
+                }
+                const { data } = await axios.post(` ${process.env.DOMAIN_NAME}/api/customer/register-otp/${mobile}`, d);
+                console.log(data)
+                if (data.success) {
+                    setOtpPopUp(!otpPopUp);
+                }
+            } catch (error) {
+                console.log(error)
             }
-            const { data } = await axios.post(` ${process.env.DOMAIN_NAME}/api/customer/register-otp/${mobile}`, d);
-            console.log(data)
-            if (data.success) {
-                setOtpPopUp(!otpPopUp);
-            }
-        } catch (error) {
-            console.log(error)
         }
+
     }
 
     const submit = async (e) => {
@@ -48,8 +60,8 @@ const CustomerRegister = () => {
             password,
         }
         console.log(d);
-        if (name === "" || email === "" || mobile === "" || password === "") {
-            setError(true)
+        if (otp === " ") {
+            setError(true);
         }
         else {
             try {
@@ -73,6 +85,8 @@ const CustomerRegister = () => {
                     localStorage.setItem("token", data.token);
                     router.push({ pathname: `/dashboard/CustomerForm/` })
                 } else {
+                    setOtp("")
+                    console.log(otp)
                     toast.error(data.msg, {
                         theme: "light",
                         position: "top-right",
@@ -191,6 +205,11 @@ const CustomerRegister = () => {
                                 className="form-control"
                                 onChange={(e) => setOtp(e.target.value)}
                             />
+                            {error && otp == " " ? (
+                                <span className="text-danger">Please Enter OTP</span>
+                            ) : (
+                                <> </>
+                            )}
                         </div>
                         <button className="popup-btn" type="submit">
                             Submit

@@ -50,17 +50,72 @@ const CustomerLogin = () => {
 
     const resetPasswordSubmit = async (e) => {
         e.preventDefault();
-        if (resetPasswordChange === confirmPasswordChange) {
+        if (otp === "" || resetPasswordChange === "" || confirmPasswordChange === "") {
+            setError(true)
+        } else {
+            if (resetPasswordChange === confirmPasswordChange) {
+                try {
+                    const d = {
+                        password: resetPasswordChange,
+                        type: "Customer",
+                        mobile
+                    }
+                    const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}`, d);
+                    console.log(data);
+                    if (data.success) {
+                        setDisplayConfirm(false);
+                        toast.success(data.msg, {
+                            theme: "light",
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                        setMobile("")
+                        setCategory("")
+                        setOtp("");
+                        setResetPasswordChange("")
+                        setConfirmPasswordChange("")
+                    } else {
+                        setOtp("")
+                        toast.error(data.msg, {
+                            theme: "light",
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                setPasswordDidntMatch(true)
+            }
+        }
+
+    }
+
+    const forgotPasswordSubmit = async (e) => {
+        e.preventDefault();
+        if (mobile == "") {
+            setError(true)
+        } else {
             try {
                 const d = {
-                    password: resetPasswordChange,
-                    type: "Customer",
-                    mobile
+                    type: "Customer"
                 }
-                const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/verify-otp/${otp}`, d);
+                const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/forget-password/Customer/${mobile}`, d);
                 console.log(data);
                 if (data.success) {
-                    setDisplayConfirm(false);
+                    setForgotPop(false);
+                    setDisplayConfirm(!displayConfirm)
                     toast.success(data.msg, {
                         theme: "light",
                         position: "top-right",
@@ -71,12 +126,6 @@ const CustomerLogin = () => {
                         draggable: true,
                         progress: undefined,
                     });
-                    setMobile("")
-                    setCategory("")
-                    setOtp("");
-                    setResetPasswordChange("")
-                    setConfirmPasswordChange("")
-                    
                 } else {
                     toast.error(data.msg, {
                         theme: "light",
@@ -92,46 +141,6 @@ const CustomerLogin = () => {
             } catch (error) {
                 console.log(error)
             }
-        } else {
-            setPasswordDidntMatch(true)
-        }
-    }
-
-    const forgotPasswordSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const d = {
-                type: "Customer"
-            }
-            const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/forget-password/Customer/${mobile}`, d);
-            console.log(data);
-            if (data.success) {
-                setForgotPop(false);
-                setDisplayConfirm(!displayConfirm)
-                toast.success(data.msg, {
-                    theme: "light",
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            } else {
-                toast.error(data.msg, {
-                    theme: "light",
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            }
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -260,6 +269,11 @@ const CustomerLogin = () => {
                                 className="form-control"
                                 onChange={(e) => setMobile(e.target.value)}
                             />
+                            {error && mobile == "" ? (
+                                <span className="text-danger">Please Enter mobile number</span>
+                            ) : (
+                                <></>
+                            )}
                         </div>
 
                         <button className="popup-btn" type="submit">
@@ -300,6 +314,11 @@ const CustomerLogin = () => {
                                 className="form-control"
                                 onChange={(e) => setOtp(e.target.value)}
                             />
+                            {error && otp == "" ? (
+                                <span className="text-danger">Please Enter OTP</span>
+                            ) : (
+                                <></>
+                            )}
                         </div>
 
                         <div className="form-group reset">
@@ -309,6 +328,11 @@ const CustomerLogin = () => {
                                 className="form-control"
                                 onChange={resetPasswordOnChange}
                             />
+                            {error && resetPasswordChange == "" ? (
+                                <span className="text-danger">Please Enter Password</span>
+                            ) : (
+                                <></>
+                            )}
                             {showResetPassword ? (
                                 <AiOutlineEye
                                     className="password-icon"
@@ -329,6 +353,11 @@ const CustomerLogin = () => {
                                 className="form-control"
                                 onChange={confirmPasswordOnChange}
                             />
+                            {error && confirmPasswordChange == "" ? (
+                                <span className="text-danger">Please Enter Confirm Password</span>
+                            ) : (
+                                <></>
+                            )}
                             {showResetPassword ? (
                                 <AiOutlineEye
                                     className="password-icon"

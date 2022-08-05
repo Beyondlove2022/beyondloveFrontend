@@ -263,7 +263,7 @@ p:last-child {
   box-shadow: 4px 4px var(--mainColor);
   box-shadow: 4px 4px #fabc1d !important;
   color: var(--blackColor);
-  
+
 }
 
 /*form-control*/
@@ -12154,7 +12154,7 @@ All Modal CSS
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-login form button:hover {
   background-color: var(--blackColor);
-  background-color:#fabc1d !important ;
+  background-color: #fabc1d !important;
   color: var(--whiteColor);
   color: black !important;
 }
@@ -12300,7 +12300,7 @@ All Modal CSS
 
 .loginRegisterModal .modal-dialog .modal-content .tab-content .miran-register form button:hover {
   background-color: var(--blackColor);
-  background-color:#fabc1d !important ;
+  background-color: #fabc1d !important;
   color: var(--whiteColor);
   color: black !important;
 }
@@ -13865,7 +13865,7 @@ Dashboard CSS
   background-color: #3b99ca;
   background-color: #fabc1d !important;
   color: var(--whiteColor);
-  color:black !important;
+  color: black !important;
 }
 
 .my-profile-box .profile-box {
@@ -16550,12 +16550,15 @@ th {
   border: none;
   margin-top: 5px;
 }
-.btn-loginreg :hover{
-  background-color:#fabc1d !important;
+
+.btn-loginreg :hover {
+  background-color: #fabc1d !important;
 }
-.form-color{
+
+.form-color {
   background-color: #ffffee !important;
 }
+<<<<<<< HEAD
 .share-icons {
   display: flex;
   justify-content: space-evenly;
@@ -16577,4 +16580,13 @@ th {
 }
 .fontbi{
   margin-left: auto;
+=======
+
+.replay-btn {
+  display: flex;
+}
+
+.replay-btn input {
+  border-radius: 30px;
+>>>>>>> 09646028ce69e3d63e046f73b506e4b9ac46832d
 }
