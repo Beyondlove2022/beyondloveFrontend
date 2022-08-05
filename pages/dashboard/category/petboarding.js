@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import NavbarThree from '../../../components/_App/NavbarThree';
-import DashboardNavbar from '../../../components/Dashboard/DashboardNavbar';
-import React, { useEffect, useState } from 'react';
+import Link from "next/link";
+import NavbarThree from "../../../components/_App/NavbarThree";
+import DashboardNavbar from "../../../components/Dashboard/DashboardNavbar";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { states } from '../../../utils/state';
-import { cities } from '../../../utils/cities';
-import { locations } from '../../../utils/location';
-import { useDropzone } from 'react-dropzone';
+import { states } from "../../../utils/state";
+import { cities } from "../../../utils/cities";
+import { locations } from "../../../utils/location";
+import { useDropzone } from "react-dropzone";
 
 const PetTraining = () => {
   const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ const PetTraining = () => {
   const [packageName, setPackageName] = useState("");
   const [packagePrice, setPackagePrice] = useState("");
   const [established, setestablished] = useState("");
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
   const [apiprofileImg, setApiProfileImg] = useState();
@@ -43,23 +43,25 @@ const PetTraining = () => {
 
   useEffect(() => {
     if (typeof window != "undefined") {
-      console.log("we are running on the client")
+      console.log("we are running on the client");
       let token = localStorage.getItem("token");
-      let user = JSON.parse(localStorage.getItem("user"))
-      setUserDetail(user)
-      setCategoryProfile(user.category)
+      let user = JSON.parse(localStorage.getItem("user"));
+      setUserDetail(user);
+      setCategoryProfile(user.category);
       let id = user._id;
       setBusinessid(id);
-      getBusinessProfile(id)
-      setToken(token)
-      states.sort((a, b) => a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1);
+      getBusinessProfile(id);
+      setToken(token);
+      states.sort((a, b) =>
+        a.Geo_Name.toLowerCase() < b.Geo_Name.toLocaleLowerCase() ? -1 : 1
+      );
     } else {
       console.log("we are running on the server");
     }
-  }, [])
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: "image/*",
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>
@@ -72,37 +74,42 @@ const PetTraining = () => {
   });
 
   const thumbs = files.map((file) => (
-    <div key={file.name} className='drop-gallery-thumb'>
+    <div key={file.name} className="drop-gallery-thumb">
       <img src={file.preview} />
     </div>
   ));
 
-
   const getBusinessProfile = async (id) => {
     try {
-      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-profile/PetBoarding/${id}`);
-      console.log(data)
+      const { data } = await axios.get(
+        `${process.env.DOMAIN_NAME}/api/business/get-profile/PetBoarding/${id}`
+      );
+      console.log(data);
       setEmail(data.business.email);
       setMobile(data.business.mobile);
       setBusinessName(data.business.businessName);
       setFacebookUrl(data.business.facebookUrl);
       setInstagramUrl(data.business.instagramUrl);
       setTwitterUrl(data.business.twitterUrl);
-      setLandmark(data.business.landmark)
+      setLandmark(data.business.landmark);
       setPincode(data.business.pincode);
       setestablished(data.business.establishedYear);
       setDoorNumber(data.business.address[0]);
-      setStreet(data.business.address[1])
-      setState(data.business.state)
-      setCity(data.business.city)
-      setLocation(data.business.location)
-      setAbout(data.business.description)
-      setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`)
-      setCover(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`)
+      setStreet(data.business.address[1]);
+      setState(data.business.state);
+      setCity(data.business.city);
+      setLocation(data.business.location);
+      setAbout(data.business.description);
+      setProfile(
+        `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.profileImage}`
+      );
+      setCover(
+        `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const addProfileFormSubmit = async (e) => {
     e.preventDefault();
@@ -120,19 +127,31 @@ const PetTraining = () => {
       state,
       city,
       location,
-      establishedYear: established
-    }
-    console.log(d)
-    if (email == "" || email == undefined && businessName == "" || businessName == undefined &&
-      mobile == "" || mobile == undefined && pincode == "" || pincode == undefined &&
-      state == "" || state == undefined && city == "" || city == undefined && location == "" ||
-      location == undefined && street == "" || street == undefined || street == null &&
-      doorNumber == "" || doorNumber == undefined || doorNumber == null) {
+      establishedYear: established,
+    };
+    console.log(d);
+    if (
+      email == "" ||
+      (email == undefined && businessName == "") ||
+      (businessName == undefined && mobile == "") ||
+      (mobile == undefined && pincode == "") ||
+      (pincode == undefined && state == "") ||
+      (state == undefined && city == "") ||
+      (city == undefined && location == "") ||
+      (location == undefined && street == "") ||
+      street == undefined ||
+      (street == null && doorNumber == "") ||
+      doorNumber == undefined ||
+      doorNumber == null
+    ) {
       setError(true);
     } else {
       try {
-        const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/update-profile/PetBoarding/${token}`, d);
-        console.log(data)
+        const { data } = await axios.put(
+          `${process.env.DOMAIN_NAME}/api/business/update-profile/PetBoarding/${token}`,
+          d
+        );
+        console.log(data);
         if (data.success) {
           toast.success(data.msg, {
             theme: "light",
@@ -157,26 +176,26 @@ const PetTraining = () => {
           });
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
-  }
+  };
 
   const handleClickState = (e) => {
-    const stay = e.target.value
+    const stay = e.target.value;
     setState(stay.split(","));
-  }
+  };
 
   const handleOnChangeCity = (e) => {
-    const cty = e.target.value
-    setCity(cty.split(","))
-  }
+    const cty = e.target.value;
+    setCity(cty.split(","));
+  };
 
   const handleOnChangeLocation = (e) => {
-    console.log(e.target.value)
-    const loca = e.target.value
-    setLocation(loca.split(","))
-  }
+    console.log(e.target.value);
+    const loca = e.target.value;
+    setLocation(loca.split(","));
+  };
 
   const handleClickCity = () => {
     if (state == "") {
@@ -191,10 +210,10 @@ const PetTraining = () => {
         progress: undefined,
       });
     } else {
-      const filterCity = cities.filter(citi => citi.Geo_Head == state[1])
-      setCityFilter(filterCity)
+      const filterCity = cities.filter((citi) => citi.Geo_Head == state[1]);
+      setCityFilter(filterCity);
     }
-  }
+  };
 
   const handleClickLocation = () => {
     if (city == "") {
@@ -209,10 +228,12 @@ const PetTraining = () => {
         progress: undefined,
       });
     } else {
-      const filterLocation = locations.filter(loca => loca.Geo_City == city[2])
-      setLocationFilter(filterLocation)
+      const filterLocation = locations.filter(
+        (loca) => loca.Geo_City == city[2]
+      );
+      setLocationFilter(filterLocation);
     }
-  }
+  };
 
   const uploadProfilePhotos = (e) => {
     setProfile(URL.createObjectURL(e.target.files[0]));
@@ -227,6 +248,19 @@ const PetTraining = () => {
   const profilePicSubmit = async (e) => {
     e.preventDefault();
     console.log(apiprofileImg);
+    if (apiprofileImg == undefined) {
+      console.log("error");
+      return toast.error("Please Select Image", {
+        theme: "light",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     const formData = new FormData();
     formData.append("file", apiprofileImg);
     try {
@@ -265,6 +299,19 @@ const PetTraining = () => {
 
   const coverPicSubmit = async (e) => {
     e.preventDefault();
+    if (apiCoverImg == undefined) {
+      console.log("error");
+      return toast.error("Please Select Image", {
+        theme: "light",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     const formData = new FormData();
     formData.append("file", apiCoverImg);
     try {
@@ -324,11 +371,12 @@ const PetTraining = () => {
                   <form onSubmit={profilePicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        {userDetail.profileImage !== undefined && (<img
-                          src={profile}
-                          alt="imag"
-                          className="profile-image"
-                        />
+                        {userDetail.profileImage !== undefined && (
+                          <img
+                            src={profile}
+                            alt="imag"
+                            className="profile-image"
+                          />
                         )}
                         <input
                           type="file"
@@ -350,11 +398,12 @@ const PetTraining = () => {
                   <form onSubmit={coverPicSubmit}>
                     <div className="col-xl-6 col-lg-6 col-md-12">
                       <div className="form-group profile-box">
-                        {userDetail.profileImage !== undefined && (<img
-                          src={cover}
-                          alt="imag"
-                          className="profile-image"
-                        />
+                        {userDetail.profileImage !== undefined && (
+                          <img
+                            src={cover}
+                            alt="imag"
+                            className="profile-image"
+                          />
                         )}
                         <input
                           type="file"
@@ -374,7 +423,6 @@ const PetTraining = () => {
                 </div>
               </div>
 
-
               <form onSubmit={addProfileFormSubmit}>
                 <div className="row">
                   <div className="col-xl-6 col-lg-12 col-md-12">
@@ -388,7 +436,7 @@ const PetTraining = () => {
                         value={email}
                       />
                       {error && email == "" ? (
-                        <span className='text-danger'>Please enter email</span>
+                        <span className="text-danger">Please enter email</span>
                       ) : (
                         <></>
                       )}
@@ -406,7 +454,9 @@ const PetTraining = () => {
                         value={mobile}
                       />
                       {error && mobile == "" ? (
-                        <span className='text-danger'>Please enter mobile number</span>
+                        <span className="text-danger">
+                          Please enter mobile number
+                        </span>
                       ) : (
                         <></>
                       )}
@@ -424,7 +474,9 @@ const PetTraining = () => {
                         value={businessName}
                       />
                       {error && businessName == "" ? (
-                        <span className='text-danger'>Please enter business name</span>
+                        <span className="text-danger">
+                          Please enter business name
+                        </span>
                       ) : (
                         <></>
                       )}
@@ -545,7 +597,8 @@ const PetTraining = () => {
                         onChange={(e) => setDoorNumber(e.target.value)}
                         value={doorNumber}
                       />
-                      {error && doorNumber == "" || doorNumber == undefined ? (
+                      {(error && doorNumber == "") ||
+                      doorNumber == undefined ? (
                         <span className="text-danger">Please enter number</span>
                       ) : (
                         <></>
@@ -563,8 +616,8 @@ const PetTraining = () => {
                         onChange={(e) => setStreet(e.target.value)}
                         value={street}
                       />
-                      {error && street == "" || street == undefined ? (
-                        <span className='text-danger'>Please enter street</span>
+                      {(error && street == "") || street == undefined ? (
+                        <span className="text-danger">Please enter street</span>
                       ) : (
                         <></>
                       )}
@@ -594,7 +647,7 @@ const PetTraining = () => {
                         onChange={(e) => setPincode(e.target.value)}
                         value={pincode}
                       />
-                      {error && pincode == "" || pincode == undefined ? (
+                      {(error && pincode == "") || pincode == undefined ? (
                         <span className="text-danger">
                           Please enter pincode
                         </span>
@@ -622,8 +675,10 @@ const PetTraining = () => {
                               id={state.Geo_TinNo}
                               value={[state.Geo_Name, state.Geo_TinNo]}
                               key={state.Geo_TinNo}
-                            >{state.Geo_Name}</option>
-                          )
+                            >
+                              {state.Geo_Name}
+                            </option>
+                          );
                         })}
                       </select>
                       {error && state.length == "" ? (
@@ -639,18 +694,27 @@ const PetTraining = () => {
                       <label>
                         <i className="bx bx-menu-alt-left"></i> City:
                       </label>
-                      <select className="dashbaord-category-select form-color"
+                      <select
+                        className="dashbaord-category-select form-color"
                         onChange={handleOnChangeCity}
                         onFocus={handleClickCity}
                       >
-                        <option>{city.length > 0 ? city[0] : "Select the City"}</option>
+                        <option>
+                          {city.length > 0 ? city[0] : "Select the City"}
+                        </option>
                         {cityFilter.map((cityMap) => {
                           return (
                             <option
-                              value={[cityMap.Geo_Name, cityMap.Geo_Head, cityMap.id]}
+                              value={[
+                                cityMap.Geo_Name,
+                                cityMap.Geo_Head,
+                                cityMap.id,
+                              ]}
                               key={cityMap.id}
-                            >{cityMap.Geo_Name}</option>
-                          )
+                            >
+                              {cityMap.Geo_Name}
+                            </option>
+                          );
                         })}
                       </select>
                       {error && city.length == "" ? (
@@ -666,28 +730,41 @@ const PetTraining = () => {
                       <label>
                         <i className="bx bx-menu-alt-left"></i> Location:
                       </label>
-                      <select className="dashbaord-category-select form-color"
+                      <select
+                        className="dashbaord-category-select form-color"
                         onChange={handleOnChangeLocation}
                         onFocus={handleClickLocation}
                       >
-                        <option>{location.length > 0 ? location[0] : "Select the Location"}</option>
+                        <option>
+                          {location.length > 0
+                            ? location[0]
+                            : "Select the Location"}
+                        </option>
                         {locationFilter.map((locaMap) => {
                           return (
                             <option
-                              value={[locaMap.Geo_Name, locaMap.Geo_Head, locaMap.Geo_City, locaMap.id]}
+                              value={[
+                                locaMap.Geo_Name,
+                                locaMap.Geo_Head,
+                                locaMap.Geo_City,
+                                locaMap.id,
+                              ]}
                               key={locaMap.id}
-                            >{locaMap.Geo_Name}</option>
-                          )
+                            >
+                              {locaMap.Geo_Name}
+                            </option>
+                          );
                         })}
                       </select>
                       {error && location.length == "" ? (
-                        <span className="text-danger">Please select location</span>
+                        <span className="text-danger">
+                          Please select location
+                        </span>
                       ) : (
                         <></>
                       )}
                     </div>
                   </div>
-
 
                   {/* <div className="col-lg-12 col-md-12">
                     <div {...getRootProps()} className='dropzone mb-3'>
@@ -785,7 +862,9 @@ const PetTraining = () => {
 
                   <div className="col-lg-12 col-md-12">
                     <div className="form-group">
-                      <button onClick={goToTop} type="submit">Save Changes</button>
+                      <button onClick={goToTop} type="submit">
+                        Save Changes
+                      </button>
                     </div>
                   </div>
                 </div>
