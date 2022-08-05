@@ -22,7 +22,7 @@ import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
 import { useRouter } from "next/router";
 
- 
+
 const options = {
   loop: true,
   margin: 20,
@@ -80,7 +80,7 @@ const SingleListings = () => {
   const [displayDropdownShare, setDisplayDropdownShare] = useState(false);
 
   // const shareUrl = `http://localhost:3000/single-listings/?category=${cate},${id}`;
-   const shareUrl =`www.google.com`
+  const shareUrl = `www.google.com`
   useEffect(() => {
     if (typeof window !== "undefined") {
       let category = router.query.category;
@@ -371,37 +371,37 @@ const SingleListings = () => {
                       : "dropdown-menu "
                   }
                 >
-                <div className="share-icons">
-                  <div>
-                    <FacebookShareButton
-                      url={shareUrl}
-                      quote={""}
-                      hashtag={""}
-                    >
-                      <BsFacebook size="27px" color="3B5998" />
-                    </FacebookShareButton>
+                  <div className="share-icons">
+                    <div>
+                      <FacebookShareButton
+                        url={shareUrl}
+                        quote={""}
+                        hashtag={""}
+                      >
+                        <BsFacebook size="27px" color="3B5998" />
+                      </FacebookShareButton>
+                    </div>
+                    <div>
+                      <EmailShareButton
+                        url={shareUrl}
+                        quote={""}
+                        hashtag={""}
+                      >
+                        <MdEmail size="27px" color="red" />
+                      </EmailShareButton>
+                    </div>
+                    <div>
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        quote={""}
+                        hashtag={""}
+                      >
+                        <RiWhatsappFill size="27px" color="rgb(78 197 91)" />
+                      </WhatsappShareButton>
+                    </div>
                   </div>
-                  <div>
-                    <EmailShareButton
-                      url={shareUrl}
-                      quote={""}
-                      hashtag={""}
-                    >
-                      <MdEmail size="27px" color="red" />
-                    </EmailShareButton>
-                  </div>
-                  <div>
-                    <WhatsappShareButton
-                      url={shareUrl}
-                      quote={""}
-                      hashtag={""}
-                    >
-                      <RiWhatsappFill size="27px" color="rgb(78 197 91)" />
-                    </WhatsappShareButton>
-                  </div>
+
                 </div>
-                  
-                  </div>
 
                 <div className="social">
                   <a href="#">
@@ -529,10 +529,11 @@ const SingleListings = () => {
                             <div className="col-lg-4 col-md-4 p-0">
                               <div className="user">
                                 <div className="d-flex">
-                                  <img src="/images/user1.jpg" alt="image" />
+                                  <img src="/images/user1.jpg" alt="image" style={{ width: "85px" }} />
                                   <div className="title">
                                     <h4>{rev.customerName}</h4>
-                                    <span>{rev.customerEmail}</span>
+                                    <span>{rev.customerEmail}</span><br />
+                                    <p>Reply</p>
                                   </div>
                                 </div>
                               </div>
@@ -573,8 +574,8 @@ const SingleListings = () => {
                                 <p>
                                   {rev.customerReview}
                                 </p>
-                                <p style={{ textAlign: "center" }}>
-                                  - {rev.reply}
+                                <p>
+                                  {rev.reply}
                                 </p>
                                 <div className="row m-0">
                                   <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">

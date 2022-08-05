@@ -102,9 +102,9 @@ const PetTraining = () => {
       establishedYear: established
     }
     console.log(d)
-    if (email === "" && businessName === "" &&
-      mobile === "" && pincode === "" && street === "" &&
-      state === "" && city === "" && location === "") {
+    if (email == undefined || email == "" && businessName == undefined || businessName == "" &&
+      mobile == undefined || mobile == "" && pincode == undefined && street == undefined &&
+      state == undefined && city == undefined && location == undefined) {
       setError(true);
     } else {
       try {
@@ -279,12 +279,12 @@ const PetTraining = () => {
     }
   };
 
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  // const goToTop = () => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   return (
     <>
@@ -736,7 +736,7 @@ const PetTraining = () => {
 
                   <div className="col-lg-12 col-md-12">
                     <div className="form-group">
-                      <button onClick={goToTop} type="submit">Save Changes</button>
+                      <button type="submit">Save Changes</button>
                     </div>
                   </div>
                 </div>

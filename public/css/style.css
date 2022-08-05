@@ -8756,8 +8756,8 @@ Page Title Area CSS
   text-align: center;
   padding-top: 80px;
   padding-bottom: 80px;
-  
-  
+
+
 }
 
 .page-title-bg h2 {
@@ -16558,29 +16558,34 @@ th {
 .form-color {
   background-color: #ffffee !important;
 }
-<<<<<<< HEAD
+
 .share-icons {
   display: flex;
   justify-content: space-evenly;
 }
-.breed-card img{
-  
+
+.breed-card img {
+
   max-width: 200px;
   height: auto;
 }
-.breed-namelist{
-  list-style-type:none;
+
+.breed-namelist {
+  list-style-type: none;
   padding: 2px
 }
-.breed-card{
+
+.breed-card {
   box-shadow: 0 0 8px 0 rgb(0 0 0 / 50%);
 }
-.card-body{
+
+.card-body {
   padding: 0.25rem !important;
 }
-.fontbi{
+
+.fontbi {
   margin-left: auto;
-=======
+}
 
 .replay-btn {
   display: flex;
@@ -16588,5 +16593,4 @@ th {
 
 .replay-btn input {
   border-radius: 30px;
->>>>>>> 09646028ce69e3d63e046f73b506e4b9ac46832d
 }

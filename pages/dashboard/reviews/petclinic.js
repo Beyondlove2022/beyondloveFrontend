@@ -138,7 +138,7 @@ const Reviews = () => {
                           {rev.customerReview}
                         </p>
                         <p style={{ textAlign: "center" }}>
-                          - {rev.reply}
+                          {rev.reply}
                         </p>
 
                         {/* replay section */}
