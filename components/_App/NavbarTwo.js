@@ -14,7 +14,7 @@ import router from 'next/router';
 import axios from 'axios';
 resetIdCounter();
 
-const NavbarTwo = () => {
+const NavbarTwo = ({ text }) => {
   const [displayAuth, setDisplayAuth] = useState(false);
   const [displayMiniAuth, setDisplayMiniAuth] = useState(false);
   const [displayVendorRegister, setDisplayVendorRegister] = useState(false);
@@ -147,7 +147,7 @@ const NavbarTwo = () => {
                   <li className='nav-item'>
                     <Link href='/' activeClassName='active'>
                       <a href='#' className='dropdown-toggle nav-link'>
-                        Home
+                        {text}
                       </a>
                     </Link>
                   </li>

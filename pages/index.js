@@ -42,10 +42,23 @@ import HowItWorks from '../components/Common/HowItWorks';
 import Blog from '../components/HomeTwo/Blog';
 import AppDownload from '../components/Common/AppDownload';
 import Footer from '../components/_App/Footer';
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import nextI18NextConfig from '../next-i18next.config.js';
+
+export async function getStaticProps({ locale = 'ta-IN' }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["home"], nextI18NextConfig))
+    }
+  };
+}
 
 const Index2 = () => {
+  const { t } = useTranslation();
   return (
     <>
+      <h1>{t('home:title')} </h1>
       <NavbarTwo />
       <MainBanner />
       <Banner />

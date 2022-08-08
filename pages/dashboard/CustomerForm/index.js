@@ -23,7 +23,6 @@ const Profile = () => {
     const [location, setLocation] = useState("");
     const [token, setToken] = useState("")
     const [petName, setPetName] = useState("");
-    // const [breed, setBreed] = useState("");
     const [breedOptional, setBreedOptional] = useState("");
     const [dob, setDob] = useState("");
     const [age, setAge] = useState("");
@@ -36,7 +35,6 @@ const Profile = () => {
     const [vaccinationDocsUpload, setVaccinationDocsUpload] = useState("");
     const [allergies, setAllergies] = useState("");
     const [error, setError] = useState(false);
-    const [petDetailForm, setPetDetailForm] = useState(true);
     const [cityFilter, setCityFilter] = useState([]);
     const [trainedPet, setTrainedPet] = useState("");
     const [breed, setBreed] = useState("");
@@ -46,6 +44,14 @@ const Profile = () => {
     const [vaccinatedList, setVaccinatedList] = useState([])
     const [petData, setPetData] = useState([]);
     const [petDetails, setPetDetails] = useState("")
+    const [showPetCreateForm, setShowPetCreateForm] = useState(false);
+    const [showPetEditForm, setShowPetEditForm] = useState(false);
+    const [showPetCard, setShowPetCard] = useState(false);
+    const [run, setRun] = useState(false);
+    const [run2, setRun2] = useState(false);
+    const [petId, setPetId] = useState("")
+    const [apiprofileImg, setApiProfileImg] = useState();
+    const [profile, setProfile] = useState();
 
     useEffect(() => {
         if (typeof window != "undefined") {
@@ -63,14 +69,13 @@ const Profile = () => {
         } else {
             console.log("we are running on the server");
         }
-    }, [])
+    }, [run2])
 
     useEffect(() => {
         petData.map((pet) => {
-            console.log(pet)
-            getPetProfile(pet._id)
+            setPetId(pet._id)
         })
-    }, [])
+    }, [run])
 
     const handleClickState = (e) => {
         const stay = e.target.value;
@@ -166,7 +171,7 @@ const Profile = () => {
                 const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/customer/update-profile/${token}`, d)
                 console.log(data)
                 if (data.success) {
-                    setPetDetailForm(true)
+                    // setShowPetCreateForm(true)
                     toast.success(data.msg, {
                         theme: "light",
                         position: "top-right",
@@ -257,6 +262,9 @@ const Profile = () => {
                     draggable: true,
                     progress: undefined,
                 });
+                setShowPetCreateForm(false)
+                setShowPetCard(true)
+                setRun2(!run2);
             } else {
                 toast.error(data.msg, {
                     theme: "light",
@@ -277,10 +285,19 @@ const Profile = () => {
 
     // get all customer pet profile
     const getAllCustomerPetProfiles = async (cusId) => {
-        console.log(cusId)
         try {
             const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/pet/get-allprofiles-by-customer/${cusId}`)
+            console.log(data)
             setPetData(data.customerPets)
+            if (data.customerPets.length > 0) {
+                setShowPetCreateForm(false);
+                setShowPetEditForm(false);
+                setShowPetCard(true);
+            } else {
+                setShowPetCard(false);
+                setShowPetEditForm(false);
+                setShowPetCreateForm(true);
+            }
         } catch (error) {
             console.log(error)
         }
@@ -290,12 +307,23 @@ const Profile = () => {
     const getPetProfile = async (petId) => {
         try {
             const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/pet/get-unique-profile/${petId}`)
-            console.log(data.pet)
+            console.log(data, "thid si sdasdr")
             setPetDetails(data.pet)
+            setPetName(data.pet.petName)
+            setBreed(data.pet.breed)
+            setDob(data.pet.dob)
+            setAge(data.pet.age)
+            setGender(data.pet.gender)
+            setWeight(data.pet.weight)
+            setActive(data.pet.active)
+            setTrainedPet(data.pet.trained)
+            setAllergies(data.pet.allergies)
+            setVaccinatedList(data.pet.vaccinationDetails)
         } catch (error) {
             console.log(error)
         }
     }
+
     // Breed Selection
     const handleBreed = (e) => {
         console.log(e.target.value)
@@ -310,6 +338,125 @@ const Profile = () => {
         }
     }
 
+    const addPetForm = () => {
+        setShowPetCreateForm(true)
+        setShowPetCard(false)
+        setShowPetEditForm(false)
+    }
+
+    const editPetForm = (id) => {
+        getPetProfile(id)
+        setPetId(id)
+        setShowPetEditForm(true)
+        setShowPetCard(false)
+        setShowPetCreateForm(false)
+    }
+
+    const petUpdateProfile = async (e) => {
+        e.preventDefault();
+        const d = {
+            petName,
+            breed,
+            breedOptional,
+            dob,
+            age,
+            gender,
+            weight,
+            active,
+            vaccinationDetails: vaccinatedList,
+            vacinationCertificates: vaccinationDocsUpload,
+            allergies,
+            trained: trainedPet
+        }
+        try {
+            console.log(petId)
+            const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/customer/pet/update/${petId}/${token}`, d)
+            console.log(data)
+            if (data.success) {
+                toast.success(data.msg, {
+                    theme: "light",
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                setShowPetEditForm(false)
+                setShowPetCard(true)
+                setRun2(!run);
+            } else {
+                toast.error(data.msg, {
+                    theme: "light",
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const uploadPetProfilePhotos = (e) => {
+        setProfile(URL.createObjectURL(e.target.files[0]));
+        setApiProfileImg(e.target.files[0]);
+        console.log(e)
+    }
+
+    const uploadPetProfileSubmit = async (e) => {
+        e.preventDefault();
+        if (apiprofileImg == undefined) {
+            return toast.error("Please Upload Image", {
+                theme: "light",
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+            const formData = new FormData();
+            formData.append("file", apiprofileImg);
+            try {
+                const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/customer/pet/upload-profile-pic/${token}/${petId}`, formData);
+                console.log(data)
+                if (data.success) {
+                    toast.success(data.msg, {
+                        theme: "light",
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                } else {
+                    toast.error(data.msg, {
+                        theme: "light",
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+    }
 
     return (
         <>
@@ -535,7 +682,6 @@ const Profile = () => {
                                         </div>
                                     </div>
 
-
                                     <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <button type="submit">Save Changes</button>
@@ -549,365 +695,728 @@ const Profile = () => {
                 </div>
 
 
-                {petDetailForm && (<div className="row">
-                    <div className="col-lg-12 col-md-12">
-                        <div className="my-profile-box">
-                            <h3>Pet Details</h3>
-                            <div className="row mt-5">
-                                <div className="col-lg-6 col-md-12">
-                                    <form >
-                                        <div className="col-xl-6 col-lg-6 col-md-12">
-                                            <div className="form-group profile-box">
-                                                <input
-                                                    type="file"
-                                                    name="file"
-                                                    id="file"
-                                                    className="inputfile p-5 w-10 file-upload input-size"
-                                                ></input>
+                {showPetCreateForm && (
+                    <div className="row">
+                        <div className="col-lg-12 col-md-12">
+                            <div className="my-profile-box">
+                                <h3>Create Pet</h3>
+                                <div className="row mt-5">
+                                    <div className="col-lg-6 col-md-12">
+                                        <form >
+                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                <div className="form-group profile-box">
+                                                    <input
+                                                        type="file"
+                                                        name="file"
+                                                        id="file"
+                                                        className="inputfile p-5 w-10 file-upload input-size"
+                                                    ></input>
+                                                </div>
+                                                <div className="mt-5">
+                                                    <button type="submit">
+                                                        <i className="bx bx-upload"></i> Upload Profile Photo
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className="mt-5">
-                                                <button type="submit">
-                                                    <i className="bx bx-upload"></i> Upload Profile Photo
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <form onSubmit={petInformation} >
-                                <div className="row">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label> Name</label>
-                                            <input
-                                                type="text"
-                                                className="form-control form-color"
-                                                placeholder="Pet Name"
-                                                onChange={(e) => setPetName(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-12 col-md-12 " >
-                                        <div className="form-group">
-                                            <label>
-                                                <i className="bx bx-menu-alt-left"></i> Breed:
-                                            </label>
-                                            <select
-                                                className="dashbaord-category-select form-color"
-                                                onChange={(e) => handleBreed(e)}
-                                            >
-                                                <option>Select the Breed </option>
-                                                <option value="others">Others</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-6 col-lg-12 col-md-12">
-                                        {showOptionalBreed &&
+                                <form onSubmit={petInformation} >
+                                    <div className="row">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
                                             <div className="form-group">
-                                                <label>option:</label>
+                                                <label> Name</label>
                                                 <input
                                                     type="text"
                                                     className="form-control form-color"
-                                                    placeholder="Breed Name"
-                                                    onChange={(e) => setBreed(e.target.value)}
-                                                ></input>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div className="col-xl-6 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>DOB</label>
-                                            <input
-                                                type="date"
-                                                className="form-control form-color"
-                                                placeholder="Date of Birth"
-                                                onChange={(e) => setDob(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='col-xl-3 col-lg-12 col-md-12'>
-                                        <div className="form-group">
-                                            <label>Age</label>
-                                            <input
-                                                type="text"
-                                                className="form-control form-color"
-                                                placeholder="Age"
-                                                onChange={(e) => setAge(e.target.value)}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='col-xl-3 col-lg-12 col-md-12'>
-                                        <div className='form-group'>
-                                            <label>Gender</label>
-                                            <div class="row">
-                                                <div class="col-lg-6 py-3" >
-                                                    <label className='checkbox'>
-                                                        <input
-                                                            type='radio'
-                                                            name='Gender'
-                                                            value="Male"
-                                                            onChange={(e) => setGender(e.target.value)}
-                                                        />
-                                                        <span>Male</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-lg-6 py-3">
-                                                    <label className='checkbox check'>
-                                                        <input
-                                                            type='radio'
-                                                            name='Gender'
-                                                            value="Female"
-                                                            className='checked1'
-
-                                                            onChange={(e) => setGender(e.target.value)}
-                                                        />
-                                                        <span>Female</span>
-                                                    </label>
-                                                </div>
+                                                    placeholder="Pet Name"
+                                                    onChange={(e) => setPetName(e.target.value)}
+                                                />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Weight</label>
-                                            <input
-                                                type="Number"
-                                                className="form-control form-color"
-                                                placeholder="Weight"
-                                                onChange={(e) => setWeight(e.target.value)}
-
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Active</label>
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <label className='checkbox'>
-                                                        <input
-                                                            type='radio'
-                                                            name='Active'
-                                                            value="High"
-                                                            onChange={(e) => setActive(e.target.value)}
-
-                                                        />
-                                                        <span> High</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label className='checkbox'>
-                                                        <input
-                                                            type='radio'
-                                                            name='Active'
-                                                            value="Medium"
-                                                            onChange={(e) => setActive(e.target.value)}
-
-                                                        />
-                                                        <span> Medium</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label className='checkbox'>
-                                                        <input
-                                                            type='radio'
-                                                            name='Active'
-                                                            value="Low"
-                                                            onChange={(e) => setActive(e.target.value)}
-                                                        />
-                                                        <span> Low</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Trained Pet</label>
-
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <label className='checkbox'>
-                                                        <input
-                                                            type='radio'
-                                                            name='TrainedPet'
-                                                            value={true}
-                                                            className='form-radio'
-                                                            onChange={(e) => setTrainedPet(e.target.value)}
-                                                        />
-                                                        <span> Yes</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <label className='checkbox'>
-                                                        <input
-                                                            type='radio'
-                                                            name='TrainedPet'
-                                                            value={false}
-                                                            onChange={(e) => setTrainedPet(e.target.value)}
-
-                                                        />
-                                                        <span > No</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <h3 id="address">vaccination Details</h3>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-4 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Name</label>
-                                            <input
-                                                type="text"
-                                                className="form-control form-color"
-                                                value={vaccinationName}
-                                                onChange={(e) => setVaccinationName(e.target.value)}
-
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xl-3 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Date</label>
-                                            <input
-                                                type="date"
-                                                className="form-control form-color"
-                                                value={vaccinationDate}
-                                                onChange={(e) => SetVaccinationDate(e.target.value)}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-3 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>Due Date</label>
-                                            <input
-                                                type="date"
-                                                className="form-control form-color"
-                                                value={vaccinationDueDate}
-                                                onChange={(e) => SetVaccinationDueDate(e.target.value)}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-2 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>
-                                                <br />
-                                            </label>
-                                            <span data-toggle="modal" activeClassName="active">
-                                                <a className="default-btn"
-                                                    onClick={vaccinationCreate}
+                                        <div className="col-xl-6 col-lg-12 col-md-12 " >
+                                            <div className="form-group">
+                                                <label>
+                                                    <i className="bx bx-menu-alt-left"></i> Breed:
+                                                </label>
+                                                <select
+                                                    className="dashbaord-category-select form-color"
+                                                    onChange={(e) => handleBreed(e)}
                                                 >
-                                                    Add
-                                                </a>
-                                            </span>
+                                                    <option>Select the Breed </option>
+                                                    <option value="others">Others</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* vaccination display section */}
-                                    {vaccinatedList.map((vac) => {
-                                        return (
-                                            <div
-                                                className="col-xl-3 col-lg-12 col-md-12 package-view"
-                                                key={vac.id}
-                                                style={{ marginRight: "5px", marginBottom: "5px" }}
-                                            >
+                                        <div className="col-xl-6 col-lg-12 col-md-12">
+                                            {showOptionalBreed &&
                                                 <div className="form-group">
-                                                    <div>
-                                                        <span>{vac.vacName}</span>
+                                                    <label>option:</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-color"
+                                                        placeholder="Breed Name"
+                                                        onChange={(e) => setBreed(e.target.value)}
+                                                    ></input>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div className="col-xl-6 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>DOB</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-color"
+                                                    placeholder="Date of Birth"
+                                                    onChange={(e) => setDob(e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='col-xl-3 col-lg-12 col-md-12'>
+                                            <div className="form-group">
+                                                <label>Age</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-color"
+                                                    placeholder="Age"
+                                                    onChange={(e) => setAge(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='col-xl-3 col-lg-12 col-md-12'>
+                                            <div className='form-group'>
+                                                <label>Gender</label>
+                                                <div class="row">
+                                                    <div class="col-lg-6 py-3" >
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Gender'
+                                                                value="Male"
+                                                                onChange={(e) => setGender(e.target.value)}
+                                                            />
+                                                            <span>Male</span>
+                                                        </label>
                                                     </div>
-                                                    <div>
-                                                        <span>{vac.vacDate}</span>
-                                                    </div>
-                                                    <div>
-                                                        <span>{vac.vacDue}</span>
+                                                    <div class="col-lg-6 py-3">
+                                                        <label className='checkbox check'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Gender'
+                                                                value="Female"
+                                                                className='checked1'
+
+                                                                onChange={(e) => setGender(e.target.value)}
+                                                            />
+                                                            <span>Female</span>
+                                                        </label>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Weight</label>
+                                                <input
+                                                    type="Number"
+                                                    className="form-control form-color"
+                                                    placeholder="Weight"
+                                                    onChange={(e) => setWeight(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Active</label>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Active'
+                                                                value="High"
+                                                                onChange={(e) => setActive(e.target.value)}
+
+                                                            />
+                                                            <span> High</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Active'
+                                                                value="Medium"
+                                                                onChange={(e) => setActive(e.target.value)}
+
+                                                            />
+                                                            <span> Medium</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Active'
+                                                                value="Low"
+                                                                onChange={(e) => setActive(e.target.value)}
+                                                            />
+                                                            <span> Low</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Trained Pet</label>
+
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='TrainedPet'
+                                                                value={true}
+                                                                className='form-radio'
+                                                                onChange={(e) => setTrainedPet(e.target.value)}
+                                                            />
+                                                            <span> Yes</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='TrainedPet'
+                                                                value={false}
+                                                                onChange={(e) => setTrainedPet(e.target.value)}
+
+                                                            />
+                                                            <span > No</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <h3 id="address">vaccination Details</h3>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-4 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Name</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-color"
+                                                    value={vaccinationName}
+                                                    onChange={(e) => setVaccinationName(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-3 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Date</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-color"
+                                                    value={vaccinationDate}
+                                                    onChange={(e) => SetVaccinationDate(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-3 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Due Date</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-color"
+                                                    value={vaccinationDueDate}
+                                                    onChange={(e) => SetVaccinationDueDate(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-2 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>
+                                                    <br />
+                                                </label>
                                                 <span data-toggle="modal" activeClassName="active">
-                                                    <a
-                                                        className="default-btn"
-                                                        onClick={() => rmPackage(vac.vacName)}
+                                                    <a className="default-btn"
+                                                        onClick={vaccinationCreate}
                                                     >
-                                                        Remove
+                                                        Add
                                                     </a>
                                                 </span>
                                             </div>
-                                        )
-                                    })}
-
-
-                                    <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
-                                        <div className="form-group">
-                                            <label>Allergies</label>
-                                            <textarea
-                                                cols="5"
-                                                rows="3"
-                                                placeholder="..."
-                                                className="form-control form-color"
-                                                onChange={(e) => setAllergies(e.target.value)}
-                                            ></textarea>
                                         </div>
-                                    </div>
 
-                                    <div className="col-xl-4 col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <label>vaccination</label>
-                                            <input
-                                                type="file"
-                                                className="form-control form-color"
-                                                onChange={(e) => setVaccinationDocsUpload(e.target.value)}
+                                        {/* vaccination display section */}
+                                        {vaccinatedList.map((vac) => {
+                                            return (
+                                                <div
+                                                    className="col-xl-3 col-lg-12 col-md-12 package-view"
+                                                    key={vac.id}
+                                                    style={{ marginRight: "5px", marginBottom: "5px" }}
+                                                >
+                                                    <div className="form-group">
+                                                        <div>
+                                                            <span>{vac.vacName}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{vac.vacDate}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{vac.vacDue}</span>
+                                                        </div>
+                                                    </div>
+                                                    <span data-toggle="modal" activeClassName="active">
+                                                        <a
+                                                            className="default-btn"
+                                                            onClick={() => rmPackage(vac.vacName)}
+                                                        >
+                                                            Remove
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            )
+                                        })}
 
-                                            />
+
+                                        <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+                                            <div className="form-group">
+                                                <label>Allergies</label>
+                                                <textarea
+                                                    cols="5"
+                                                    rows="3"
+                                                    placeholder="..."
+                                                    className="form-control form-color"
+                                                    onChange={(e) => setAllergies(e.target.value)}
+                                                ></textarea>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <button type="submit">Save Changes</button>
+                                        <div className="col-xl-4 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>vaccination</label>
+                                                <input
+                                                    type="file"
+                                                    className="form-control form-color"
+                                                    onChange={(e) => setVaccinationDocsUpload(e.target.value)}
+
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className='col-xl-4 col-lg-12 col-md-12'>
+                                        <div className="col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <button type="submit">Save Changes</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>)}
+
+                {/* card section*/}
+                {showPetCard && (
+                    <div className="my-profile-box p-3">
+                        <div className='add-pet-sec'>
+                            <div>
+                                <h3>Your Pet</h3>
+                            </div>
+                            <div className="form-group add-pet-btn">
+                                <button onClick={addPetForm} type="submit">Add Pet</button>
+                            </div>
+                        </div>
+                        <div className="row">
+                            {petData.map((pet) => {
+                                return (
+                                    <div className='col-xl-4 col-lg-12 col-md-12 my-2'>
                                         <div className='card breed-card'>
-                                            <BiEdit className='fontbi' />
+                                            <BiEdit className='fontbi' onClick={() => editPetForm(pet._id)} />
                                             <img src='/images/profile.png'></img>
                                             <hr></hr>
                                             <div className='card-body '>
                                                 <ul className='breed-namelist'>
-                                                    <li>Name:</li>
-                                                    <li>Breed:</li>
-                                                    <li>DOB:</li>
+                                                    <li>Name: {pet.petName}</li>
+                                                    <li>Breed: {pet.breed}</li>
+                                                    <li>DOB: {pet.dob}</li>
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
-
-                                </div>
-                            </form>
+                                    </div>)
+                            })}
                         </div>
-                    </div>
-
-                </div>)}
+                    </div>)}
 
 
+                {/* Edit form section */}
+                {showPetEditForm && (
+                    <div className="row">
+                        <div className="col-lg-12 col-md-12">
+                            <div className="my-profile-box">
+                                <h3>{petName} Details</h3>
+                                <div className="row mt-5">
+                                    <div className="col-lg-6 col-md-12">
+                                        <form onSubmit={uploadPetProfileSubmit}>
+                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                <div className="form-group profile-box">
+                                                    <input
+                                                        type="file"
+                                                        name="file"
+                                                        id="file"
+                                                        className="inputfile p-5 w-10 file-upload input-size"
+                                                        onChange={uploadPetProfilePhotos}
+                                                    ></input>
+                                                </div>
+                                                <div className="mt-5">
+                                                    <button type="submit">
+                                                        <i className="bx bx-upload"></i> Upload Profile Photo
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <form onSubmit={petUpdateProfile} >
+                                    <div className="row">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label> Name</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-color"
+                                                    placeholder="Pet Name"
+                                                    value={petName}
+                                                    onChange={(e) => setPetName(e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-6 col-lg-12 col-md-12 " >
+                                            <div className="form-group">
+                                                <label>
+                                                    <i className="bx bx-menu-alt-left"></i> Breed:
+                                                </label>
+                                                <select
+                                                    className="dashbaord-category-select form-color"
+                                                    onChange={(e) => handleBreed(e)}
+                                                >
+                                                    <option>Select the Breed </option>
+                                                    <option value="others">Others</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-6 col-lg-12 col-md-12">
+                                            {showOptionalBreed &&
+                                                <div className="form-group">
+                                                    <label>option:</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-color"
+                                                        placeholder="Breed Name"
+                                                        value={breed}
+                                                        onChange={(e) => setBreed(e.target.value)}
+                                                    ></input>
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <div className="col-xl-6 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>DOB</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-color"
+                                                    placeholder="Date of Birth"
+                                                    value={dob}
+                                                    onChange={(e) => setDob(e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='col-xl-3 col-lg-12 col-md-12'>
+                                            <div className="form-group">
+                                                <label>Age</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-color"
+                                                    placeholder="Age"
+                                                    value={age}
+                                                    onChange={(e) => setAge(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='col-xl-3 col-lg-12 col-md-12'>
+                                            <div className='form-group'>
+                                                <label>Gender</label>
+                                                <div class="row">
+                                                    <div class="col-lg-6 py-3" >
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Gender'
+                                                                // value="Male"
+                                                                value={gender}
+                                                                onChange={(e) => setGender(e.target.value)}
+                                                            />
+                                                            <span>Male</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6 py-3">
+                                                        <label className='checkbox check'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Gender'
+                                                                // value="Female"
+                                                                className='checked1'
+                                                                value={gender}
+                                                                onChange={(e) => setGender(e.target.value)}
+                                                            />
+                                                            <span>Female</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Weight</label>
+                                                <input
+                                                    type="Number"
+                                                    className="form-control form-color"
+                                                    placeholder="Weight"
+                                                    value={weight}
+                                                    onChange={(e) => setWeight(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Active</label>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Active'
+                                                                // value="High"
+                                                                value={active}
+                                                                onChange={(e) => setActive(e.target.value)}
+
+                                                            />
+                                                            <span> High</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Active'
+                                                                // value="Medium"
+                                                                value={active}
+                                                                onChange={(e) => setActive(e.target.value)}
+
+                                                            />
+                                                            <span> Medium</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='Active'
+                                                                // value="Low"
+                                                                value={active}
+                                                                onChange={(e) => setActive(e.target.value)}
+                                                            />
+                                                            <span> Low</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
 
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Trained Pet</label>
 
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='TrainedPet'
+                                                                value={trainedPet}
+                                                                className='form-radio'
+                                                                onChange={(e) => setTrainedPet(e.target.value)}
+                                                            />
+                                                            <span> Yes</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label className='checkbox'>
+                                                            <input
+                                                                type='radio'
+                                                                name='TrainedPet'
+                                                                value={trainedPet}
+                                                                onChange={(e) => setTrainedPet(e.target.value)}
+                                                            />
+                                                            <span>No</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <h3 id="address">vaccination Details</h3>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-4 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Name</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-color"
+                                                    value={vaccinationName}
+                                                    onChange={(e) => setVaccinationName(e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-3 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Date</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-color"
+                                                    value={vaccinationDate}
+                                                    onChange={(e) => SetVaccinationDate(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-3 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>Due Date</label>
+                                                <input
+                                                    type="date"
+                                                    className="form-control form-color"
+                                                    value={vaccinationDueDate}
+                                                    onChange={(e) => SetVaccinationDueDate(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-2 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>
+                                                    <br />
+                                                </label>
+                                                <span data-toggle="modal" activeClassName="active">
+                                                    <a className="default-btn"
+                                                        onClick={vaccinationCreate}
+                                                    >
+                                                        Add
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* vaccination display section */}
+                                        {vaccinatedList.map((vac) => {
+                                            return (
+                                                <div
+                                                    className="col-xl-3 col-lg-12 col-md-12 package-view"
+                                                    key={vac.id}
+                                                    style={{ marginRight: "5px", marginBottom: "5px" }}
+                                                >
+                                                    <div className="form-group">
+                                                        <div>
+                                                            <span>{vac.vacName}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{vac.vacDate}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{vac.vacDue}</span>
+                                                        </div>
+                                                    </div>
+                                                    <span data-toggle="modal" activeClassName="active">
+                                                        <a
+                                                            className="default-btn"
+                                                            onClick={() => rmPackage(vac.vacName)}
+                                                        >
+                                                            Remove
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            )
+                                        })}
+
+
+                                        <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+                                            <div className="form-group">
+                                                <label>Allergies</label>
+                                                <textarea
+                                                    cols="5"
+                                                    rows="3"
+                                                    placeholder="..."
+                                                    className="form-control form-color"
+                                                    value={allergies}
+                                                    onChange={(e) => setAllergies(e.target.value)}
+                                                ></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-xl-4 col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <label>vaccination</label>
+                                                <input
+                                                    type="file"
+                                                    className="form-control form-color"
+                                                    onChange={(e) => setVaccinationDocsUpload(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="col-lg-12 col-md-12">
+                                            <div className="form-group">
+                                                <button type="submit">Save Changes</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>)}
 
 
 

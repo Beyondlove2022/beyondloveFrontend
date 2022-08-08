@@ -289,42 +289,44 @@ const PetTraining = () => {
         draggable: true,
         progress: undefined,
       });
-    }
-    const formData = new FormData();
-    formData.append("file", apiCoverImg);
-    try {
-      const { data } = await axios.post(
-        `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/cover`,
-        formData
-      );
-      console.log(data);
-      console.log(data.bussinessCoverImage);
-      if (data.success) {
-        toast.success(data.msg, {
-          theme: "light",
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      } else {
-        toast.error(data.msg, {
-          theme: "light",
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+    } else {
+      const formData = new FormData();
+      formData.append("file", apiCoverImg);
+      try {
+        const { data } = await axios.post(
+          `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/cover`,
+          formData
+        );
+        console.log(data);
+        console.log(data.bussinessCoverImage);
+        if (data.success) {
+          toast.success(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
+
   };
 
   const goToTop = () => {
@@ -565,7 +567,7 @@ const PetTraining = () => {
                         value={doorNumber}
                       />
                       {(error && doorNumber == "") ||
-                      doorNumber == undefined ? (
+                        doorNumber == undefined ? (
                         <span className="text-danger">Please enter number</span>
                       ) : (
                         <></>

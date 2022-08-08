@@ -16579,7 +16579,7 @@ th {
 
 .breed-namelist li {
   font-weight: 600;
-  color: #fabc1d;
+  color: black;
   font-size: 18px;
 }
 
@@ -16596,6 +16596,7 @@ th {
   font-size: 27px;
   margin-top: 12px;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .replay-btn {
@@ -16625,4 +16626,22 @@ th {
 
 .package-view a {
   cursor: pointer;
+}
+
+.add-pet-sec {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-pet-btn button {
+  display: block;
+  background-color: var(--mainColor);
+  color: var(--whiteColor);
+  border: none;
+  font-weight: 600;
+  display: block;
+  border-radius: 5px;
+  padding: 14px 30px 13px;
+  -webkit-transition: var(--transition);
+  transition: var(--transition);
 }

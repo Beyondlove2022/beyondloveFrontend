@@ -15,6 +15,13 @@ import Loader from "../components/Shared/Loader";
 import GoTop from "../components/Shared/GoTop";
 import { store } from "../Redux/store";
 import { Provider } from "react-redux";
+import { appWithTranslation } from 'next-i18next';
+
+import nextI18NextConfig from '../next-i18next.config.js';
+
+// const MyApp = ({ Component, pageProps }) => <Component {...pageProps} />
+
+
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -38,4 +45,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp, nextI18NextConfig);

@@ -76,9 +76,10 @@ const SingleListings = () => {
   const [error, setError] = useState(false)
   const [averageRating, setAverageRating] = useState()
   const [review, setReview] = useState([])
-  const router = useRouter();
   const [displayDropdownShare, setDisplayDropdownShare] = useState(false);
 
+  const router = useRouter();
+  console.log(router)
   // const shareUrl = `http://localhost:3000/single-listings/?category=${cate},${id}`;
   const shareUrl = `www.google.com`
   useEffect(() => {

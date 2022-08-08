@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   env: {
     // DOMAIN_NAME: "http://3.109.200.71",
