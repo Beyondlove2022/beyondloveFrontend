@@ -16566,8 +16566,8 @@ th {
 }
 
 .breed-card img {
-  max-width: 200px;
-  height: auto;
+  /* max-width: 200px;
+  height: auto; */
   margin: 0 auto;
 }
 
@@ -16644,4 +16644,11 @@ th {
   padding: 14px 30px 13px;
   -webkit-transition: var(--transition);
   transition: var(--transition);
+}
+
+.profile-image {
+  height: 200px;
+  object-fit: cover;
+  max-width: 200px;
+  object-position: top;
 }

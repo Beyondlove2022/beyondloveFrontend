@@ -238,40 +238,41 @@ const PetTraining = () => {
         draggable: true,
         progress: undefined,
       });
-    }
-    const formData = new FormData();
-    formData.append("file", apiprofileImg);
-    try {
-      const { data } = await axios.post(
-        `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/profile`,
-        formData
-      );
-      console.log(data);
-      if (data.success) {
-        toast.success(data.msg, {
-          theme: "light",
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      } else {
-        toast.error(data.msg, {
-          theme: "light",
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+    } else {
+      const formData = new FormData();
+      formData.append("file", apiprofileImg);
+      try {
+        const { data } = await axios.post(
+          `${process.env.DOMAIN_NAME}/api/business/update-profile-cover-picture/${businessId}/${categoriesProfile}/profile`,
+          formData
+        );
+        console.log(data);
+        if (data.success) {
+          toast.success(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -326,7 +327,6 @@ const PetTraining = () => {
         console.log(error);
       }
     }
-
   };
 
   const goToTop = () => {

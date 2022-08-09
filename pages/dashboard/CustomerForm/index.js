@@ -44,7 +44,7 @@ const Profile = () => {
     const [vaccinatedList, setVaccinatedList] = useState([])
     const [petData, setPetData] = useState([]);
     const [petDetails, setPetDetails] = useState("")
-    const [showPetCreateForm, setShowPetCreateForm] = useState(false);
+    const [showPetCreateForm, setShowPetCreateForm] = useState(true);
     const [showPetEditForm, setShowPetEditForm] = useState(false);
     const [showPetCard, setShowPetCard] = useState(false);
     const [run, setRun] = useState(false);
@@ -52,6 +52,7 @@ const Profile = () => {
     const [petId, setPetId] = useState("")
     const [apiprofileImg, setApiProfileImg] = useState();
     const [profile, setProfile] = useState();
+    console.log(profile)
 
     useEffect(() => {
         if (typeof window != "undefined") {
@@ -80,6 +81,7 @@ const Profile = () => {
     const handleClickState = (e) => {
         const stay = e.target.value;
         setState(stay.split(","));
+
     };
 
     const handleOnChangeCity = (e) => {
@@ -308,6 +310,7 @@ const Profile = () => {
         try {
             const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/pet/get-unique-profile/${petId}`)
             console.log(data, "thid si sdasdr")
+            console.log(data.pet.profilePic)
             setPetDetails(data.pet)
             setPetName(data.pet.petName)
             setBreed(data.pet.breed)
@@ -319,6 +322,7 @@ const Profile = () => {
             setTrainedPet(data.pet.trained)
             setAllergies(data.pet.allergies)
             setVaccinatedList(data.pet.vaccinationDetails)
+            setProfile(`${process.env.DOMAIN_NAME}/api/business/get-photos/${data.pet.profilePic}`)
         } catch (error) {
             console.log(error)
         }
@@ -412,7 +416,7 @@ const Profile = () => {
     const uploadPetProfileSubmit = async (e) => {
         e.preventDefault();
         if (apiprofileImg == undefined) {
-            return toast.error("Please Upload Image", {
+            return toast.warning("Please Upload Image", {
                 theme: "light",
                 position: "top-right",
                 autoClose: 2000,
@@ -426,6 +430,7 @@ const Profile = () => {
             const formData = new FormData();
             formData.append("file", apiprofileImg);
             try {
+                console.log(petId)
                 const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/customer/pet/upload-profile-pic/${token}/${petId}`, formData);
                 console.log(data)
                 if (data.success) {
@@ -439,6 +444,7 @@ const Profile = () => {
                         draggable: true,
                         progress: undefined,
                     });
+                    setRun(!run)
                 } else {
                     toast.error(data.msg, {
                         theme: "light",
@@ -700,16 +706,17 @@ const Profile = () => {
                         <div className="col-lg-12 col-md-12">
                             <div className="my-profile-box">
                                 <h3>Create Pet</h3>
-                                <div className="row mt-5">
+                                {/* <div className="row mt-5">
                                     <div className="col-lg-6 col-md-12">
-                                        <form >
+                                        <form onSubmit={uploadPetProfileSubmit}>
                                             <div className="col-xl-6 col-lg-6 col-md-12">
                                                 <div className="form-group profile-box">
                                                     <input
                                                         type="file"
                                                         name="file"
                                                         id="file"
-                                                        className="inputfile p-5 w-10 file-upload input-size"
+                                                        className="inputfile p-5 w-10 file-upload input-size opacity-input"
+                                                        onChange={uploadPetProfilePhotos}
                                                     ></input>
                                                 </div>
                                                 <div className="mt-5">
@@ -720,7 +727,7 @@ const Profile = () => {
                                             </div>
                                         </form>
                                     </div>
-                                </div>
+                                </div> */}
                                 <form onSubmit={petInformation} >
                                     <div className="row">
                                         <div className="col-xl-12 col-lg-12 col-md-12">
@@ -1046,18 +1053,40 @@ const Profile = () => {
                         </div>
                         <div className="row">
                             {petData.map((pet) => {
+                                const petPic = `${process.env.DOMAIN_NAME}/api/business/get-photos/${pet.profilePic}`
                                 return (
                                     <div className='col-xl-4 col-lg-12 col-md-12 my-2'>
                                         <div className='card breed-card'>
                                             <BiEdit className='fontbi' onClick={() => editPetForm(pet._id)} />
-                                            <img src='/images/profile.png'></img>
+                                            <img
+                                                src={petPic}
+                                                alt="imag"
+                                                className="profile-image"
+                                            />
                                             <hr></hr>
                                             <div className='card-body '>
-                                                <ul className='breed-namelist'>
-                                                    <li>Name: {pet.petName}</li>
-                                                    <li>Breed: {pet.breed}</li>
-                                                    <li>DOB: {pet.dob}</li>
-                                                </ul>
+                                                <div className='events-details-info' style={{ backgroundColor: "unset" }}>
+                                                    <ul className='info'>
+                                                        <li className='price'>
+                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                <span>Pet Name</span>
+                                                                {pet.petName}
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                <span>Breed</span>
+                                                                {pet.breed}
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                <span>DOB</span>
+                                                                {pet.dob}
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>)
@@ -1077,11 +1106,25 @@ const Profile = () => {
                                         <form onSubmit={uploadPetProfileSubmit}>
                                             <div className="col-xl-6 col-lg-6 col-md-12">
                                                 <div className="form-group profile-box">
+                                                    {profile != null ? (
+                                                        <img
+                                                            src={profile}
+                                                            alt="imag"
+                                                            className="profile-image"
+                                                        />
+                                                    ) : (
+                                                        // <img src='/images/profile.png'></img>
+                                                        <img
+                                                            src="/images/profile.png"
+                                                            alt="imag"
+                                                            className="profile-image"
+                                                        />
+                                                    )}
                                                     <input
                                                         type="file"
                                                         name="file"
                                                         id="file"
-                                                        className="inputfile p-5 w-10 file-upload input-size"
+                                                        className="inputfile p-5 w-10 file-upload input-size opacity-input"
                                                         onChange={uploadPetProfilePhotos}
                                                     ></input>
                                                 </div>
