@@ -13,6 +13,7 @@ const Reviews = () => {
   const [token, setToken] = useState("")
   const [reviewId, setReviewId] = useState("")
   const [category, setCategory] = useState("");
+  const [run, setRun] = useState(false);
 
   useEffect(() => {
     if (typeof window != "undefined") {
@@ -31,7 +32,6 @@ const Reviews = () => {
   const getReviews = async (id) => {
     try {
       const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/get-review/${id}`);
-      console.log(data)
       setReview(data.review);
     } catch (error) {
       console.log(error)
@@ -50,10 +50,8 @@ const Reviews = () => {
     } else {
       try {
         const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/create-replay/${token}/${category}`, d);
-        console.log(data)
         setReview(data.reviews)
         if (data.success) {
-          setReplay("");
           toast.success(data.msg, {
             theme: "light",
             position: "top-right",
@@ -64,6 +62,8 @@ const Reviews = () => {
             draggable: true,
             progress: undefined,
           });
+          setReplay("");
+          setRun(!run)
         }
       } catch (error) {
         console.log(error)
@@ -71,11 +71,9 @@ const Reviews = () => {
     }
   }
 
-
   return (
     <>
       <DashboardNavbar />
-
       <div className='main-content d-flex flex-column'>
         <NavbarThree />
         <ToastContainer />
@@ -150,6 +148,7 @@ const Reviews = () => {
                                   type="text"
                                   placeholder="replay here"
                                   className="form-control"
+                                  value={replay}
                                   onChange={(e) => setReplay(e.target.value)}
                                 />
 
@@ -166,7 +165,6 @@ const Reviews = () => {
                               )}
                             </form>
                           </div>) : (<></>)}
-
                       </div>
                     </div>
                   )

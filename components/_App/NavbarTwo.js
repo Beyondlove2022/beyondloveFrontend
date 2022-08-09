@@ -25,7 +25,7 @@ const NavbarTwo = ({ text }) => {
   const [categoryProfile, setCategoryProfile] = useState("");
   const [profile, setProfile] = useState();
   const [run, setRun] = useState(false);
-  const [otpPopUp, setPopUp] = useState(false);
+
   //sticky menu
   const showStickyMenu = () => {
     if (window.scrollY >= 80) {
@@ -56,7 +56,6 @@ const NavbarTwo = ({ text }) => {
   const toggleMenu = () => {
     setshowMenu(!showMenu);
   };
-
 
   const toggleDropdownProfile = () => {
     setDisplayDropdownProfile(!displayDropdownProfile);
