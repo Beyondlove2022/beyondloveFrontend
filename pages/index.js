@@ -45,9 +45,9 @@ import Footer from '../components/_App/Footer';
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18NextConfig from '../next-i18next.config.js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export async function getStaticProps({ locale = 'ta-IN' }) {
+export async function getStaticProps({ locale = language }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["home"], nextI18NextConfig))
@@ -55,12 +55,14 @@ export async function getStaticProps({ locale = 'ta-IN' }) {
   };
 }
 
-useEffect(() => {
-  const lang = localStorage.getItem("lang")
-  console.log(lang)
-})
-
 const Index2 = () => {
+  const [language, setLanguage] = useState("")
+
+  useEffect(() => {
+    const lang = localStorage.getItem("lang")
+    setLanguage(lang)
+  })
+
   const { t } = useTranslation();
   return (
     <>
