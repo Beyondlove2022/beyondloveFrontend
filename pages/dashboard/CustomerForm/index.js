@@ -52,14 +52,12 @@ const Profile = () => {
     const [petId, setPetId] = useState("")
     const [apiprofileImg, setApiProfileImg] = useState();
     const [profile, setProfile] = useState();
-    console.log(profile)
 
     useEffect(() => {
         if (typeof window != "undefined") {
             console.log("we are running on the client");
             let token = localStorage.getItem("token")
             let user = JSON.parse(localStorage.getItem("user"));
-
             if (user != null && user != undefined) {
                 let id = user._id;
                 getCustomerProfile(id)
@@ -1051,6 +1049,7 @@ const Profile = () => {
                                 <button onClick={addPetForm} type="submit">Add Pet</button>
                             </div>
                         </div>
+
                         <div className="row">
                             {petData.map((pet) => {
                                 const petPic = `${process.env.DOMAIN_NAME}/api/business/get-photos/${pet.profilePic}`

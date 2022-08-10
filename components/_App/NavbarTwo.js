@@ -25,6 +25,7 @@ const NavbarTwo = ({ text }) => {
   const [categoryProfile, setCategoryProfile] = useState("");
   const [profile, setProfile] = useState();
   const [run, setRun] = useState(false);
+  const [languages, setLanguages] = useState("")
 
   //sticky menu
   const showStickyMenu = () => {
@@ -87,6 +88,11 @@ const NavbarTwo = ({ text }) => {
     // abortController.abort();
     // }
   }, [run]);
+
+  const languagesChange = (e) => {
+    setLanguages(e.target.value)
+    localStorage.setItem("lang", languages)
+  }
 
   const getBusinessProfile = async (id, category) => {
     try {
@@ -157,6 +163,26 @@ const NavbarTwo = ({ text }) => {
                         Donate
                       </a>
                     </Link>
+                  </li>
+                  <li className='nav-item' style={{ display: "flex", alignItems: "end" }}>
+                    <div className="form-group">
+                      <select
+                        className="dashbaord-category-select"
+                        placeholder="Select the state"
+                        style={{ background: "none" }}
+                        onChange={languagesChange}
+                      >
+                        <option>Languages</option>
+                        <option value="en">English</option>
+                        <option value="mr-IN">Marathi</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="kn-IN">Karnataka</option>
+                        <option value="ml-IN">Malayalam</option>
+                        <option value="gu-IN">Gujarati</option>
+                        <option value="ta-IN">Tamil</option>
+                        <option value="te-IN">Telugu</option>
+                      </select>
+                    </div>
                   </li>
 
                   {/* <li className='nav-item'>
