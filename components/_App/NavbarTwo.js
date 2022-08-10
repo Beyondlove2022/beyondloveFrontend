@@ -432,13 +432,22 @@ const NavbarTwo = ({ text }) => {
 
                             <div className='dropdown-body'>
                               <ul className='profile-nav p-0 pt-3' style={{ listStyle: "none" }}>
-                                <li className='nav-item'>
+
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
                                   <Link href={`/dashboard/category/${categoryProfile}`}>
                                     <a className='nav-link'>
                                       <i className='bx bx-user'></i> <span>Profile</span>
                                     </a>
                                   </Link>
-                                </li>
+                                </li>) : (
+                                  <li className='nav-item'>
+                                    <Link href={`/dashboard/CustomerForm/`}>
+                                      <a className='nav-link'>
+                                        <i className='bx bx-user'></i> <span>Profile</span>
+                                      </a>
+                                    </Link>
+                                  </li>
+                                )}
                               </ul>
                             </div>
 
