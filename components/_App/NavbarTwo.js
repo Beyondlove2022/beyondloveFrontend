@@ -314,6 +314,16 @@ const NavbarTwo = ({ text }) => {
                                     </Link>
                                   </li>
                                 )}
+
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                  <Link href={`/dashboard/add-listing/${categoryProfile}`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-plus-circle'></i> <span>Portfolio</span>
+                                    </a>
+                                  </Link>
+                                </li>) : (
+                                  <></>
+                                )}
                               </ul>
                             </div>
 
@@ -432,7 +442,6 @@ const NavbarTwo = ({ text }) => {
 
                             <div className='dropdown-body'>
                               <ul className='profile-nav p-0 pt-3' style={{ listStyle: "none" }}>
-
                                 {userDetail.userType == "Business" ? (<li className='nav-item'>
                                   <Link href={`/dashboard/category/${categoryProfile}`}>
                                     <a className='nav-link'>
@@ -447,6 +456,16 @@ const NavbarTwo = ({ text }) => {
                                       </a>
                                     </Link>
                                   </li>
+                                )}
+
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                  <Link href={`/dashboard/add-listing/${categoryProfile}`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-plus-circle'></i><span>Portfolio</span>
+                                    </a>
+                                  </Link>
+                                </li>) : (
+                                  <></>
                                 )}
                               </ul>
                             </div>

@@ -197,6 +197,16 @@ const NavbarThree = () => {
                                 </li>
                               )}
 
+                              {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                <Link href={`/dashboard/add-listing/${categoryProfile}`}>
+                                  <a className='nav-link'>
+                                    <i className='bx bx-plus-circle'></i><span>Portfolio</span>
+                                  </a>
+                                </Link>
+                              </li>) : (
+                                <></>
+                              )}
+
                             </ul>
                           </div>
 
@@ -324,6 +334,16 @@ const NavbarThree = () => {
                                       </a>
                                     </Link>
                                   </li>
+                                )}
+
+                                {userDetail.userType == "Business" ? (<li className='nav-item'>
+                                  <Link href={`/dashboard/add-listing/${categoryProfile}`}>
+                                    <a className='nav-link'>
+                                      <i className='bx bx-plus-circle'></i><span>Portfolio</span>
+                                    </a>
+                                  </Link>
+                                </li>) : (
+                                  <></>
                                 )}
                               </ul>
                             </div>
