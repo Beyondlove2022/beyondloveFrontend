@@ -13,6 +13,7 @@ const Reviews = () => {
     const [token, setToken] = useState("")
     const [reviewId, setReviewId] = useState("")
     const [category, setCategory] = useState("");
+    const [run, setRun] = useState(false);
 
     useEffect(() => {
         if (typeof window != "undefined") {
@@ -64,6 +65,9 @@ const Reviews = () => {
                         draggable: true,
                         progress: undefined,
                     });
+                    setReplay("");
+                    setRun(!run);
+                    e.target.reset();
                 }
             } catch (error) {
                 console.log(error)
