@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import ReactLoading from "react-loading";
+import { RiDeleteBin6Line } from 'react-icons/ri';
 
 const PetClinic = () => {
   const [files, setFiles] = useState([]);
@@ -115,6 +116,33 @@ const PetClinic = () => {
     }
   };
 
+  const deleteBusinessPhotos = async (e, pic) => {
+    e.preventDefault();
+    const picArray = pic.split(`${process.env.DOMAIN_NAME}/api/business/get-photos/`)
+    const picId = picArray[1];
+    const d = {
+      picId
+    }
+    try {
+      // const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/`, d)
+      // console.log(data)
+      if (data.success) {
+        toast.success(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <DashboardNavbar />
@@ -143,21 +171,33 @@ const PetClinic = () => {
               <button type="submit">Upload</button>
             </div>
           </form>
+
+          {/* react loading icons */}
+          <div className="d-flex justify-content-center align-items-center">
+            {loading && (
+              <div className="loader">
+                <ReactLoading type="spokes" color="#febc1e" />
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* react loading icons */}
-        <div className="d-flex justify-content-center align-items-center">
-          {loading && (
-            <div className="loader">
-              <ReactLoading type="spokes" color="#febc1e" />
-            </div>
-          )}
-        </div>
 
         <div className="gallery add-listings-btn">
           {businessPhotos.map((photos) => {
             let photo = `${process.env.DOMAIN_NAME}/api/business/get-photos/${photos}`;
-            return <img src={photo} alt="missing" className="gallery__img" />;
+            return (
+              <div className="delete-icon-head">
+                <img src={photo} alt="missing" className="gallery__img" />
+                <div>
+                  <form onSubmit={(e) => { deleteBusinessPhotos(e, photo) }}>
+                    <button className="image-trash">
+                      <RiDeleteBin6Line color="white" size="20" />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            )
           })}
         </div>
 
