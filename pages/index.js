@@ -30,38 +30,38 @@
 
 // export default Index;
 
-import NavbarTwo from '../components/_App/NavbarTwo';
-import Banner from '../components/HomeTwo/Banner';
-import MainBanner from '../components/HomeTwo/MainBanner';
-import CategoryTwo from '../components/Common/CategoryTwo';
-import ListingAreaTwo from '../components/Common/ListingAreaTwo';
-import Destinations from '../components/Common/Destinations';
-import Feedback from '../components/Common/Feedback';
-import EventsArea from '../components/HomeTwo/EventsArea';
-import HowItWorks from '../components/Common/HowItWorks';
-import Blog from '../components/HomeTwo/Blog';
-import AppDownload from '../components/Common/AppDownload';
-import Footer from '../components/_App/Footer';
+import NavbarTwo from "../components/_App/NavbarTwo";
+import Banner from "../components/HomeTwo/Banner";
+import MainBanner from "../components/HomeTwo/MainBanner";
+import CategoryTwo from "../components/Common/CategoryTwo";
+import ListingAreaTwo from "../components/Common/ListingAreaTwo";
+import Destinations from "../components/Common/Destinations";
+import Feedback from "../components/Common/Feedback";
+import EventsArea from "../components/HomeTwo/EventsArea";
+import HowItWorks from "../components/Common/HowItWorks";
+import Blog from "../components/HomeTwo/Blog";
+import AppDownload from "../components/Common/AppDownload";
+import Footer from "../components/_App/Footer";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import nextI18NextConfig from '../next-i18next.config.js';
-import { useEffect, useState } from 'react';
+import nextI18NextConfig from "../next-i18next.config.js";
+import { useEffect, useState } from "react";
 
-export async function getStaticProps({ locale = language }) {
+export async function getStaticProps({ locale = "ml-IN" }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["home"], nextI18NextConfig))
-    }
+      ...(await serverSideTranslations(locale, ["home"], nextI18NextConfig)),
+    },
   };
 }
 
 const Index2 = () => {
-  const [language, setLanguage] = useState("")
+  const [language, setLanguage] = useState("");
 
   useEffect(() => {
-    const lang = localStorage.getItem("lang")
-    setLanguage(lang)
-  })
+    const lang = localStorage.getItem("lang");
+    setLanguage(lang);
+  });
 
   const { t } = useTranslation();
   return (
