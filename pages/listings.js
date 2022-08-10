@@ -530,18 +530,31 @@ const GridListingsWithLeftSidebar = () => {
     e.preventDefault();
     setLoading(true);
     setBusiness([]);
-    for (var i = 0; i < categories.length; i++) {
+    if (categories.length < 1) {
       try {
         const { data } = await axios.get(
-          `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-unique-category/${categories[i]}`
+          `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-all-categories`
         );
-        if (data.success) {
-          setLoading(false);
-          data.business.map((buss) => setBusiness((prev) => [...prev, buss]));
-        }
-        // console.log(business);
+        console.log(data);
+        setLoading(false);
+        return setBusiness(data.profilesArray);
       } catch (error) {
-        console.log(error);
+        return console.log(error);
+      }
+    } else {
+      for (var i = 0; i < categories.length; i++) {
+        try {
+          const { data } = await axios.get(
+            `${process.env.DOMAIN_NAME}/api/business/get-profiles-from-unique-category/${categories[i]}`
+          );
+          if (data.success) {
+            setLoading(false);
+            data.business.map((buss) => setBusiness((prev) => [...prev, buss]));
+          }
+          // console.log(business);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
