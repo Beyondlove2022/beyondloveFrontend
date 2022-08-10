@@ -15,7 +15,7 @@ const PetClinic = () => {
   const [categoriesProfile, setCategoryProfile] = useState("");
   const [businessPhotos, setBusinessPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log(categoriesProfile);
+  const [token, setToken] = useState("")
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -39,7 +39,9 @@ const PetClinic = () => {
   useEffect(() => {
     if (typeof window != "undefined") {
       let user = JSON.parse(localStorage.getItem("user"));
+      let token = localStorage.getItem("token")
       setCategoryProfile(user.category);
+      setToken(token)
       setBusinessid(user._id);
       console.log("we are running client side");
       if (categoriesProfile != "") {
@@ -118,14 +120,12 @@ const PetClinic = () => {
 
   const deleteBusinessPhotos = async (e, pic) => {
     e.preventDefault();
-    const picArray = pic.split(`${process.env.DOMAIN_NAME}/api/business/get-photos/`)
-    const picId = picArray[1];
     const d = {
-      picId
+      rmImage: pic
     }
     try {
-      // const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/`, d)
-      // console.log(data)
+      const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/delete-image/${categoriesProfile}/${token}`, d)
+      console.log(data)
       if (data.success) {
         toast.success(data.msg, {
           theme: "light",
@@ -137,6 +137,7 @@ const PetClinic = () => {
           draggable: true,
           progress: undefined,
         });
+        setBusinessPhotos(data.businessImages);
       }
     } catch (error) {
       console.log(error)
@@ -190,8 +191,8 @@ const PetClinic = () => {
               <div className="delete-icon-head">
                 <img src={photo} alt="missing" className="gallery__img" />
                 <div>
-                  <form onSubmit={(e) => { deleteBusinessPhotos(e, photo) }}>
-                    <button className="image-trash">
+                  <form onSubmit={(e) => deleteBusinessPhotos(e, photos)}>
+                    <button className="image-trash" type="submit">
                       <RiDeleteBin6Line color="white" size="20" />
                     </button>
                   </form>
