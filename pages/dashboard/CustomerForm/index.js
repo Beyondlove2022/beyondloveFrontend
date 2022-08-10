@@ -1265,8 +1265,8 @@ const Profile = () => {
                               <input
                                 type="radio"
                                 name="Gender"
-                                // value="Male"
-                                value={gender}
+                                value="Male"
+                                checked={gender == "Male"}
                                 onChange={(e) => setGender(e.target.value)}
                               />
                               <span>Male</span>
@@ -1277,9 +1277,9 @@ const Profile = () => {
                               <input
                                 type="radio"
                                 name="Gender"
-                                // value="Female"
+                                value="Female"
                                 className="checked1"
-                                value={gender}
+                                checked={gender == "Female"}
                                 onChange={(e) => setGender(e.target.value)}
                               />
                               <span>Female</span>
