@@ -6,6 +6,7 @@ import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import { BsFacebook, BsFillHeartFill, BsYoutube } from "react-icons/bs";
+import { RiDeleteBin6Line } from 'react-icons/ri';
 import { RiWhatsappFill } from "react-icons/ri";
 import {
   FacebookShareButton,
@@ -572,12 +573,12 @@ const SingleListings = () => {
 
                               <div className="col-lg-6 col-md-8 p-0">
                                 {rev.customerId == customerId && (
-                                  <button
+                                  <button className="image-trash"
                                     onClick={(e) =>
                                       deleteReview(e, rev._id, rev.businessId)
                                     }
                                   >
-                                    Delete
+                                    <RiDeleteBin6Line color="white" size="20" />
                                   </button>
                                 )}
                                 <div className="comments">
