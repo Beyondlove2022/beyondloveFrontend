@@ -76,7 +76,7 @@ const SingleListings = () => {
   const [averageRating, setAverageRating] = useState();
   const [review, setReview] = useState([]);
   const [displayDropdownShare, setDisplayDropdownShare] = useState(false);
-
+  const [run2, setRun2] = useState(false);
   const router = useRouter();
   // console.log(router);
   // const shareUrl = `http://localhost:3000/single-listings/?category=${cate},${id}`;
@@ -121,7 +121,7 @@ const SingleListings = () => {
     } else {
       console.log("we are running on the server");
     }
-  }, [review]);
+  }, [run2]);
 
   const getCustomerProfile = async (id) => {
     try {
@@ -274,6 +274,7 @@ const SingleListings = () => {
         `${process.env.DOMAIN_NAME}/api/get-review/${id}`
       );
       setReview(data.review);
+      setRun2(!run2)
       data.review.map((rate) => {
         custRating = parseInt(rate.customerRating) + custRating;
       });
