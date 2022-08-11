@@ -22,7 +22,6 @@ import PopularPlacesFilter from "../components/Common/PopularPlacesFilter";
 import Footer from "../components/_App/Footer";
 import { useRouter } from "next/router";
 
-
 const options = {
   loop: true,
   margin: 20,
@@ -63,42 +62,42 @@ const SingleListings = () => {
   const [business, setBusiness] = useState(null);
   const [coverImg, setCoverImage] = useState(null);
   const [token, setToken] = useState("");
-  const [categoryProfile, setCategoryProfile] = useState("")
-  const [businessId, setBusinessid] = useState("")
-  const [customerId, setCustomerId] = useState("")
-  const [userType, setUsetType] = useState("")
+  const [categoryProfile, setCategoryProfile] = useState("");
+  const [businessId, setBusinessid] = useState("");
+  const [customerId, setCustomerId] = useState("");
+  const [userType, setUsetType] = useState("");
   const [like, setLike] = useState(null);
-  const [likeCount, setLikeCount] = useState()
+  const [likeCount, setLikeCount] = useState();
   const [customerName, SetCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("")
-  const [reviewMsg, setReviewMsg] = useState("")
-  const [rating, setRating] = useState(null)
-  const [error, setError] = useState(false)
-  const [averageRating, setAverageRating] = useState()
-  const [review, setReview] = useState([])
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [reviewMsg, setReviewMsg] = useState("");
+  const [rating, setRating] = useState(null);
+  const [error, setError] = useState(false);
+  const [averageRating, setAverageRating] = useState();
+  const [review, setReview] = useState([]);
   const [displayDropdownShare, setDisplayDropdownShare] = useState(false);
 
   const router = useRouter();
-  console.log(router)
+  // console.log(router);
   // const shareUrl = `http://localhost:3000/single-listings/?category=${cate},${id}`;
-  const shareUrl = `www.google.com`
+  const shareUrl = `www.google.com`;
   useEffect(() => {
     if (typeof window !== "undefined") {
       let category = router.query.category;
       let id = router.query.id;
-      setBusinessid(id)
+      setBusinessid(id);
       setisMounted(true);
       setDisplay(true);
       let token = localStorage.getItem("token");
-      let user = JSON.parse(localStorage.getItem("user"))
+      let user = JSON.parse(localStorage.getItem("user"));
       if (user != null) {
-        setUsetType(user.userType)
-        setCustomerId(user._id)
-        getCustomerProfile(user._id)
-        setCustomerEmail(user.email)
-        setToken(token)
+        setUsetType(user.userType);
+        setCustomerId(user._id);
+        getCustomerProfile(user._id);
+        setCustomerEmail(user.email);
+        setToken(token);
       }
-      setCategoryProfile(category)
+      setCategoryProfile(category);
       if (category != undefined && id != undefined) {
         console.log("not undefined");
         getUniqueProfile(category, id);
@@ -114,7 +113,7 @@ const SingleListings = () => {
 
   const toggleDropdownShare = () => {
     setDisplayDropdownShare(!displayDropdownShare);
-  }
+  };
   useEffect(() => {
     if (typeof window !== "undefined") {
       let id = router.query.id;
@@ -124,15 +123,16 @@ const SingleListings = () => {
     }
   }, [review]);
 
-
   const getCustomerProfile = async (id) => {
     try {
-      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/customer/get-profile/${id}`);
-      SetCustomerName(data.customer.customerName)
+      const { data } = await axios.get(
+        `${process.env.DOMAIN_NAME}/api/customer/get-profile/${id}`
+      );
+      SetCustomerName(data.customer.customerName);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const getUniqueProfile = async (cate, id) => {
     console.log("running");
@@ -140,7 +140,7 @@ const SingleListings = () => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/business/get-profile/${cate}/${id}`
       );
-      setLikeCount(data.business.likes.length)
+      setLikeCount(data.business.likes.length);
       setBusiness(data.business);
       setCoverImage(
         `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.business.coverImage}`
@@ -184,16 +184,19 @@ const SingleListings = () => {
       draggable: true,
       progress: undefined,
     });
-  }
+  };
 
   const vendorLike = async (e) => {
     e.preventDefault();
     const d = {
       businessId,
-      customerId
-    }
+      customerId,
+    };
     try {
-      const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/business/like-unlike/${categoryProfile}/${token}`, d);
+      const { data } = await axios.put(
+        `${process.env.DOMAIN_NAME}/api/business/like-unlike/${categoryProfile}/${token}`,
+        d
+      );
       if (data.success) {
         toast.success(data.msg, {
           theme: "light",
@@ -205,7 +208,7 @@ const SingleListings = () => {
           draggable: true,
           progress: undefined,
         });
-        setLike(data.like)
+        setLike(data.like);
         if (data.like) {
           setLikeCount(likeCount + 1);
         }
@@ -214,26 +217,29 @@ const SingleListings = () => {
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const reviewSubmit = async (e) => {
     e.preventDefault();
     if (reviewMsg !== " " && rating !== null) {
-      setError(false)
+      setError(false);
       const d = {
         customerId,
         businessId,
         customerEmail,
         customerName,
         customerRating: rating,
-        customerReview: reviewMsg
-      }
-      console.log(d)
+        customerReview: reviewMsg,
+      };
+      console.log(d);
       try {
-        const { data } = await axios.post(`${process.env.DOMAIN_NAME}/api/create-review/${token}`, d);
-        console.log(data)
+        const { data } = await axios.post(
+          `${process.env.DOMAIN_NAME}/api/create-review/${token}`,
+          d
+        );
+        console.log(data);
         if (data.success) {
           let custRating = 0;
           toast.success(data.msg, {
@@ -249,35 +255,51 @@ const SingleListings = () => {
           setReviewMsg(" ");
           data.review.map((rate) => {
             custRating = parseInt(rate.customerRating) + custRating;
-          })
+          });
           const average = Math.round(custRating / data.review.length);
-          setAverageRating(average)
+          setAverageRating(average);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
-      setError(true)
+      setError(true);
     }
-
-  }
-
+  };
 
   const getReviews = async (id) => {
     let custRating = 0;
     try {
-      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/get-review/${id}`)
+      const { data } = await axios.get(
+        `${process.env.DOMAIN_NAME}/api/get-review/${id}`
+      );
       setReview(data.review);
       data.review.map((rate) => {
         custRating = parseInt(rate.customerRating) + custRating;
-      })
+      });
       const average = Math.round(custRating / data.review.length);
-      setAverageRating(average)
+      setAverageRating(average);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
+  const deleteReview = async (e, reviewId, businessId) => {
+    e.preventDefault();
+    // const d = {
+    //   businessId,
+    //   reviewId,
+    // };
+    // console.log(d);
+    try {
+      const { data } = await axios.delete(
+        `${process.env.DOMAIN_NAME}/api/delete-review/${reviewId}/${token}`
+      );
+      console.log(data);
+    } catch (error) {
+      return console.log(error);
+    }
+  };
 
   return (
     <>
@@ -350,8 +372,11 @@ const SingleListings = () => {
                     <li className="location">
                       <i className="bx bx-map"></i>
                       <span>Location</span>
-                      <p>  {business.location[0]}, {business.city[0]},{" "}
-                        {business.state[0]}</p>
+                      <p>
+                        {" "}
+                        {business.location[0]}, {business.city[0]},{" "}
+                        {business.state[0]}
+                      </p>
                     </li>
                   )}
                 </ul>
@@ -383,11 +408,7 @@ const SingleListings = () => {
                       </FacebookShareButton>
                     </div>
                     <div>
-                      <EmailShareButton
-                        url={shareUrl}
-                        quote={""}
-                        hashtag={""}
-                      >
+                      <EmailShareButton url={shareUrl} quote={""} hashtag={""}>
                         <MdEmail size="27px" color="red" />
                       </EmailShareButton>
                     </div>
@@ -401,7 +422,6 @@ const SingleListings = () => {
                       </WhatsappShareButton>
                     </div>
                   </div>
-
                 </div>
 
                 <div className="social">
@@ -432,20 +452,24 @@ const SingleListings = () => {
                     <button onClick={vendorLike}>
                       {like ? (
                         <>
-                          <BsFillHeartFill fill="red" className="mr-1" />{likeCount}
+                          <BsFillHeartFill fill="red" className="mr-1" />
+                          {likeCount}
                         </>
                       ) : (
                         <>
-                          <BsFillHeartFill className="mr-1" />{likeCount}
+                          <BsFillHeartFill className="mr-1" />
+                          {likeCount}
                         </>
                       )}
                     </button>
                   ) : (
                     <button onClick={businessLikeWithoutLogin}>
                       <>
-                        <BsFillHeartFill className="mr-1" />{likeCount}
+                        <BsFillHeartFill className="mr-1" />
+                        {likeCount}
                       </>
-                    </button>)}
+                    </button>
+                  )}
                 </div>
                 {/* <a href="#">
                   <i className="bx bx-heart"></i> Like
@@ -516,86 +540,106 @@ const SingleListings = () => {
                 </p>
 
                 {/* Review show secttion */}
-                {review.length > 0 && (<div id="review">
-                  <h3>Review</h3>
-                  <div className="listings-review-comments">
-                    {review.map((rev) => {
-                      let date = rev.createdAt;
-                      let createDate = new Date(date);
-                      let stringDate = createDate.toString()
-                      let reviewDate = stringDate.split(" ")
-                      return (
-                        <div className="user-review">
-                          <div className="row m-0">
-                            <div className="col-lg-4 col-md-4 p-0">
-                              <div className="user">
-                                <div className="d-flex">
-                                  <img src="/images/user1.jpg" alt="image" style={{ width: "85px" }} />
-                                  <div className="title">
-                                    <h4>{rev.customerName}</h4>
-                                    <span>{rev.customerEmail}</span><br />
-                                    <p>Reply</p>
+                {review.length > 0 && (
+                  <div id="review">
+                    <h3>Review</h3>
+                    <div className="listings-review-comments">
+                      {review.map((rev) => {
+                        let date = rev.createdAt;
+                        let createDate = new Date(date);
+                        let stringDate = createDate.toString();
+                        let reviewDate = stringDate.split(" ");
+                        return (
+                          <div className="user-review">
+                            <div className="row m-0">
+                              <div className="col-lg-6 col-md-4 p-0">
+                                <div className="user">
+                                  <div className="d-flex">
+                                    <img
+                                      src="/images/user1.jpg"
+                                      alt="image"
+                                      style={{ width: "85px" }}
+                                    />
+                                    <div className="title">
+                                      <h4>{rev.customerName}</h4>
+                                      <span>{rev.customerEmail}</span>
+                                      <br />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
 
-                            <div className="col-lg-8 col-md-8 p-0">
-                              <div className="comments">
-                                <div className="rating">
-                                  {rev.customerRating >= 1 && (
-                                    <span className="bx bxs-star checked"></span>
-                                  )}
-                                  {rev.customerRating >= 2 && (
-                                    <span className="bx bxs-star checked"></span>
-                                  )}
-                                  {rev.customerRating >= 3 && (
-                                    <span className="bx bxs-star checked"></span>
-                                  )}
-                                  {rev.customerRating >= 4 && (
-                                    <span className="bx bxs-star checked"></span>
-                                  )}
-                                  {rev.customerRating >= 5 && (
-                                    <span className="bx bxs-star checked"></span>
-                                  )}
-                                  {/*  */}
-                                  {rev.customerRating <= 4 && (
-                                    <span className="bx bx-star checked"></span>
-                                  )}
-                                  {rev.customerRating <= 3 && (
-                                    <span className="bx bx-star checked"></span>
-                                  )}
-                                  {rev.customerRating <= 2 && (
-                                    <span className="bx bx-star checked"></span>
-                                  )}
-                                  {rev.customerRating <= 1 && (
-                                    <span className="bx bx-star checked"></span>
-                                  )}
-                                </div>
-                                <p>
-                                  {rev.customerReview}
-                                </p>
-                                <p>
-                                  {rev.reply}
-                                </p>
-                                <div className="row m-0">
-                                  <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
-                                    <ul className="like-unlike">
-                                      <li>
-                                        <a>{reviewDate[2]}</a>
-                                      </li>
-                                      <li>
-                                        <a>{reviewDate[1]}</a>
-                                      </li>
-                                      <li>
-                                        <a>{reviewDate[3]}</a>
-                                      </li>
-                                      <li>
-                                        <a>{reviewDate[4]}</a>
-                                      </li>
-                                    </ul>
+                              <div className="col-lg-6 col-md-8 p-0">
+                                {rev.customerId == customerId && (
+                                  <button
+                                    onClick={(e) =>
+                                      deleteReview(e, rev._id, rev.businessId)
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                )}
+                                <div className="comments">
+                                  <div className="rating">
+                                    {rev.customerRating >= 1 && (
+                                      <span className="bx bxs-star checked"></span>
+                                    )}
+                                    {rev.customerRating >= 2 && (
+                                      <span className="bx bxs-star checked"></span>
+                                    )}
+                                    {rev.customerRating >= 3 && (
+                                      <span className="bx bxs-star checked"></span>
+                                    )}
+                                    {rev.customerRating >= 4 && (
+                                      <span className="bx bxs-star checked"></span>
+                                    )}
+                                    {rev.customerRating >= 5 && (
+                                      <span className="bx bxs-star checked"></span>
+                                    )}
+                                    {/*  */}
+                                    {rev.customerRating <= 4 && (
+                                      <span className="bx bx-star checked"></span>
+                                    )}
+                                    {rev.customerRating <= 3 && (
+                                      <span className="bx bx-star checked"></span>
+                                    )}
+                                    {rev.customerRating <= 2 && (
+                                      <span className="bx bx-star checked"></span>
+                                    )}
+                                    {rev.customerRating <= 1 && (
+                                      <span className="bx bx-star checked"></span>
+                                    )}
                                   </div>
-                                  {/* <div
+                                  <p>
+                                    <span className="review-reply">
+                                      Review:{" "}
+                                    </span>
+                                    {rev.customerReview}
+                                  </p>
+                                  <p>
+                                    <span className="review-reply">
+                                      Reply:{" "}
+                                    </span>
+                                    {rev.reply}
+                                  </p>
+                                  <div className="row m-0">
+                                    <div className="col-lg-8 col-md-8 col-8 col-sm-8 p-0">
+                                      <ul className="like-unlike">
+                                        <li>
+                                          <a>{reviewDate[2]}</a>
+                                        </li>
+                                        <li>
+                                          <a>{reviewDate[1]}</a>
+                                        </li>
+                                        <li>
+                                          <a>{reviewDate[3]}</a>
+                                        </li>
+                                        <li>
+                                          <a>{reviewDate[4]}</a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    {/* <div
                                     className="
                                   col-lg-4 col-md-4 col-4 col-sm-4
                                   p-0
@@ -604,15 +648,16 @@ const SingleListings = () => {
                                   >
                                     <a href="#">Comment</a>
                                   </div> */}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      )
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>)}
+                )}
               </div>
             </div>
 
@@ -655,8 +700,6 @@ const SingleListings = () => {
                     )}
                   </ul>
                 </div>
-
-
 
                 <div className="listings-details-desc">
                   {/* <------Amenities-----> */}
@@ -744,7 +787,6 @@ const SingleListings = () => {
                     )}
                   </div>
                 </div> */}
-
 
                   {/* <------Pricing Section ----> */}
                   {/* <h3>Pricing</h3>
@@ -879,8 +921,8 @@ const SingleListings = () => {
 
                  */}
                   <div id="add-review">
-                    {userType == "Customer" &&
-                      (<div className="review-form-wrapper">
+                    {userType == "Customer" && (
+                      <div className="review-form-wrapper">
                         <h3>Add A Review</h3>
                         {/* <p className="comment-notes">
                       Your email address will not be published. Required fields
@@ -998,7 +1040,8 @@ const SingleListings = () => {
                             </div>
                           </div>
                         </form>
-                      </div>)}
+                      </div>
+                    )}
                   </div>
                   {/* <--------Other Services-------> */}
                   {/* <h3>Other Nearby Services</h3>
@@ -1203,7 +1246,7 @@ const SingleListings = () => {
             </div>
           </div>
         </div>
-      </section >
+      </section>
       <Footer bgColor="bg-f5f5f5" />
     </>
   );
