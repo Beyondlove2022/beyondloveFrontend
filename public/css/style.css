@@ -16671,3 +16671,8 @@ th {
 .image-trash:hover {
   background-color: #FF0000 !important;
 }
+
+/* Changed by Sridhar for Filter Form */
+.banner-form-select-two {
+  width:80%
+}

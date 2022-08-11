@@ -46,8 +46,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config.js";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-export async function getStaticProps({ locale = "ml-IN" }) {
+export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["home"], nextI18NextConfig)),
@@ -56,17 +57,8 @@ export async function getStaticProps({ locale = "ml-IN" }) {
 }
 
 const Index2 = () => {
-  const [language, setLanguage] = useState("");
-
-  useEffect(() => {
-    const lang = localStorage.getItem("lang");
-    setLanguage(lang);
-  });
-
-  const { t } = useTranslation();
   return (
     <>
-      {/* <h1>{t('home:title')} </h1> */}
       <NavbarTwo />
       <MainBanner />
       <Banner />

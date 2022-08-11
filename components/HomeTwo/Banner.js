@@ -6,6 +6,7 @@ import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { addAllBusiness } from "../../Redux/allBusinessSlice";
+import { useTranslation } from "next-i18next";
 
 const Banner = () => {
   const [allBusinessDetail, setAllBusinessDetail] = useState([]);
@@ -19,6 +20,8 @@ const Banner = () => {
   const [locationName, setLocationName] = useState("");
   const [selectedLocation, setSelectedLocation] = useState([]);
   const [categoryName, setCategoryName] = useState("");
+
+  const { t } = useTranslation("home");
 
   let router = useRouter();
   let dispatch = useDispatch();
@@ -187,7 +190,8 @@ const Banner = () => {
     );
 
     router.push({
-      pathname: "/listings", query: { categoryName, stateName, cityName, locationName },
+      pathname: "/listings",
+      query: { categoryName, stateName, cityName, locationName },
     });
   };
 
@@ -200,17 +204,17 @@ const Banner = () => {
             <div className="col-lg-9 col-md-12">
               <div className="banner-content banner-form">
                 <h1 className="banner-two-heading">
-                  <span className="typewrite">Find Nearby</span>
+                  <span className="typewrite">{t("Find Nearby")}</span>
                   <Typist>
-                    <span>Pet Clinics</span>
+                    <span>{t("Pet Clinics")}</span>
                     <Typist.Backspace count={15} delay={200} />
-                    <span> Pet Grooming </span>
+                    <span> {t("Pet Grooming")} </span>
                     <Typist.Backspace count={15} delay={200} />
-                    <span> Pet Training </span>
+                    <span> {t("Pet Training")} </span>
                     <Typist.Backspace count={15} delay={200} />
                     {/* <span> Pet Food 1 </span>
                     <Typist.Backspace count={15} delay={200} /> */}
-                    <span> Pet Boarding </span>
+                    <span> {t("Pet Boarding")} </span>
                   </Typist>
                   <span className="wrap"></span>
                 </h1>
@@ -276,7 +280,7 @@ const Banner = () => {
                           onChange={handleChangeCity}
                         >
                           <option>
-                            {cityName.length > 0 ? cityName[0] : "Select City"}
+                            {cityName.length > 0 ? cityName[0] : "City"}
                           </option>
                           {selectedCity.map((city) => {
                             return (
@@ -305,7 +309,7 @@ const Banner = () => {
                           <option>
                             {locationName.length > 0
                               ? locationName[0]
-                              : "Select Location"}
+                              : "Location"}
                           </option>
                           {selectedLocation.map((location) => {
                             return (

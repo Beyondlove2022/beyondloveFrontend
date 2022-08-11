@@ -6,6 +6,7 @@ import { MdPets, MdOutlineFoodBank } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 const Category = ({ titleOne, titleTwo }) => {
   const [petBoardingCount, setPetBoardingCount] = useState("");
   const [petClinicCount, setPetClinicCount] = useState("");
@@ -13,6 +14,7 @@ const Category = ({ titleOne, titleTwo }) => {
   const [petGroomingCount, setPetGroomingCount] = useState("");
   const [petTrainingCount, setTrainingCount] = useState("");
   const router = useRouter();
+  const { t } = useTranslation("home");
   useEffect(() => {
     if (typeof window != "undefined") {
       console.log("we are running the client");
@@ -58,7 +60,7 @@ const Category = ({ titleOne, titleTwo }) => {
         <div className="container">
           {titleOne ? (
             <div className="section-title">
-              <h2>Popular Categories</h2>
+              <h2>{t("Popular Categories")}</h2>
               {/* <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
@@ -84,7 +86,7 @@ const Category = ({ titleOne, titleTwo }) => {
                 <div className="icon">
                   <FaClinicMedical />
                 </div>
-                <h3>Pet Clinic</h3>
+                <h3>{t("Pet Clinic")}</h3>
                 <span>{petClinicCount}</span>
                 {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
@@ -99,7 +101,7 @@ const Category = ({ titleOne, titleTwo }) => {
                 <div className="icon">
                   <GiHairStrands />
                 </div>
-                <h3>Pet Grooming</h3>
+                <h3>{t("Pet Grooming")}</h3>
                 <span>{petGroomingCount}</span>
                 {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
@@ -114,7 +116,7 @@ const Category = ({ titleOne, titleTwo }) => {
                 <div className="icon">
                   <TbBone />
                 </div>
-                <h3>Pet Training</h3>
+                <h3>{t("Pet Training")}</h3>
                 <span>{petTrainingCount}</span>
                 {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
@@ -129,7 +131,7 @@ const Category = ({ titleOne, titleTwo }) => {
                 <div className="icon">
                   <MdPets />
                 </div>
-                <h3>Pet Boarding</h3>
+                <h3>{t("Pet Boarding")}</h3>
                 <span>{petBoardingCount}</span>
                 {/* <Link href="/grid-listings-with-map">
                   <a className="link-btn"></a>
