@@ -288,11 +288,6 @@ const SingleListings = () => {
 
   const deleteReview = async (e, reviewId, businessId) => {
     e.preventDefault();
-    // const d = {
-    //   businessId,
-    //   reviewId,
-    // };
-    // console.log(d);
     try {
       const { data } = await axios.delete(
         `${process.env.DOMAIN_NAME}/api/delete-review/${reviewId}/${token}`
