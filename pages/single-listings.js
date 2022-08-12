@@ -6,7 +6,7 @@ import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 const OwlCarousel = dynamic(import("react-owl-carousel3"));
 import { BsFacebook, BsFillHeartFill, BsYoutube } from "react-icons/bs";
-import { RiDeleteBin6Line } from 'react-icons/ri';
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { RiWhatsappFill } from "react-icons/ri";
 import {
   FacebookShareButton,
@@ -56,9 +56,6 @@ const optionsTwo = {
 };
 
 const SingleListings = () => {
-  const [display, setDisplay] = useState(false);
-  const [isMounted, setisMounted] = useState(false);
-  // const [category, setCategory] = useState("");
   const [run, setRun] = useState(false);
   const [business, setBusiness] = useState(null);
   const [coverImg, setCoverImage] = useState(null);
@@ -77,18 +74,14 @@ const SingleListings = () => {
   const [averageRating, setAverageRating] = useState();
   const [review, setReview] = useState([]);
   const [displayDropdownShare, setDisplayDropdownShare] = useState(false);
-  const [run2, setRun2] = useState(false);
   const router = useRouter();
-  // console.log(router);
-  // const shareUrl = `http://localhost:3000/single-listings/?category=${cate},${id}`;
+
   const shareUrl = `www.google.com`;
   useEffect(() => {
     if (typeof window !== "undefined") {
       let category = router.query.category;
       let id = router.query.id;
       setBusinessid(id);
-      setisMounted(true);
-      setDisplay(true);
       let token = localStorage.getItem("token");
       let user = JSON.parse(localStorage.getItem("user"));
       if (user != null) {
@@ -100,11 +93,10 @@ const SingleListings = () => {
       }
       setCategoryProfile(category);
       if (category != undefined && id != undefined) {
-        console.log("not undefined");
         getUniqueProfile(category, id);
+        getReviews(id);
       } else {
         setRun(!run);
-        console.log("undefined");
       }
       console.log(router.query.category);
     } else {
@@ -115,14 +107,6 @@ const SingleListings = () => {
   const toggleDropdownShare = () => {
     setDisplayDropdownShare(!displayDropdownShare);
   };
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      let id = router.query.id;
-      getReviews(id);
-    } else {
-      console.log("we are running on the server");
-    }
-  }, [run2]);
 
   const getCustomerProfile = async (id) => {
     try {
@@ -136,7 +120,6 @@ const SingleListings = () => {
   };
 
   const getUniqueProfile = async (cate, id) => {
-    console.log("running");
     try {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/business/get-profile/${cate}/${id}`
@@ -234,13 +217,11 @@ const SingleListings = () => {
         customerRating: rating,
         customerReview: reviewMsg,
       };
-      console.log(d);
       try {
         const { data } = await axios.post(
           `${process.env.DOMAIN_NAME}/api/create-review/${token}`,
           d
         );
-        console.log(data);
         if (data.success) {
           let custRating = 0;
           toast.success(data.msg, {
@@ -259,6 +240,7 @@ const SingleListings = () => {
           });
           const average = Math.round(custRating / data.review.length);
           setAverageRating(average);
+          setRun(!run);
         }
       } catch (error) {
         console.log(error);
@@ -275,7 +257,6 @@ const SingleListings = () => {
         `${process.env.DOMAIN_NAME}/api/get-review/${id}`
       );
       setReview(data.review);
-      setRun2(!run2)
       data.review.map((rate) => {
         custRating = parseInt(rate.customerRating) + custRating;
       });
@@ -286,13 +267,37 @@ const SingleListings = () => {
     }
   };
 
-  const deleteReview = async (e, reviewId, businessId) => {
+  const deleteReview = async (e, reviewId) => {
     e.preventDefault();
     try {
       const { data } = await axios.delete(
         `${process.env.DOMAIN_NAME}/api/delete-review/${reviewId}/${token}`
       );
       console.log(data);
+      if (data.success) {
+        toast.success(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setRun(!run);
+      } else {
+        toast.error(data.msg, {
+          theme: "light",
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     } catch (error) {
       return console.log(error);
     }
@@ -568,10 +573,9 @@ const SingleListings = () => {
 
                               <div className="col-lg-6 col-md-8 p-0">
                                 {rev.customerId == customerId && (
-                                  <button className="image-trash"
-                                    onClick={(e) =>
-                                      deleteReview(e, rev._id, rev.businessId)
-                                    }
+                                  <button
+                                    className="image-trash"
+                                    onClick={(e) => deleteReview(e, rev._id)}
                                   >
                                     <RiDeleteBin6Line color="white" size="20" />
                                   </button>
