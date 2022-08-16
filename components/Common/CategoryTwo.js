@@ -56,7 +56,7 @@ const Category = ({ titleOne, titleTwo }) => {
 
   return (
     <>
-      <section className="category-area pt-100 pb-70">
+      <section className="category-area pt-100 pb-70 bakgrd">
         <div className="container">
           {titleOne ? (
             <div className="section-title">
