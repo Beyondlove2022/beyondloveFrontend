@@ -8758,6 +8758,7 @@ Page Title Area CSS
   text-align: center;
   padding-top: 80px;
   padding-bottom: 80px;
+  background-image: url(../images/find-background.png);
 
 
 }
@@ -16698,6 +16699,7 @@ th {
 }
 .background-img{
   background-image: url(../images/section2.png);
+  height: 100%;
 }
 .sec-count{
   margin-top: 80px;
@@ -16709,4 +16711,15 @@ th {
 }
 .sec-count-head h1{
   font-size: 3.5rem !important;
+}
+.bakgrd{
+  background-image: url(../images/c.png);
+}
+@media only screen and (max-width: 767px){
+  .sec-count-head {
+    margin-left: 0;
+    margin-top: 55px;
+    text-align: center;
+}
+
 }
