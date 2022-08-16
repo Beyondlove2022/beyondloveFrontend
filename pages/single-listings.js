@@ -124,6 +124,9 @@ const SingleListings = () => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/business/get-profile/${cate}/${id}`
       );
+      const li = data.business.likes.includes(customerId);
+      console.log(li);
+      setLike(li);
       setLikeCount(data.business.likes.length);
       setBusiness(data.business);
       setCoverImage(
@@ -256,9 +259,6 @@ const SingleListings = () => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/get-review/${id}`
       );
-      if (data.success) {
-        setRun2(!run2)
-      }
       setReview(data.review);
       data.review.map((rate) => {
         custRating = parseInt(rate.customerRating) + custRating;
