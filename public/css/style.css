@@ -60,6 +60,7 @@ Default CSS
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
+  
   --fontFamily: "Work Sans", sans-serif;
   --mainColor: #4b2d22;
   --mainColor2: #fabc1d;
@@ -1724,7 +1725,7 @@ Main Banner Area CSS
 }
 
 .banner-content h1 {
-  font-size: 50px;
+  font-size: 40px;
   margin-bottom: 15px;
 }
 
@@ -5633,7 +5634,7 @@ Category Area CSS
   -webkit-box-shadow: 5px 5px var(--mainColor2);
   box-shadow: 5px 5px var(--mainColor2);
   border: 1px solid rgb(250, 233, 107);
-  border-radius: 5px;
+  border-radius: 13px 43px;
   position: relative;
   -webkit-transition: var(--transition);
   transition: var(--transition);
@@ -16249,6 +16250,7 @@ Preloader Area CSS
 
 .Typist span {
   color: var(--mainColor2);
+  color: #ffffff !important;
 }
 
 /*# sourceMappingURL=style.css.map */
@@ -16679,4 +16681,22 @@ th {
 .review-reply {
   color: #fabc1d;
     font-weight: bold;
+}
+.bakgrd{
+  background-image: url(../images/22.png);
+}
+.copyright-image{
+  
+ max-width: 350px;
+ height: auto; 
+ margin-left: 425px;
+ margin-bottom: 25px;
+
+ 
+}
+.background-img{
+  background-image: url(../images/section2.png);
+}
+.sec-count{
+  margin-top: 290px;
 }
