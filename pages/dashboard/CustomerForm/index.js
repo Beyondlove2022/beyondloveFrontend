@@ -32,7 +32,6 @@ const Profile = () => {
   const [vaccinationName, setVaccinationName] = useState("");
   const [vaccinationDate, SetVaccinationDate] = useState("");
   const [vaccinationDueDate, SetVaccinationDueDate] = useState("");
-  const [vaccinationDocsUpload, setVaccinationDocsUpload] = useState("");
   const [allergies, setAllergies] = useState("");
   const [error, setError] = useState(false);
   const [cityFilter, setCityFilter] = useState([]);
@@ -52,6 +51,8 @@ const Profile = () => {
   const [petId, setPetId] = useState("");
   const [apiprofileImg, setApiProfileImg] = useState();
   const [profile, setProfile] = useState();
+  const [showVaccinationCertificate, setShowVaccinationCertificate] = useState([]);
+  const [apivaccinationDocsUpload, setApiVaccinationDocsUpload] = useState("");
 
   useEffect(() => {
     if (typeof window != "undefined") {
@@ -261,7 +262,7 @@ const Profile = () => {
       weight,
       active,
       vaccinationDetails: vaccinatedList,
-      vacinationCertificates: vaccinationDocsUpload,
+      vacinationCertificates: apivaccinationDocsUpload,
       allergies,
       trained: trainedPet,
     };
@@ -340,7 +341,7 @@ const Profile = () => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/customer/pet/get-unique-profile/${petId}`
       );
-      console.log(data, "thid si sdasdr");
+      console.log(data.pet.vacinationCertificates, "thid si sdasdr");
       console.log(data.pet.profilePic);
       setPetDetails(data.pet);
       setPetName(data.pet.petName);
@@ -353,6 +354,7 @@ const Profile = () => {
       setTrainedPet(data.pet.trained);
       setAllergies(data.pet.allergies);
       setVaccinatedList(data.pet.vaccinationDetails);
+      setShowVaccinationCertificate(data.pet.vacinationCertificates)
       setProfile(
         `${process.env.DOMAIN_NAME}/api/business/get-photos/${data.pet.profilePic}`
       );
@@ -400,7 +402,7 @@ const Profile = () => {
       weight,
       active,
       vaccinationDetails: vaccinatedList,
-      vacinationCertificates: vaccinationDocsUpload,
+      vacinationCertificates: apivaccinationDocsUpload,
       allergies,
       trained: trainedPet,
     };
@@ -465,7 +467,6 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("file", apiprofileImg);
       try {
-        console.log(petId);
         const { data } = await axios.put(
           `${process.env.DOMAIN_NAME}/api/customer/pet/upload-profile-pic/${token}/${petId}`,
           formData
@@ -500,6 +501,54 @@ const Profile = () => {
       }
     }
   };
+
+  const uploadVaccinationDocsUpload = (e) => {
+    // setShowVaccinationCertificate(URL.createObjectURL(e.target.files[0]));
+    setApiVaccinationDocsUpload(e.target.files[0]);
+    console.log(e.target.files[0])
+    console.log(e.target.files)
+  }
+
+  const uploadVaccinationCertification = async (e) => {
+    e.preventDefault();
+    console.log(apivaccinationDocsUpload)
+    if (apivaccinationDocsUpload == "") {
+      return toast.warning("Please Upload Vaccination Certificate", {
+        theme: "light",
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      const formData = new FormData();
+      formData.append("file", apivaccinationDocsUpload);
+      try {
+        console.log(petId)
+        const { data } = await axios.put(`${process.env.DOMAIN_NAME}/api/customer/pet/vaccination-pic/${token}/${petId}`, formData);
+        console.log(data.petCertificate);
+        setShowVaccinationCertificate(data.petCertificate)
+        if (data.success) {
+          toast.success(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setApiVaccinationDocsUpload([])
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   return (
     <>
@@ -1065,34 +1114,6 @@ const Profile = () => {
                         <button type="submit">Save Changes</button>
                       </div>
                     </div>
-
-                    <div className="col-lg-12 col-md-12">
-                      <div className="form-group">
-                        <h3 id="address">Vaccination Certificate</h3>
-                      </div>
-                    </div>
-
-                    <div className="col-xl-4 col-lg-12 col-md-12">
-                      <div className="form-group">
-                        <input
-                          type="file"
-                          className="form-control form-color"
-                          onChange={(e) =>
-                            setVaccinationDocsUpload(e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-lg-4 col-sm-12 col-md-12">
-                    </div>
-
-                    <div className="col-lg-4 col-sm-12 col-md-12">
-                      <div className="form-group">
-                        <button type="submit">Upload</button>
-                      </div>
-                    </div>
-
                   </div>
                 </form>
               </div>
@@ -1514,9 +1535,7 @@ const Profile = () => {
                         <input
                           type="file"
                           className="form-control form-color"
-                          onChange={(e) =>
-                            setVaccinationDocsUpload(e.target.value)
-                          }
+                          onChange={uploadVaccinationDocsUpload}
                         />
                       </div>
                     </div>
@@ -1526,16 +1545,24 @@ const Profile = () => {
 
                     <div className="col-lg-4 col-sm-12 col-md-12">
                       <div className="form-group">
-                        <button type="submit">Upload</button>
+                        <button onClick={uploadVaccinationCertification} type="submit">Upload</button>
                       </div>
                     </div>
+                    <div>
 
+                      {showVaccinationCertificate.map((vacc) => {
+                        let vaccination = `${process.env.DOMAIN_NAME}/api/business/get-photos/${vacc}`;
+                        return <img src={vaccination} alt="vaccination" className="profile-image" />
+                      })}
+
+                    </div>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-        )}
+        )
+        }
 
         <div className="flex-grow-1"></div>
         <div className="copyrights-area">
@@ -1548,7 +1575,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };
