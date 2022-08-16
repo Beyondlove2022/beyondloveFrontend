@@ -262,7 +262,7 @@ const Profile = () => {
       weight,
       active,
       vaccinationDetails: vaccinatedList,
-      vacinationCertificates: apivaccinationDocsUpload,
+      vacinationCertificates: showVaccinationCertificate,
       allergies,
       trained: trainedPet,
     };
@@ -380,6 +380,7 @@ const Profile = () => {
     setShowPetCreateForm(true);
     setShowPetCard(false);
     setShowPetEditForm(false);
+    setVaccinatedList([])
   };
 
   const editPetForm = (id) => {
@@ -392,6 +393,7 @@ const Profile = () => {
 
   const petUpdateProfile = async (e) => {
     e.preventDefault();
+    console.log(showVaccinationCertificate)
     const d = {
       petName,
       breed,
@@ -402,7 +404,7 @@ const Profile = () => {
       weight,
       active,
       vaccinationDetails: vaccinatedList,
-      vacinationCertificates: apivaccinationDocsUpload,
+      vacinationCertificates: showVaccinationCertificate,
       allergies,
       trained: trainedPet,
     };
@@ -1488,7 +1490,7 @@ const Profile = () => {
                     </div>
 
                     {/* vaccination display section */}
-                    {vaccinatedList.map((vac) => {
+                    {/* {vaccinatedList.map((vac) => {
                       return (
                         <div
                           className="col-xl-3 col-lg-12 col-md-12 package-view"
@@ -1516,7 +1518,84 @@ const Profile = () => {
                           </span>
                         </div>
                       );
+                    })} */}
+
+                    {vaccinatedList.map((vac) => {
+                      return (
+                        <div className="col-xl-4 col-lg-12 col-md-12 package-view" key={vac.id}
+                          style={{ marginRight: "5px", marginBottom: "5px" }}
+                        >
+                          <div className="card-body ">
+                            <div
+                              className="events-details-info"
+                              style={{ backgroundColor: "unset" }}
+                            >
+                              <ul className="info">
+                                <li className="price">
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <span>Name</span>
+                                    {vac.vacName}
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <span>Date</span>
+                                    {vac.vacDate}
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <span>Due Date</span>
+                                    <span>{vac.vacDue}</span>
+                                  </div>
+                                </li>
+                                <br />
+                                <span data-toggle="modal" activeClassName="active" >
+                                  <a
+                                    className="default-btn"
+                                    onClick={() => rmPackage(vac.vacName)}
+                                  >
+                                    Remove
+                                  </a>
+                                </span>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      );
                     })}
+
+                    {/* <div className="listings-sidebar">
+                      <div className="listings-widget listings_author">
+                        <h3>Hosted By</h3>
+                        <div className="author">
+                          <div className="author-profile">
+                            <div className="row align-items-center">
+                              <div className="col-lg-5 col-md-5">
+                                <a href="#" className="view-profile">
+                                  View Profile
+                                </a>
+                              </div>
+
+                              <div className="col-lg-7 col-md-7">
+                                <ul className="social">
+                                  <li>
+                                    <a href="#">
+                                      <i className="bx bxl-facebook"></i>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a href="#">
+                                      <i className="bx bxl-twitter"></i>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> */}
 
                     <div className="col-lg-12 col-md-12">
                       <div className="form-group">

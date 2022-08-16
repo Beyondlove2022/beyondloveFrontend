@@ -108,7 +108,7 @@ const NavbarTwo = ({ text }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setRun(!run)
+    window.location.reload(false);
   }
 
   return (
@@ -194,18 +194,7 @@ const NavbarTwo = ({ text }) => {
                       </a>
                     </Link>
                   </li>
-                  <div className='donate-btn'></div>
-                  <div style={{ display: "flex" }}>
-                                <div className='search-btn mr-2'>
-                                    <Link href='/listings' >
-                                        <button>Search Now</button>
-                                    </Link>
-                                </div>
-                                {/* <div className='search-btn'>
-                                    <button onClick={contactFormShow}>Do Search Leave to us</button>
-                                </div> */}
-                            </div>
-                            
+
                   {/* <div className='donate-btn'>
                     <Link
                       href='/listings'
@@ -517,104 +506,104 @@ const NavbarTwo = ({ text }) => {
         </div>
       </div >
 
-  {/* ------------ Auth Modal Business------- */ }
-  < div
-className = {
-  displayAuth
-  ? 'modal loginRegisterModal show'
-    : 'modal loginRegisterModal'
-}
-id = 'loginRegisterModal'
-  >
-  <div className='modal-dialog modal-dialog-centered'>
-    <div className='modal-content'>
-      <Tabs>
-        <button type='button' className='close' onClick={toggleAuth}>
-          <i className='bx bx-x'></i>
-        </button>
+      {/* ------------ Auth Modal Business------- */}
+      < div
+        className={
+          displayAuth
+            ? 'modal loginRegisterModal show'
+            : 'modal loginRegisterModal'
+        }
+        id='loginRegisterModal'
+      >
+        <div className='modal-dialog modal-dialog-centered'>
+          <div className='modal-content'>
+            <Tabs>
+              <button type='button' className='close' onClick={toggleAuth}>
+                <i className='bx bx-x'></i>
+              </button>
 
-        <ul className='nav nav-tabs' id='myTab'>
-          <h3 className="vendor-register-head">
-            Sign up as Business Register
-          </h3>
-          <TabList>
-            <Tab className="nav-item">
+              <ul className='nav nav-tabs' id='myTab'>
+                <h3 className="vendor-register-head">
+                  Sign up as Business Register
+                </h3>
+                <TabList>
+                  <Tab className="nav-item">
 
-              <a className='nav-link' id='login-tab'>
-                Login
-              </a>
+                    <a className='nav-link' id='login-tab'>
+                      Login
+                    </a>
 
-            </Tab>
-            <Tab className="nav-item">
+                  </Tab>
+                  <Tab className="nav-item">
 
-              <a className='nav-link' id='register-tab'>
-                Register
-              </a>
+                    <a className='nav-link' id='register-tab'>
+                      Register
+                    </a>
 
-            </Tab>
-          </TabList>
-        </ul>
+                  </Tab>
+                </TabList>
+              </ul>
 
-        <div className='tab-content' id='myTabContent'>
-          <TabPanel>
-            <BusinessLogin />
-          </TabPanel>
+              <div className='tab-content' id='myTabContent'>
+                <TabPanel>
+                  <BusinessLogin />
+                </TabPanel>
 
-          <TabPanel>
-            <BusinessRegister />
-          </TabPanel>
+                <TabPanel>
+                  <BusinessRegister />
+                </TabPanel>
+              </div>
+            </Tabs>
+          </div>
         </div>
-      </Tabs>
-    </div>
-  </div>
       </div >
 
-  {/* ------------ Auth Modal Customer ------- */ }
-  < div
-className = {
-  displayVendorRegister
-  ? 'modal loginRegisterModal show'
-    : 'modal loginRegisterModal'
-}
-id = 'loginRegisterModal'
-  >
-  <div className='modal-dialog modal-dialog-centered'>
-    <div className='modal-content'>
-      <Tabs>
-        <button type='button' className='close' onClick={toggleAuthRegister}>
-          <i className='bx bx-x'></i>
-        </button>
+      {/* ------------ Auth Modal Customer ------- */}
+      < div
+        className={
+          displayVendorRegister
+            ? 'modal loginRegisterModal show'
+            : 'modal loginRegisterModal'
+        }
+        id='loginRegisterModal'
+      >
+        <div className='modal-dialog modal-dialog-centered'>
+          <div className='modal-content'>
+            <Tabs>
+              <button type='button' className='close' onClick={toggleAuthRegister}>
+                <i className='bx bx-x'></i>
+              </button>
 
-        <ul className='nav nav-tabs' id='myTab'>
-          <h3 className="vendor-register-head">
-            Welcome Back! Customer
-          </h3>
-          <TabList>
-            <Tab className="nav-item">
-              <a className='nav-link' id='login-tab'>
-                Login
-              </a>
-            </Tab>
-            <Tab className="nav-item">
-              <a className='nav-link' id='register-tab'>
-                Register
-              </a>
-            </Tab>
-          </TabList>
-        </ul>
+              <ul className='nav nav-tabs' id='myTab'>
+                <h3 className="vendor-register-head">
+                  Welcome Back! Customer
+                </h3>
+                <TabList>
+                  <Tab className="nav-item">
+                    <a className='nav-link' id='login-tab'>
+                      Login
+                    </a>
+                  </Tab>
+                  <Tab className="nav-item">
+                    <a className='nav-link' id='register-tab'>
+                      Register
+                    </a>
+                  </Tab>
+                </TabList>
+              </ul>
 
-        <div className='tab-content' id='myTabContent'>
-          <TabPanel>
-            <CustomerLogin />
-          </TabPanel>
+              <div className='tab-content' id='myTabContent'>
+                <TabPanel>
+                  <CustomerLogin />
+                </TabPanel>
 
-          <TabPanel>
-            <CustomerRegister />
-          </TabPanel>
+                <TabPanel>
+                  <CustomerRegister />
+                </TabPanel>
+              </div>
+            </Tabs>
+          </div>
         </div>
-      </Tabs>
-    </div>
-  </div>
       </div >
 
     </>

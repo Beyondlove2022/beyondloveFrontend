@@ -102,7 +102,7 @@ const SingleListings = () => {
     } else {
       console.log("we are running on the server");
     }
-  }, [run]);
+  }, [run, likeCount]);
 
   const toggleDropdownShare = () => {
     setDisplayDropdownShare(!displayDropdownShare);
@@ -225,6 +225,7 @@ const SingleListings = () => {
           `${process.env.DOMAIN_NAME}/api/create-review/${token}`,
           d
         );
+        console.log(data)
         if (data.success) {
           let custRating = 0;
           toast.success(data.msg, {
@@ -259,6 +260,7 @@ const SingleListings = () => {
       const { data } = await axios.get(
         `${process.env.DOMAIN_NAME}/api/get-review/${id}`
       );
+      console.log(data)
       setReview(data.review);
       data.review.map((rate) => {
         custRating = parseInt(rate.customerRating) + custRating;
