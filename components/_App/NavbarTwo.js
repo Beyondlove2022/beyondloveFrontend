@@ -108,7 +108,7 @@ const NavbarTwo = ({ text }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setRun(!run)
+    window.location.reload(false);
   }
 
   return (

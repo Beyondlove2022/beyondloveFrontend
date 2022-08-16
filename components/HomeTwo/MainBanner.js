@@ -32,10 +32,24 @@ const Banner = () => {
     const [allCities, setAllCities] = useState([]);
     const [allLocations, setAllLocations] = useState([]);
     const [run, setRun] = useState(false);
-    const [token, setToken] = useState("")
+    const [token, setToken] = useState("");
+    const [userType, setUserType] = useState("")
 
     const contactFormShow = () => {
-        setContactForm(!contactForm)
+        if (userType == "Customer") {
+            setContactForm(!contactForm)
+        } else {
+            toast.error("Please login as a customer", {
+                theme: "light",
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
     }
 
     useEffect(() => {
@@ -43,11 +57,13 @@ const Banner = () => {
             console.log("we are running the client")
             const token = localStorage.getItem('token')
             const user = JSON.parse(localStorage.getItem("user"))
+            console.log(user)
             if (user != null) {
                 setName(user.customerName)
                 setMobile(user.mobile)
                 setCity(user.city[0])
                 setLocation(user.location[0])
+                setUserType(user.userType)
             }
             setToken(token)
             getServiceProvide();
@@ -292,26 +308,9 @@ const Banner = () => {
                                         className="row m-0 align-items-center"
                                         style={{ padding: "6px" }}
                                     >
-                                        <div class="col-lg-3 col-md-6 p-0">
-                                            <div className="form-group category-select">
-                                                <label className="category-icon">
-                                                    <i className="flaticon-search"></i>
-                                                </label>
-                                                <select
-                                                    className="banner-form-select-two"
-                                                    onChange={handleChangeCategory}
-                                                >
-                                                    <option>Categories</option>
-                                                    <option value={"PetClinic"}>Pet Clinic</option>
-                                                    <option value={"PetGrooming"}>Pet Grooming</option>
-                                                    <option value={"PetBoarding"}>Pet Boarding</option>
-                                                    <option value={"PetTraining"}>Pet Training</option>
 
-                                                </select>
-                                            </div>
-                                        </div>
 
-                                        {/* <div class="col-lg-2 col-md-6 p-0">
+                                        <div class="col-lg-2 col-md-6 p-0">
                                             <div className="form-group category-select">
                                                 <label className="category-icon">
                                                     <i className="flaticon-pin"></i>
@@ -335,9 +334,9 @@ const Banner = () => {
                                                     })}
                                                 </select>
                                             </div>
-                                        </div> */}
+                                        </div>
 
-                                        <div class="col-lg-3 col-md-6 p-0">
+                                        <div class="col-lg-2 col-md-6 p-0">
                                             <div className="form-group category-select">
                                                 <label className="category-icon">
                                                     <i className="flaticon-pin"></i>
@@ -399,8 +398,28 @@ const Banner = () => {
                                         </div>
 
                                         <div class="col-lg-3 col-md-6 p-0">
+                                            <div className="form-group category-select">
+                                                <label className="category-icon">
+                                                    <i className="flaticon-search"></i>
+                                                </label>
+                                                <select
+                                                    className="banner-form-select-two"
+                                                    onChange={handleChangeCategory}
+                                                >
+                                                    <option>Categories</option>
+                                                    <option value={"PetClinic"}>Pet Clinic</option>
+                                                    <option value={"PetGrooming"}>Pet Grooming</option>
+                                                    <option value={"PetBoarding"}>Pet Boarding</option>
+                                                    <option value={"PetTraining"}>Pet Training</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2 col-md-6 p-0">
                                             <div className="submit-btn ">
-                                                <button type="submit">Search</button>
+                                                <button type="submit">   <i className="flaticon-search"></i></button>
+                                                {/* <i className="flaticon-search"></i> */}
                                             </div>
                                         </div>
                                     </div>
@@ -518,6 +537,42 @@ const Banner = () => {
                                         </div> */}
 
                                         <div className='col-lg-12 col-md-6'>
+                                            <div className='form-group'>
+                                                <input
+                                                    type='text'
+                                                    className="dashbaord-category-select"
+                                                    placeholder='City'
+                                                    style={{ border: "none" }}
+                                                    value={city}
+                                                    onChange={(e) => setCity(e.target.value)}
+                                                />
+                                                {error && location == "" ? (
+                                                    <span className="text-danger">Please enter city</span>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className='col-lg-12 col-md-6'>
+                                            <div className='form-group'>
+                                                <input
+                                                    type='text'
+                                                    className="dashbaord-category-select"
+                                                    placeholder='Location'
+                                                    style={{ border: "none" }}
+                                                    value={location}
+                                                    onChange={(e) => setLocation(e.target.value)}
+                                                />
+                                                {error && location == "" ? (
+                                                    <span className="text-danger">Please enter location</span>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* <div className='col-lg-12 col-md-6'>
                                             <div className="form-group">
                                                 <select
                                                     className="dashbaord-category-select"
@@ -535,9 +590,9 @@ const Banner = () => {
                                                     <></>
                                                 )}
                                             </div>
-                                        </div>
+                                        </div> */}
 
-                                        <div className='col-lg-12 col-md-6'>
+                                        {/* <div className='col-lg-12 col-md-6'>
                                             <div className="form-group">
                                                 <select
                                                     className="dashbaord-category-select"
@@ -556,7 +611,7 @@ const Banner = () => {
                                                     <></>
                                                 )}
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <div className='col-lg-6 col-md-6'>
                                             <div className='form-group'>

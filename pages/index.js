@@ -30,7 +30,7 @@
 
 // export default Index;
 
-import NavbarTwo from "../components/_App/NavbarTwo2";
+import NavbarTwo from "../components/_App/NavbarTwo";
 import Banner from "../components/HomeTwo/Banner";
 import MainBanner from "../components/HomeTwo/MainBanner";
 import CategoryTwo from "../components/Common/CategoryTwo";
