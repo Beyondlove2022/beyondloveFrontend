@@ -956,6 +956,20 @@ const Profile = () => {
                         </div>
                       </div>
                     </div>
+
+                    <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+                      <div className="form-group">
+                        <label>Allergies</label>
+                        <textarea
+                          cols="5"
+                          rows="3"
+                          placeholder="..."
+                          className="form-control form-color"
+                          onChange={(e) => setAllergies(e.target.value)}
+                        ></textarea>
+                      </div>
+                    </div>
+
                     <div className="col-lg-12 col-md-12">
                       <div className="form-group">
                         <h3 id="address">vaccination Details</h3>
@@ -1045,22 +1059,21 @@ const Profile = () => {
                       );
                     })}
 
-                    <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+
+                    <div className="col-lg-12 col-md-12">
                       <div className="form-group">
-                        <label>Allergies</label>
-                        <textarea
-                          cols="5"
-                          rows="3"
-                          placeholder="..."
-                          className="form-control form-color"
-                          onChange={(e) => setAllergies(e.target.value)}
-                        ></textarea>
+                        <button type="submit">Save Changes</button>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-12 col-md-12">
+                      <div className="form-group">
+                        <h3 id="address">Vaccination Certificate</h3>
                       </div>
                     </div>
 
                     <div className="col-xl-4 col-lg-12 col-md-12">
                       <div className="form-group">
-                        <label>vaccination</label>
                         <input
                           type="file"
                           className="form-control form-color"
@@ -1071,11 +1084,15 @@ const Profile = () => {
                       </div>
                     </div>
 
-                    <div className="col-lg-12 col-md-12">
+                    <div className="col-lg-4 col-sm-12 col-md-12">
+                    </div>
+
+                    <div className="col-lg-4 col-sm-12 col-md-12">
                       <div className="form-group">
-                        <button type="submit">Save Changes</button>
+                        <button type="submit">Upload</button>
                       </div>
                     </div>
+
                   </div>
                 </form>
               </div>
@@ -1377,6 +1394,20 @@ const Profile = () => {
                       </div>
                     </div>
 
+                    <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+                      <div className="form-group">
+                        <label>Allergies</label>
+                        <textarea
+                          cols="5"
+                          rows="3"
+                          placeholder="..."
+                          className="form-control form-color"
+                          value={allergies}
+                          onChange={(e) => setAllergies(e.target.value)}
+                        ></textarea>
+                      </div>
+                    </div>
+
                     <div className="col-lg-12 col-md-12">
                       <div className="form-group">
                         <h3 id="address">vaccination Details</h3>
@@ -1466,23 +1497,20 @@ const Profile = () => {
                       );
                     })}
 
-                    <div className="col-xl-12 col-lg-12 col-md-12 mt-4">
+                    <div className="col-lg-12 col-md-12">
                       <div className="form-group">
-                        <label>Allergies</label>
-                        <textarea
-                          cols="5"
-                          rows="3"
-                          placeholder="..."
-                          className="form-control form-color"
-                          value={allergies}
-                          onChange={(e) => setAllergies(e.target.value)}
-                        ></textarea>
+                        <button type="submit">Save Changes</button>
                       </div>
                     </div>
 
-                    {/* <div className="col-xl-4 col-lg-12 col-md-12">
+                    <div className="col-lg-12 col-md-12">
                       <div className="form-group">
-                        <label>vaccination</label>
+                        <h3 id="address">Vaccination Certificate</h3>
+                      </div>
+                    </div>
+
+                    <div className="col-xl-4 col-lg-12 col-md-12">
+                      <div className="form-group">
                         <input
                           type="file"
                           className="form-control form-color"
@@ -1491,13 +1519,17 @@ const Profile = () => {
                           }
                         />
                       </div>
-                    </div> */}
+                    </div>
 
-                    <div className="col-lg-12 col-md-12">
+                    <div className="col-lg-4 col-sm-12 col-md-12">
+                    </div>
+
+                    <div className="col-lg-4 col-sm-12 col-md-12">
                       <div className="form-group">
-                        <button type="submit">Save Changes</button>
+                        <button type="submit">Upload</button>
                       </div>
                     </div>
+
                   </div>
                 </form>
               </div>
