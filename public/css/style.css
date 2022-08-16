@@ -11612,6 +11612,7 @@ Footer Area CSS
   padding-top: 100px;
   position: relative;
   z-index: 1;
+  background-image: url(../images/footer.png);
 }
 
 .single-footer-widget {
@@ -16300,6 +16301,7 @@ Preloader Area CSS
 .footer-social-media {
   display: flex;
   font-size: 31px;
+  flex-direction: row-reverse;
 }
 
 .footer-social-media>div {
@@ -16377,7 +16379,7 @@ th {
 }
 
 .countUp-main .countUp {
-  font-size: 50px;
+  font-size: 60px;
   font-weight: 600;
 }
 
@@ -16698,5 +16700,13 @@ th {
   background-image: url(../images/section2.png);
 }
 .sec-count{
-  margin-top: 290px;
+  margin-top: 80px;
+}
+.sec-count-head{
+  margin-left: 190px;
+  margin-top: 144px;
+  
+}
+.sec-count-head h1{
+  font-size: 3.5rem !important;
 }
