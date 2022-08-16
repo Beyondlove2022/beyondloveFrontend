@@ -1,12 +1,14 @@
 import Typist from "react-typist";
 import Link from "next/link";
 import axios from "axios";
+import CountUp from "react-countup";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast, TypeOptions } from "react-toastify";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { addAllBusiness } from "../../Redux/allBusinessSlice";
-import { useTranslation } from "next-i18next";
+import { cities } from "../../utils/cities";
+import { locations } from "../../utils/location";
 
 const Banner = () => {
   const [allBusinessDetail, setAllBusinessDetail] = useState([]);
@@ -20,22 +22,42 @@ const Banner = () => {
   const [locationName, setLocationName] = useState("");
   const [selectedLocation, setSelectedLocation] = useState([]);
   const [categoryName, setCategoryName] = useState("");
-
-  const { t } = useTranslation("home");
+  const [serviceProvider, setServiceProvider] = useState("");
+  const [citiesLength, setCitiesLength] = useState("");
+  const [locationLength, setLocationLength] = useState("");
 
   let router = useRouter();
   let dispatch = useDispatch();
+ useEffect(()=> {
+  if (typeof window != "undefined"){
+   
+      getServiceProvide();
+      setCitiesLength(cities.length);
+      setLocationLength(locations.length);
+  }
+
+ });
 
   useEffect(() => {
     if (typeof window != "undefined") {
       let category = localStorage.getItem("category");
 
       getAllBusinessProfiles();
+      
       console.log("we are running client side");
     } else {
       console.log("we are running server side");
     }
   }, []);
+  const getServiceProvide = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.DOMAIN_NAME}/api/business/get-serviceproviderscount`)
+      setServiceProvider(data.serviceProvidersCount)
+      // console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getAllBusinessProfiles = async () => {
     try {
@@ -190,35 +212,68 @@ const Banner = () => {
     );
 
     router.push({
-      pathname: "/listings",
-      query: { categoryName, stateName, cityName, locationName },
+      pathname: "/listings", query: { categoryName, stateName, cityName, locationName },
     });
   };
 
   return (
     <>
-      <ToastContainer />
+      <section className='banner-wrapper-area-main-banner background-img'>
+        <div className='container'>
+          <div className='row'>
+            <div className="col-lg-6 col-sm-12 col-md-12">
+
+            </div>
+            <div className='col-lg-6 col-sm-12 col-md-12 sec-count'>
+              <div className="row mt-5">
+              <div class="col-lg-3 col-sm-6 col-md-6 text-center countUp-main">
+                <img src="/images/state.png"></img>
+                  <CountUp start={0} end={20} duration={3} className="countUp" />
+                  <p>State</p>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 text-center countUp-main">
+                <img src="/images/city.png"></img>
+                  <CountUp start={0} end={citiesLength} duration={3} className="countUp" />
+                  <p>Cities</p>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 text-center countUp-main">
+                <img src="/images/locations.png"></img>
+                  <CountUp start={0} end={locationLength} duration={3} className="countUp" />
+                  <p>Locations</p>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 text-center countUp-main">
+                <img src="/images/services.png"></img>
+                  <CountUp start={0} end={serviceProvider} duration={3} className="countUp" />
+                  <p>Service Provider</p>
+                </div>
+                
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* <ToastContainer />
       <section className="banner-area">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-9 col-md-12">
               <div className="banner-content banner-form">
                 <h1 className="banner-two-heading">
-                  <span className="typewrite">{t("Find Nearby")}</span>
+                  <span className="typewrite">Find Nearby</span>
                   <Typist>
-                    <span>{t("Pet Clinics")}</span>
+                    <span>Pet Clinics</span>
                     <Typist.Backspace count={15} delay={200} />
-                    <span> {t("Pet Grooming")} </span>
+                    <span> Pet Grooming </span>
                     <Typist.Backspace count={15} delay={200} />
-                    <span> {t("Pet Training")} </span>
+                    <span> Pet Training </span>
                     <Typist.Backspace count={15} delay={200} />
-                    {/* <span> Pet Food 1 </span>
-                    <Typist.Backspace count={15} delay={200} /> */}
-                    <span> {t("Pet Boarding")} </span>
+                   
+                    <span> Pet Boarding </span>
                   </Typist>
                   <span className="wrap"></span>
                 </h1>
-                {/* <p>Expolore top-rated attractions, activities and more...</p> */}
+        
                 <form onSubmit={handleSubmit}>
                   <div
                     className="row m-0 align-items-center"
@@ -238,7 +293,7 @@ const Banner = () => {
                           <option value={"PetGrooming"}>Pet Grooming</option>
                           <option value={"PetBoarding"}>Pet Boarding</option>
                           <option value={"PetTraining"}>Pet Training</option>
-                          {/* <option>Pet Food</option> */}
+                          
                         </select>
                       </div>
                     </div>
@@ -280,7 +335,7 @@ const Banner = () => {
                           onChange={handleChangeCity}
                         >
                           <option>
-                            {cityName.length > 0 ? cityName[0] : "City"}
+                            {cityName.length > 0 ? cityName[0] : "Select City"}
                           </option>
                           {selectedCity.map((city) => {
                             return (
@@ -309,7 +364,7 @@ const Banner = () => {
                           <option>
                             {locationName.length > 0
                               ? locationName[0]
-                              : "Location"}
+                              : "Select Location"}
                           </option>
                           {selectedLocation.map((location) => {
                             return (
@@ -347,7 +402,7 @@ const Banner = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

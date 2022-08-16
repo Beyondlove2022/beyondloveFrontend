@@ -17,11 +17,15 @@ const Footer = ({ bgColor }) => {
   };
   return (
     <>
+
       <footer className={`footer-area ${bgColor}`}>
+     
         <div className="container">
           <div className="row">
+            
             <div className="col-lg-3 col-sm-6 col-md-6">
               <div className="single-footer-widget">
+                <h6>Pet Clinics</h6>
                 <ul className="link-list">
                   <li
                     onClick={() =>
@@ -40,43 +44,44 @@ const Footer = ({ bgColor }) => {
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetGrooming",
-                        ["Tamil Nadu", 33],
-                        ["Chennai", 33, 42]
+                        "PetClinic",
+                        ["Delhi", 8],
+                        ["New Delhi", 8, 533]
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Grooming in
-                      Chennai
+                      <i className="flaticon-left-chevron"></i> Pet Clinic in
+                      Delhi
                     </a>
                   </li>
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetTraining",
-                        ["Tamil Nadu", 33],
-                        ["Chennai", 33, 42]
+                        "PetClinic",
+                       ["Telangana", 36],
+                        ["Hyderabad", 36, 939]
+
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Training in
-                      Chennai
+                      <i className="flaticon-left-chevron"></i> Pet Clinic in Hyderabad
                     </a>
                   </li>
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetBoarding",
-                        ["Tamil Nadu", 33],
-                        ["Chennai", 33, 42]
+                        "PetClinic",
+                        ["Maharashtra", 28],
+                        ["Mumbai City", 28, 774]
+
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Boarding in
-                      Chennai
+                      <i className="flaticon-left-chevron"></i> Pet Clinic in
+                      Mumbai
                     </a>
                   </li>
                   {/* <li>
@@ -91,19 +96,21 @@ const Footer = ({ bgColor }) => {
 
             <div className="col-lg-3 col-sm-6 col-md-6">
               <div className="single-footer-widget">
+                <h6>Pet Grooming</h6>
                 <ul className="link-list">
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetClinic",
-                        ["Delhi", 8],
-                        ["New Delhi", 8, 533]
+                        "PetGrooming",
+                        ["Tamil Nadu", 33],
+                        ["Chennai", 33, 42]
+
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Clinic in
-                      Delhi
+                      <i className="flaticon-left-chevron"></i> Pet Grooming in
+                      Chennai
                     </a>
                   </li>
                   <li
@@ -123,64 +130,10 @@ const Footer = ({ bgColor }) => {
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetTraining",
-                        ["Delhi", 8],
-                        ["New Delhi", 8, 533]
-                      )
-                    }
-                  >
-                    <a>
-                      <i className="flaticon-left-chevron"></i> Pet Training in
-                      Delhi
-                    </a>
-                  </li>
-                  <li
-                    onClick={() =>
-                      handleFilter(
-                        "PetBoarding",
-                        ["Delhi", 8],
-                        ["New Delhi", 8, 533]
-                      )
-                    }
-                  >
-                    <a>
-                      <i className="flaticon-left-chevron"></i> Pet Boarding in
-                      Delhi
-                    </a>
-                  </li>
-                  {/* <li>
-                    <a>
-                      <i className="flaticon-left-chevron"></i> Pet Food in
-                      Delhi
-                    </a>
-                  </li> */}
-                </ul>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-sm-6 col-md-6">
-              <div className="single-footer-widget">
-                <ul className="link-list">
-                  <li
-                    onClick={() =>
-                      handleFilter(
-                        "PetClinic",
-                        ["Telangana", 36],
-                        ["Hyderabad", 36, 939]
-                      )
-                    }
-                  >
-                    <a>
-                      <i className="flaticon-left-chevron"></i> Pet Clinic in
-                      Hyderabad
-                    </a>
-                  </li>
-                  <li
-                    onClick={() =>
-                      handleFilter(
                         "PetGrooming",
                         ["Telangana", 36],
                         ["Hyderabad", 36, 939]
+
                       )
                     }
                   >
@@ -192,15 +145,59 @@ const Footer = ({ bgColor }) => {
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetTraining",
-                        ["Telangana", 36],
-                        ["Hyderabad", 36, 939]
+                        "PetGrooming",
+                        ["Maharashtra", 28],
+                        ["Mumbai City", 28, 774]
+
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Training in
-                      Hyderabad
+                      <i className="flaticon-left-chevron"></i> Pet Grooming in
+                      Mumbai
+                    </a>
+                  </li>
+                  {/* <li>
+                    <a>
+                      <i className="flaticon-left-chevron"></i> Pet Food in
+                      Delhi
+                    </a>
+                  </li> */}
+                </ul>
+              </div>
+            </div>
+
+            <div className="col-lg-3 col-sm-6 col-md-6">
+              <div className="single-footer-widget">
+                <h6> Pet Boarding</h6>
+                <ul className="link-list">
+                  <li
+                    onClick={() =>
+                      handleFilter(
+                        "PetBoarding",
+                        ["Tamil Nadu", 33],
+                        ["Chennai", 33, 42]
+
+                      )
+                    }
+                  >
+                    <a>
+                      <i className="flaticon-left-chevron"></i> Pet Boarding in
+                      Chennai
+                    </a>
+                  </li>
+                  <li
+                    onClick={() =>
+                      handleFilter(
+                        "PetBoarding",
+                        ["Delhi", 8],
+                        ["New Delhi", 8, 533]
+                        
+                      )
+                    }
+                  >
+                    <a>
+                      <i className="flaticon-left-chevron"></i> Pet Boarding in Delhi
                     </a>
                   </li>
                   <li
@@ -217,6 +214,21 @@ const Footer = ({ bgColor }) => {
                       Hyderabad
                     </a>
                   </li>
+                  <li
+                    onClick={() =>
+                      handleFilter(
+                        "PetBoarding",
+                        ["Maharashtra", 28],
+                        ["Mumbai City", 28, 774]
+
+                      )
+                    }
+                  >
+                    <a>
+                      <i className="flaticon-left-chevron"></i> Pet Boarding in
+                      Mumbai
+                    </a>
+                  </li>
                   {/* <li>
                     <a>
                       <i className="flaticon-left-chevron"></i> Pet Food in
@@ -229,33 +241,50 @@ const Footer = ({ bgColor }) => {
 
             <div className="col-lg-3 col-sm-6 col-md-6">
               <div className="single-footer-widget">
+                <h6>Pet Training</h6>
                 <ul className="link-list">
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetClinic",
-                        ["Maharashtra", 28],
-                        ["Mumbai City", 28, 774]
+                        "PetTraining",
+                        ["Tamil Nadu", 33],
+                        ["Chennai", 33, 42]
+
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i> Pet Clinic in
-                      Mumbai
+                      <i className="flaticon-left-chevron"></i> Pet Training in
+                      Chennai
                     </a>
                   </li>
                   <li
                     onClick={() =>
                       handleFilter(
-                        "PetGrooming",
-                        ["Maharashtra", 28],
-                        ["Mumbai City", 28, 774]
+                        "PetTraining",
+                        ["Delhi", 8],
+                        ["New Delhi", 8, 533]
                       )
                     }
                   >
                     <a>
-                      <i className="flaticon-left-chevron"></i>Pet Grooming in
-                      Mumbai
+                      <i className="flaticon-left-chevron"></i>Pet Training in
+                     Delhi
+                    </a>
+                  </li>
+                  <li
+                    onClick={() =>
+                      handleFilter(
+                        "PetTraining",
+                        ["Telangana", 36],
+                        ["Hyderabad", 36, 939]
+
+                      )
+                    }
+                  >
+                    <a>
+                      <i className="flaticon-left-chevron"></i>Pet Training in
+                      Hyderabad
                     </a>
                   </li>
                   <li
@@ -272,20 +301,6 @@ const Footer = ({ bgColor }) => {
                       Mumbai
                     </a>
                   </li>
-                  <li
-                    onClick={() =>
-                      handleFilter(
-                        "PetBoarding",
-                        ["Maharashtra", 28],
-                        ["Mumbai City", 28, 774]
-                      )
-                    }
-                  >
-                    <a>
-                      <i className="flaticon-left-chevron"></i>Pet Boarding in
-                      Mumbai
-                    </a>
-                  </li>
                   {/* <li>
                     <a>
                       <i className="flaticon-left-chevron"></i>Pet Food in
@@ -294,8 +309,18 @@ const Footer = ({ bgColor }) => {
                   </li> */}
                 </ul>
               </div>
-              <h3>Social Media</h3>
-              <div className="footer-social-media mt-4">
+              {/* <h3>Social Media</h3> */}
+             
+            </div>
+          </div>
+          <div className="copyright-image">
+            <a>
+              <img src="/images/black-logo2.png" alt="logo" />
+            </a>
+          </div>
+
+          <div className="copyright-area">
+          <div className="footer-social-media mt-4">
                 <div>
                   <a
                     href="https://www.facebook.com/beyondlove.pet"
@@ -304,11 +329,11 @@ const Footer = ({ bgColor }) => {
                     <i className="bx bxl-facebook-square"></i>
                   </a>
                 </div>
-                {/* <div>
-                  <a href="#" target="_blank">
+                <div>
+                  <a href="https://twitter.com/Beyond_love26" target="_blank">
                     <i className='bx bxl-twitter'></i>
                   </a>
-                </div> */}
+                </div>
                 <div>
                   <a
                     href="https://www.instagram.com/beyondlove.pet/"
@@ -318,10 +343,6 @@ const Footer = ({ bgColor }) => {
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="copyright-area">
             <p>
               <span> Copyright © 2022</span>{" "}
               <a href="/" rel="noreferrer">
@@ -330,11 +351,12 @@ const Footer = ({ bgColor }) => {
               <span>All Rights Reserved</span>
             </p>
           </div>
+          
         </div>
 
-        <div className="footer-image text-center">
+        {/* <div className="footer-image text-center">
           <img src="/images/footer-image.png" alt="image" />
-        </div>
+        </div> */}
       </footer>
     </>
   );
