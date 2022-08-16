@@ -238,7 +238,7 @@ const Banner = () => {
                           <option value={"PetGrooming"}>Pet Grooming</option>
                           <option value={"PetBoarding"}>Pet Boarding</option>
                           <option value={"PetTraining"}>Pet Training</option>
-                          <option>Pet Food</option>
+                          {/* <option>Pet Food</option> */}
                         </select>
                       </div>
                     </div>
