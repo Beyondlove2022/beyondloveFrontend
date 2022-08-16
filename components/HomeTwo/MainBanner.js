@@ -43,11 +43,12 @@ const Banner = () => {
             console.log("we are running the client")
             const token = localStorage.getItem('token')
             const user = JSON.parse(localStorage.getItem("user"))
-            console.log(user)
-            setName(user.customerName)
-            setMobile(user.mobile)
-            setCity(user.city[0])
-            setLocation(user.location[0])
+            if (user != null) {
+                setName(user.customerName)
+                setMobile(user.mobile)
+                setCity(user.city[0])
+                setLocation(user.location[0])
+            }
             setToken(token)
             getServiceProvide();
             setCitiesLength(cities.length)
