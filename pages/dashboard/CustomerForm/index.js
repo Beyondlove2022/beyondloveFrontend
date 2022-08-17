@@ -854,6 +854,38 @@ const Profile = () => {
                           onChange={(e) => handleBreed(e)}
                         >
                           <option>Select the Breed </option>
+                          <option>Labrador Retriever</option>
+                          <option>Golden Retriever</option>
+                          <option>Indian Spitz</option>
+                          <option>Chippiparai</option>
+                          <option>Kombai</option>
+                          <option>Rajapalayam</option>
+                          <option>Indian Pariah</option>
+                          <option>Mudhol Hound</option>
+                          <option>Bully Kutta</option>
+                          <option>Dachshund</option>
+                          <option>Beagle</option>
+                          <option>German Shepherd</option>
+                          <option>Great Dane</option>
+                          <option>Boxer</option>
+                          <option>Rottweiler</option>
+                          <option>Pug</option>
+                          <option>Cocker Spaniel</option>
+                          <option>Dalmation</option>
+                          <option>Tibetan Mastiff</option>
+                          <option>Doberman</option>
+                          <option>Pomeranian</option>
+                          <option>Akita</option>
+                          <option>French Bulldog</option>
+                          <option>Shih Tzu</option>
+                          <option>English Bulldog</option>
+                          <option>Siberian Husky</option>
+                          <option>Chihuahua</option>
+                          <option>Chow Chow</option>
+                          <option>Corgi</option>
+                          <option>Jack Russell Terrier</option>
+                          <option>Dogo Arghentino</option>
+                          <option>Lahasa Apso</option>
                           <option value="others">Others</option>
                         </select>
                       </div>
@@ -925,7 +957,7 @@ const Profile = () => {
                     </div>
                     <div className="col-xl-12 col-lg-12 col-md-12">
                       <div className="form-group">
-                        <label>Weight</label>
+                        <label>Weight(kg)</label>
                         <input
                           type="Number"
                           className="form-control form-color"
